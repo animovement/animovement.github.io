@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>animovement - R Toolbox for Movement Analysis</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        .hero-section {
+            min-height: 500px;
+            padding: 60px 0 100px 0;
+            background: linear-gradient(135deg, #2563eb 0%, #7c3aed 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .hero-section::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: white;
+            clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
+        }
+
+        .feature-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            height: 100%;
+            border: none;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+        }
+        .features-section {
+            padding: 80px 0;
+        }
+        .package-badge {
+            display: inline-block;
+            background: #f3f4f6;
+            color: #4b5563;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Hero Section -->
+    <section class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-7 col-xl-6">
+                    <h1 class="display-4 fw-bold mb-4">animovement</h1>
+                    <p class="lead mb-4">An R toolbox for analysing animal movement across space and time. A comprehensive suite of packages for movement data analysis, from import to visualization.</p>
+                    <div class="d-flex flex-wrap gap-3">
+                        <button class="btn btn-light btn-lg px-4" onclick="window.location.href='#packages'">Explore Packages</button>
+                        <button class="btn btn-outline-light btn-lg px-4" onclick="alert('Link to GitHub or documentation')">Documentation</button>
+                    </div>
+                </div>
+                <div class="col-lg-5 col-xl-6 mt-5 mt-lg-0 text-center text-lg-end">
+                    <img src="animovement.png" 
+                         alt="animovement logo" 
+                         class="img-fluid" 
+                         style="max-width: 400px;">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section" id="packages">
+        <div class="container">
+            <!-- <h2 class="display-5 fw-bold mb-3">Packages</h2>
+            <p class="text-muted mb-5">A modular collection of R packages for every stage of movement analysis</p> -->
+            
+            <div class="row g-4">
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card" onclick="handleCardClick('aniframe')">
+                        <div class="card-body p-4">
+                            <span class="package-badge">🏗️ Foundation</span>
+                            <h5 class="card-title fw-bold">aniframe</h5>
+                            <p class="text-muted small mb-3">An R package providing core data structures for movement data</p>
+                            <p class="card-text">Provides S3 classes and methods for representing and manipulating movement data with consistent, intuitive interfaces.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card" onclick="handleCardClick('aniread')">
+                        <div class="card-body p-4">
+                            <span class="package-badge">📥 Import/Export</span>
+                            <h5 class="card-title fw-bold">aniread</h5>
+                            <p class="text-muted small mb-3">An R package for reading and writing movement data</p>
+                            <p class="card-text">Methods for reading and writing movement data from diverse sources, from video tracking systems to trackballs.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card" onclick="handleCardClick('anicheck')">
+                        <div class="card-body p-4">
+                            <span class="package-badge">🔍 Quality</span>
+                            <h5 class="card-title fw-bold">anicheck</h5>
+                            <p class="text-muted small mb-3">An R package for diagnosing movement data quality</p>
+                            <p class="card-text">Diagnostic tools for assessing data quality, identifying missing values, temporal gaps, and spatial outliers.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card" onclick="handleCardClick('aniprocess')">
+                        <div class="card-body p-4">
+                            <span class="package-badge">⚙️ Processing</span>
+                            <h5 class="card-title fw-bold">aniprocess</h5>
+                            <p class="text-muted small mb-3">An R package for signal processing and filtering of movement data</p>
+                            <p class="card-text">Methods for filtering, smoothing, and processing movement trajectories with advanced signal processing techniques.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card" onclick="handleCardClick('animetric')">
+                        <div class="card-body p-4">
+                            <span class="package-badge">📊 Analysis</span>
+                            <h5 class="card-title fw-bold">animetric</h5>
+                            <p class="text-muted small mb-3">An R package for calculating movement-based metrics</p>
+                            <p class="card-text">Calculate movement metrics including kinematics, navigational statistics, and social interaction measures.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6 col-lg-4">
+                    <div class="card feature-card" onclick="handleCardClick('anivis')">
+                        <div class="card-body p-4">
+                            <span class="package-badge">📈 Visualization</span>
+                            <h5 class="card-title fw-bold">anivis</h5>
+                            <p class="text-muted small mb-3">An R package for visualizing movement data and diagnostics</p>
+                            <p class="card-text">Plotting methods for movement trajectories, diagnostic summaries, and calculated metrics with publication-ready outputs.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        function handleCardClick(packageName) {
+            // Build the URL you want to navigate to.
+            const targetUrl = `https://animovement.github.io/${packageName}`;
+
+            // Optionally log for debugging.
+            console.log('Navigating to:', targetUrl);
+
+            // Perform the redirect.
+            window.location.href = targetUrl;
+        }
+    </script>
+</body>
+</html>

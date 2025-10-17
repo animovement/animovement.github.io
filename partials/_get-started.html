@@ -1,0 +1,106 @@
+<section id="get-started" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="display-5 fw-bold mb-3">Get started with <em>animovement</em></h2>
+
+    <!-- Two‑column layout -->
+    <div class="row g-4">
+
+      <!-- ==================== FIRST CARD: INSTALL ==================== -->
+      <div class="col-12">
+        <div class="card h-100 shadow-sm get-started-card"><!-- added class -->
+          <div class="card-body d-flex flex-column">
+            <!-- Numbered circle -->
+            <div class="text-center mb-2">
+              <span class="step-number">1</span>
+            </div>
+
+            <h3 class="mb-4 text-center">Install</h3>
+
+            <p class="mb-3 text-center">
+              Install the development version of <em>animovement</em> with:
+            </p>
+
+            <!-- Code block + copy button -->
+            <div class="position-relative mb-3 flex-grow-1">
+              <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2"
+                      aria-label="Copy install command"
+                      title="Copy"
+                      onclick="navigator.clipboard.writeText(this.closest('pre').innerText.trim())">
+                <i class="bi bi-clipboard"></i>
+              </button>
+
+              <pre class="bg-white border rounded p-3 overflow-auto mb-0"
+                   style="max-height: 250px;">
+<code>install.packages('animovement',
+    repos = c(
+        'https://animovement.r-universe.dev',
+        'https://cloud.r-project.org'
+    )
+)</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SECOND CARD: LOAD LIBRARY ==================== -->
+      <div class="col-12">
+        <div class="card h-100 shadow-sm get-started-card"><!-- added class -->
+          <div class="card-body d-flex flex-column">
+
+            <!-- Numbered circle -->
+            <div class="text-center mb-2">
+              <span class="step-number">2</span>
+            </div>
+
+            <h3 class="mb-4 text-center">Load</h3>
+
+            <p class="mb-3 text-center">
+              After installing, load the package in your R session with:
+            </p>
+
+            <!-- Code block + copy button -->
+            <div class="position-relative mb-3 flex-grow-1">
+              <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2"
+                      aria-label="Copy load command"
+                      title="Copy"
+                      onclick="navigator.clipboard.writeText(this.closest('pre').innerText.trim())">
+                <i class="bi bi-clipboard"></i>
+              </button>
+
+              <pre class="bg-white border rounded p-3 overflow-auto mb-0"
+                   style="max-height: 120px;"><code>library(animovement)</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== THIRD CARD: LEARN ==================== -->
+      <div class="col-12">
+        <div class="card h-100 shadow-sm get-started-card"><!-- added class -->
+          <div class="card-body d-flex flex-column">
+
+            <!-- Numbered circle -->
+            <div class="text-center mb-2">
+              <span class="step-number">3</span>
+            </div>
+
+            <h3 class="mb-4 text-center">Learn</h3>
+
+            <p class="mb-3 text-center">
+              Follow our tutorials to learn more about the powerful features of <em>animovement</em>:
+            </p>
+
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+              <button class="btn btn-lg px-4 btn-get-started"
+                      onclick="window.location.href='https://animovement.dev/animovement'">
+                Read docs&nbsp;&nbsp;<i class="fa-solid fa-book"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- /.row -->
+  </div> <!-- /.container -->
+</section>

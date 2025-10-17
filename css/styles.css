@@ -1,0 +1,186 @@
+/* ============================================================== 
+   NAVBAR
+   ============================================================== */
+.navbar {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .1);   /* subtle depth */
+    min-height: 70px;
+}
+
+/* Horizontal spacing between nav items */
+.navbar-nav .nav-item {
+    margin-left: 0.75rem;   /* space to the left of each item */
+}
+
+/* Remove the left margin on the first item so it doesn’t push the whole list
+.navbar-nav .nav-item:first-child {
+    margin-left: 0;
+} */
+
+.navbar .nav-link svg,
+.navbar .nav-link i {
+  vertical-align: middle;   /* ensures perfect baseline alignment */
+}
+
+/* ==============================================================
+   HERO SECTION
+   ============================================================== */
+.hero-section {
+    min-height: 700px;
+    padding: 60px 0 100px 0;
+    background: linear-gradient(135deg, #e5f3ff 0%, #c0d9ff 100%);
+    color: #000;
+    display: flex;
+    align-items: center;
+    position: relative;
+}
+
+/* Decorative white curve at the bottom of the hero */
+.hero-section::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 80px;
+    background: #fff;
+    clip-path: polygon(0 50%, 100% 0, 100% 100%, 0 100%);
+}
+
+/* ==============================================================
+   BUTTONS
+   ============================================================== */
+/* Primary “Get started” button */
+.btn-get-started {
+    background-color: #0069d9;   /* blue */
+    color: #fff;                 /* white text */
+    border: none;                /* remove default border */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-get-started:hover {
+    background-color: #005cbe;   /* blue */
+    color: #fff;                 /* white text */
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Secondary “Tutorials” button – outline style */
+.btn-tutorials {
+    background-color: #f1f1f1;   /* light gray */
+    color: #418eec;              /* blue‑ish text */
+    border: 1px solid #f1f1f1;   /* same colour as background for outline feel */
+}
+.btn-tutorials:hover {
+    background-color: #f1f1f1;   /* blue */
+    color: #317fde;                 /* white text */
+    transform: scale(1.03);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* ==============================================================
+   FEATURE CARDS
+   ============================================================== */
+.feature-card {
+    height: 100%;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.feature-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+/* Section wrapper for the feature cards */
+.features-section {
+    padding: 80px 0;
+}
+
+/* Make the badge look like a pill */
+.feature-card .badge {
+    border-radius: 999px;   /* fully rounded */
+    background-color: #c0d9ff;   /* light blue */
+    color: #0069d9;                 /* dark blue */
+    font-size: x-small;
+}
+
+.get-started-card {
+  max-width: 550px;          /* adjust to whatever feels right */
+  margin-left: auto;
+  margin-right: auto;        /* centers the card horizontally */
+}
+
+/* ============================================================== 
+   PACKAGE BADGE
+   ============================================================== */
+/* .package-badge {
+    display: inline-block;
+    background: #f3f4f6;
+    color: #4b5563;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+} */
+
+/* Hexagon badge CSS – copy the block from section 3 */
+.package-badge {
+  width: 66px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: #007bff;
+  color: #fff;
+  font-size: 1.4rem;
+  clip-path: polygon(25% 0%,75% 0%,100% 50%,75% 100%,25% 100%,0% 50%);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+  margin-bottom: 0.75rem;
+}
+.package-badge i { color: inherit; }
+.feature-card:hover .package-badge { background: #0056b3; }
+
+/* ============================================================== 
+   STEP NUMBER CIRCLE
+   ============================================================== */
+.step-number {
+    width: 3rem;
+    height: 3rem;
+    line-height: 3rem;          /* vertical centering */
+    font-size: 1rem;
+    font-weight: 600;
+    border-radius: 50%;         /* makes it a perfect circle */
+    background: #3485fe;        /* Bootstrap primary colour */
+    color: #fff;
+    display: inline-block;
+    text-align: center;
+}
+
+/* ============================================================== 
+   GLOBAL SMOOTH SCROLLING
+   ============================================================== */
+html {
+    scroll-behavior: smooth;
+}
+
+/* ============================================================== 
+   FOOTER
+   ============================================================== */
+.site-footer {
+    color: #2d2d2d;             /* light gray text */
+    padding: 1rem 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .1);   /* subtle depth */
+}
+
+.site-footer a {
+    color: #adb5bd;
+    transition: color 0.2s;
+}
+
+.site-footer a:hover {
+    color: #006aff;
+}

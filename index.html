@@ -5,14 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>animovement – R Toolbox for Movement Analysis</title>
 
-<!-- Dynamically set the proper base path -->
-  <script>
-    const path = location.pathname.replace(/\/[^/]*$/, '/');
-    const base = document.createElement('base');
-    base.href = path;
-    document.head.appendChild(base);
-  </script>
-
   <!-- Bootstrap CSS -->
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
         rel="stylesheet">
@@ -29,13 +21,409 @@
 <body class="d-flex flex-column min-vh-100">
 
   <!-- ==== PARTIALS ==== -->
-  <div data-include="partials/_navbar.html"></div>
-  <div data-include="partials/_hero.html"></div>
-  <div data-include="partials/_features.html"></div>
-  <div data-include="partials/_get-started.html"></div>
-  <div data-include="partials/_packages.html"></div>
-  <!-- <div data-include="partials/_about.html"></div> -->
-  <div data-include="partials/_footer.html"></div>
+  <nav class="navbar navbar-expand-lg navbar-light bg-white sticky-top py-2">
+  <div class="container">
+
+    <!-- Brand -->
+    <a class="navbar-brand d-flex align-items-center" href="#">
+      <img src="animouse.svg" alt="animovement logo"
+           style="height:30px; width:auto;" class="me-2">
+      animovement
+    </a>
+
+    <!-- Toggler for mobile -->
+    <button class="navbar-toggler" type="button"
+            data-bs-toggle="collapse"
+            data-bs-target="#mainNav"
+            aria-controls="mainNav"
+            aria-expanded="false"
+            aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <!-- Nav links -->
+    <div class="collapse navbar-collapse" id="mainNav">
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item"><a class="nav-link" href="#features">Features</a></li>
+        <li class="nav-item"><a class="nav-link" href="#get-started">Get started</a></li>
+
+        <!-- Tutorial – external link, styled like the other nav items -->
+        <li class="nav-item">
+          <a class="nav-link"
+             href="https://animovement.dev/animovement"
+             target="_blank"
+             aria-label="tutorial">Tutorial</a>
+        </li>
+
+        <li class="nav-item"><a class="nav-link" href="#modules">Modules</a></li>
+
+        <!-- GitHub – external link, styled like the other nav items -->
+        <li class="nav-item">
+          <a class="nav-link me-3"
+             href="https://github.com/animovement"
+             target="_blank"
+             aria-label="GitHub">
+            <i class="fab fa-github fa-lg"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
+
+  </div>
+</nav>
+  <section class="hero-section">
+<div class="container">
+    <!-- Make the row a vertical flexbox on all widths -->
+    <div class="row d-flex flex-column align-items-center text-center">
+
+    <!-- 1️⃣ Logo – now first -->
+    <div class="col-12 mb-4">
+        <img src="animouse.svg"
+            alt="animovement logo"
+            class="img-fluid"
+            style="max-width: 300px;">   <!-- optional size tweak -->
+    </div>
+
+    <!-- 2️⃣ Title / description – second -->
+    <div class="col-12 col-lg-8">
+        <h1 class="display-4 fw-bold mb-4">animovement
+                    <div class="d-flex flex-wrap justify-content-center gap-2">
+
+        <a href="https://zenodo.org/doi/10.5281/zenodo.13235277">
+        <img src="https://zenodo.org/badge/773406370.svg"
+            alt="DOI">
+        </a>
+
+        <a href="https://github.com/roaldarbol/animovement/actions/workflows/R-CMD-check.yaml">
+        <img src="https://github.com/roaldarbol/animovement/actions/workflows/R-CMD-check.yaml/badge.svg"
+            alt="R‑CMD‑check">
+        </a>
+
+        <a href="https://roaldarbol.r-universe.dev">
+        <img src="https://roaldarbol.r-universe.dev/badges/animovement"
+            alt="animovement status badge">
+        </a>
+        </div>
+        </h1>
+        <p class="lead mb-4">
+        An R toolbox for analysing animal movement across space and time. 
+        </p>
+
+    <div class="d-flex flex-wrap justify-content-center gap-3">
+        <button class="btn btn-lg px-4 btn-get-started"
+                onclick="window.location.href='#get-started'">
+            Get started
+        </button>
+
+        <button type="button"
+                class="btn btn-lg px-4 btn-tutorials"
+                onclick="window.location.href='https://animovement.dev/animovement'">
+            Tutorials
+        </button>
+    </div>
+    </div>
+
+    </div> <!-- /.row -->
+</div> <!-- /.container -->
+</section>
+  <section id="features" class="py-5">
+  <div class="container">
+
+    <h2 class="display-5 fw-bold mb-3 text-center">Features</h2>
+    <p class="text-muted mb-5 text-center">
+      A modular collection of R packages for every stage of movement analysis for ethologists, behavioural ecologists, neuroscientists and anyone else who might need it.
+    </p>
+
+    <div class="row g-5 justify-content-center">
+
+      <!-- Card 1 -->
+      <div class="col-md-6 col-lg-3 d-flex">
+        <div class="card flex-fill text-center border-0 shadow-sm feature-card">
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <i class="fas fa-database fa-2x mb-3 text-primary"></i>
+            <h5 class="card-title fw-bold mb-2">Read from Anywhere</h5>
+            <p class="text-muted small mb-2">Support for both video-based tracking tools such as <em>DeepLabCut</em>, <em>SLEAP</em>, <em>idtracker.ai</em> and many others, and hardware-based data from trackballs.</p>
+            <span class="badge px-3 py-1 w-auto align-self-center">VERSATILE</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="col-md-6 col-lg-3 d-flex">
+        <div class="card flex-fill text-center border-0 shadow-sm feature-card">
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <i class="fas fa-sync-alt fa-2x mb-3 text-primary"></i>
+            <h5 class="card-title fw-bold mb-2">Flexible Toolkit</h5>
+            <p class="text-muted small mb-2">Designed as a <em>tidyverse</em>‑friendly suite of modular R packages that together form a unified workflow. Start with the single component you need, and then add others as new challenges arise.</p>
+            <span class="badge px-3 py-1 w-auto align-self-center">MODULAR</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="col-md-6 col-lg-3 d-flex">
+        <div class="card flex-fill text-center border-0 shadow-sm feature-card">
+          <div class="card-body p-4 d-flex flex-column justify-content-between">
+            <i class="fas fa-tags fa-2x mb-3 text-primary"></i>
+            <h5 class="card-title fw-bold mb-2">Thoroughly tested</h5>
+            <p class="text-muted small mb-2">All packages use <em>testthat</em> and <em>codecov</em> to ensure that our code is thoroughly tested so you can trust your findings.</p>
+            <span class="badge px-3 py-1 w-auto align-self-center">TRUSTED</span>
+          </div>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.row -->
+  </div><!-- /.container -->
+</section>
+  <section id="get-started" class="py-5 bg-light">
+  <div class="container">
+    <h2 class="display-5 fw-bold mb-3">Get started with <em>animovement</em></h2>
+
+    <!-- Two‑column layout -->
+    <div class="row g-4">
+
+      <!-- ==================== FIRST CARD: INSTALL ==================== -->
+      <div class="col-12">
+        <div class="card h-100 shadow-sm get-started-card"><!-- added class -->
+          <div class="card-body d-flex flex-column">
+            <!-- Numbered circle -->
+            <div class="text-center mb-2">
+              <span class="step-number">1</span>
+            </div>
+
+            <h3 class="mb-4 text-center">Install</h3>
+
+            <p class="mb-3 text-center">
+              Install the development version of <em>animovement</em> with:
+            </p>
+
+            <!-- Code block + copy button -->
+            <div class="position-relative mb-3 flex-grow-1">
+              <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2"
+                      aria-label="Copy install command"
+                      title="Copy"
+                      onclick="navigator.clipboard.writeText(this.closest('pre').innerText.trim())">
+                <i class="bi bi-clipboard"></i>
+              </button>
+
+              <pre class="bg-white border rounded p-3 overflow-auto mb-0"
+                   style="max-height: 250px;">
+<code>install.packages('animovement',
+    repos = c(
+        'https://animovement.r-universe.dev',
+        'https://cloud.r-project.org'
+    )
+)</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== SECOND CARD: LOAD LIBRARY ==================== -->
+      <div class="col-12">
+        <div class="card h-100 shadow-sm get-started-card"><!-- added class -->
+          <div class="card-body d-flex flex-column">
+
+            <!-- Numbered circle -->
+            <div class="text-center mb-2">
+              <span class="step-number">2</span>
+            </div>
+
+            <h3 class="mb-4 text-center">Load</h3>
+
+            <p class="mb-3 text-center">
+              After installing, load the package in your R session with:
+            </p>
+
+            <!-- Code block + copy button -->
+            <div class="position-relative mb-3 flex-grow-1">
+              <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2"
+                      aria-label="Copy load command"
+                      title="Copy"
+                      onclick="navigator.clipboard.writeText(this.closest('pre').innerText.trim())">
+                <i class="bi bi-clipboard"></i>
+              </button>
+
+              <pre class="bg-white border rounded p-3 overflow-auto mb-0"
+                   style="max-height: 120px;"><code>library(animovement)</code></pre>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== THIRD CARD: LEARN ==================== -->
+      <div class="col-12">
+        <div class="card h-100 shadow-sm get-started-card"><!-- added class -->
+          <div class="card-body d-flex flex-column">
+
+            <!-- Numbered circle -->
+            <div class="text-center mb-2">
+              <span class="step-number">3</span>
+            </div>
+
+            <h3 class="mb-4 text-center">Learn</h3>
+
+            <p class="mb-3 text-center">
+              Follow our tutorials to learn more about the powerful features of <em>animovement</em>:
+            </p>
+
+            <div class="d-flex flex-wrap justify-content-center gap-3">
+              <button class="btn btn-lg px-4 btn-get-started"
+                      onclick="window.location.href='https://animovement.dev/animovement'">
+                Read docs&nbsp;&nbsp;<i class="fa-solid fa-book"></i>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- /.row -->
+  </div> <!-- /.container -->
+</section>
+  <section id="modules" class="py-5">
+  <div class="container">
+    <h2 class="display-5 fw-bold mb-3">Packages</h2>
+    <p class="text-muted mb-5">
+      <em>animovement</em> is an ecosystem of R packages for every stage of movement analysis.<br>
+      Read about the individual packages here.
+    </p>
+
+    <div class="row g-4">
+
+      <!-- Card 1 – Foundation -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card feature-card" onclick="handleCardClick('aniframe')">
+          <div class="card-body p-4  text-center">
+            <span class="package-badge"><i class="fa-solid fa-building"></i></span>
+
+            <!-- Package name (restored) -->
+            <h5 class="card-title fw-bold mb-2">aniframe</h5>
+
+            <!-- Stronger subtitle (previously the muted tagline) -->
+            <h6 class="fw-semibold text-secondary mb-2">Core data structures</h6>
+
+            <!-- Muted longer description (previously the main text) -->
+            <p class="text-muted small mb-3">
+              Provides S3 classes and methods for representing and manipulating
+              movement data with consistent, intuitive interfaces.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2 – Import / Export -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card feature-card" onclick="handleCardClick('aniread')">
+          <div class="card-body p-4  text-center">
+            <span class="package-badge"><i class="fa-solid fa-download"></i></span>
+
+            <h5 class="card-title fw-bold mb-2">aniread</h5>
+
+            <h6 class="fw-semibold text-secondary mb-2">Reading and writing</h6>
+
+            <p class="text-muted small mb-3">
+              Methods for reading and writing movement data from diverse sources,
+              from video tracking systems to trackballs.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3 – Quality -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card feature-card" onclick="handleCardClick('anicheck')">
+          <div class="card-body p-4  text-center">
+            <span class="package-badge"><i class="fa-solid fa-microscope"></i></span>
+
+            <h5 class="card-title fw-bold mb-2">anicheck</h5>
+
+            <h6 class="fw-semibold text-secondary mb-2">Diagnosing data quality</h6>
+
+            <p class="text-muted small mb-3">
+              Diagnostic tools for assessing data quality, identifying missing
+              values, temporal gaps, and spatial outliers.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 4 – Processing -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card feature-card" onclick="handleCardClick('aniprocess')">
+          <div class="card-body p-4  text-center">
+            <span class="package-badge"><i class="fa-solid fa-gears"></i></span>
+
+            <h5 class="card-title fw-bold mb-2">aniprocess</h5>
+
+            <h6 class="fw-semibold text-secondary mb-2">Signal processing and filtering</h6>
+
+            <p class="text-muted small mb-3">
+              Methods for filtering, smoothing, and processing movement trajectories
+              with advanced signal processing techniques.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 5 – Analysis -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card feature-card" onclick="handleCardClick('animetric')">
+          <div class="card-body p-4 text-center">
+            <span class="package-badge"><i class="fa-solid fa-chart-bar"></i></span>
+
+            <h5 class="card-title fw-bold mb-2">animetric</h5>
+
+            <h6 class="fw-semibold text-secondary mb-2">Calculating metrics</h6>
+
+            <p class="text-muted small mb-3">
+              Calculate movement-based metrics including kinematics, navigational
+              statistics, and social interaction measures.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 6 – Visualization -->
+      <div class="col-md-6 col-lg-4">
+        <div class="card feature-card" onclick="handleCardClick('anivis')">
+          <div class="card-body p-4 text-center">
+            <span class="package-badge"><i class="fa-solid fa-chart-line"></i></span>
+
+            <h5 class="card-title fw-bold mb-2">anivis</h5>
+
+            <h6 class="fw-semibold text-secondary mb-2">Visualization methods</h6>
+
+            <p class="text-muted small mb-3">
+              Plotting methods for movement trajectories, diagnostic summaries,
+              and calculated metrics with publication‑ready outputs.
+            </p>
+          </div>
+        </div>
+      </div>
+
+    </div> <!-- /.row -->
+  </div>   <!-- /.container -->
+</section>
+  <footer class="site-footer mt-auto">
+  <div class="container">
+    <div class="row align-items-center">
+      <!-- Left side: copyright -->
+      <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+        <small>&copy; Mikkel Roald-Arbøl 2025</small>
+      </div>
+
+      <!-- Right side: social links -->
+      <div class="col-md-6 text-center text-md-end">
+        <a href="https://github.com/animovement" target="_blank"
+           class="me-3" aria-label="GitHub">
+          <i class="fab fa-github fa-lg"></i>
+        </a>
+      </div>
+    </div>
+  </div>
+</footer>
 
   <!-- ==== SCRIPTS ==== -->
   <!-- Bootstrap bundle (navbar toggler, dropdowns, etc.) -->

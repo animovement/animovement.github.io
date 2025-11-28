@@ -249,7 +249,7 @@
 
       <!-- ==================== FIRST CARD: INSTALL ==================== -->
       <div class="col-12">
-        <div class="card h-100 shadow-sm get-started-card"><!-- added class -->
+        <div class="card h-100 shadow-sm get-started-card">
           <div class="card-body d-flex flex-column">
             <!-- Numbered circle -->
             <div class="text-center mb-2">
@@ -267,7 +267,7 @@
               <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2"
                       aria-label="Copy install command"
                       title="Copy"
-                      onclick="navigator.clipboard.writeText(this.closest('pre').innerText.trim())">
+                      onclick="navigator.clipboard.writeText(this.parentElement.querySelector('pre').innerText.trim())">
                 <i class="bi bi-clipboard"></i>
               </button>
 
@@ -286,7 +286,7 @@
 
       <!-- ==================== SECOND CARD: LOAD LIBRARY ==================== -->
       <div class="col-12">
-        <div class="card h-100 shadow-sm get-started-card"><!-- added class -->
+        <div class="card h-100 shadow-sm get-started-card">
           <div class="card-body d-flex flex-column">
 
             <!-- Numbered circle -->
@@ -305,7 +305,7 @@
               <button class="btn btn-sm btn-outline-secondary position-absolute top-0 end-0 m-2"
                       aria-label="Copy load command"
                       title="Copy"
-                      onclick="navigator.clipboard.writeText(this.closest('pre').innerText.trim())">
+                      onclick="navigator.clipboard.writeText(this.parentElement.querySelector('pre').innerText.trim())">
                 <i class="bi bi-clipboard"></i>
               </button>
 
@@ -318,7 +318,7 @@
 
       <!-- ==================== THIRD CARD: LEARN ==================== -->
       <div class="col-12">
-        <div class="card h-100 shadow-sm get-started-card"><!-- added class -->
+        <div class="card h-100 shadow-sm get-started-card">
           <div class="card-body d-flex flex-column">
 
             <!-- Numbered circle -->

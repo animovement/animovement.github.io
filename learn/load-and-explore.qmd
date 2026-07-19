@@ -1,0 +1,14 @@
+---
+title: "Load and explore movement tracks"
+description: "Read a tracking file into an aniframe and take a first look at the trajectories."
+author: "The animovement team"
+date: "2026-07-12"
+categories: [io, aniframe]
+---
+
+::: {.callout-note}
+This example is a placeholder — the full walkthrough is coming soon.
+:::
+
+A short tour of reading movement data with [aniread](https://animovement.dev/aniread)
+and inspecting the resulting [aniframe](https://animovement.dev/aniframe).

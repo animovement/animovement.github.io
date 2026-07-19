@@ -1,0 +1,14 @@
+---
+title: "Compute and visualise kinematics"
+description: "Calculate speed, velocity and acceleration, then plot them alongside the trajectory."
+author: "The animovement team"
+date: "2026-06-28"
+categories: [metrics, visualization]
+---
+
+::: {.callout-note}
+This example is a placeholder — the full walkthrough is coming soon.
+:::
+
+Pair [animetric](https://animovement.dev/animetric) kinematics with
+[anivis](https://animovement.dev/anivis) plots.

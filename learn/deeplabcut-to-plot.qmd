@@ -1,9 +1,8 @@
 ---
 title: "From DeepLabCut export to publication plot"
 description: "A complete cross-package workflow: read a pose-estimation file, check its quality, process it, compute metrics, and plot the result."
-order: 1
 author: "The animovement team"
-date: last-modified
+date: "2026-07-18"
 categories: [workflow, deeplabcut]
 ---
 

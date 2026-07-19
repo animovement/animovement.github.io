@@ -1,0 +1,14 @@
+---
+title: "Compute head direction"
+description: "Derive a head-direction signal from two keypoints and plot it over time."
+author: "The animovement team"
+date: "2026-07-02"
+categories: [metrics]
+---
+
+::: {.callout-note}
+This example is a placeholder — the full walkthrough is coming soon.
+:::
+
+Turn keypoint coordinates into a head-direction angle with
+[animetric](https://animovement.dev/animetric).

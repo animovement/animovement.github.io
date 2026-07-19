@@ -40,6 +40,9 @@ website:
         href: learn/index.qmd
       - text: "Help"
         href: help/index.qmd
+      - icon: chat-dots-fill
+        href: https://animovement.zulipchat.com
+        aria-label: "Chat on Zulip"
       - icon: github
         href: https://github.com/animovement
         aria-label: "animovement on GitHub"

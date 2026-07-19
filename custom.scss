@@ -59,61 +59,142 @@ h2 { margin-top: 2.75rem; }
 }
 
 // ==========================================================================
-// Hero
+// Hero — a rounded gradient card with a two-column layout: logo left, text
+// (title + description + install) right. Sits below the navbar with all four
+// corners rounded (no longer flush/cut off at the top).
 // ==========================================================================
 .hero {
-  padding: 4.5rem 1rem 3.5rem;
-  text-align: center;
+  // Full-bleed teal band (no box): span the whole viewport width, flush under
+  // the navbar, with the content constrained + centered inside.
+  width: 100vw;
+  margin-left: calc(50% - 50vw);
+  margin-right: calc(50% - 50vw);
+  margin-bottom: 3.5rem;
+  padding: 3.5rem 1.5rem 4rem;
   background: linear-gradient(
     135deg,
     mix($primary, $body-bg, 8%) 0%,
     mix($primary, $body-bg, 22%) 100%
   );
-  border-radius: 0 0 2rem 2rem;
-  margin-bottom: 3.5rem;
+  border-radius: 0 1.75rem 1.75rem 0; // round the two right corners only
+  position: relative;
+  overflow: hidden;
 
-  img.hero-logo {
-    max-width: 300px;
-    width: 100%;
-    height: auto;
-    margin-bottom: 1.75rem;
+  // Decorative honeycomb, large screens only. An original hex-outline SVG used
+  // as a mask so the outlines take a theme-adaptive teal tint (not a baked
+  // colour). Anchored left so it sits behind the logo, keeping the text clear.
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: none;
+    pointer-events: none;
+    // Teal tint that fades out left -> right, so hexes are strong behind the
+    // logo and gone by the time they reach the text on the right.
+    background: linear-gradient(
+      to right,
+      mix($primary, $body-bg, 70%) 0%,
+      transparent 72%
+    );
+    opacity: 0.5;
+    // Hex outlines fill the whole band (cover), clipped to the tint above.
+    -webkit-mask-image: url('assets/hex-honeycomb.svg');
+    mask-image: url('assets/hex-honeycomb.svg');
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    -webkit-mask-size: cover;
+    mask-size: cover;
   }
 
-  .hero-lead {
-    font-weight: 400;
-    font-size: 1.6rem;
-    line-height: 1.3;
-    max-width: 660px;
-    margin: 0 auto 1.75rem;
-    color: mix($body-color, $body-bg, 85%);
+  // Placeholder package hex logos, drawn on the SAME 1600x700 grid and painted
+  // with the identical cover/center sizing, so they land exactly on top of
+  // specific outline hexes. Above the honeycomb, below the content.
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    display: none;
+    pointer-events: none;
+    background-image: url('assets/hex-logos.svg');
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: cover;
   }
 
-  .hero-badges {
+  @media (min-width: 992px) {
+    &::before, &::after { display: block; }
+  }
+
+  .hero-inner {
+    position: relative;
+    z-index: 1;
     display: flex;
+    align-items: center;
     flex-wrap: wrap;
-    gap: 0.4rem;
-    justify-content: center;
-    margin: 1rem 0 1.9rem;
-
-    img { height: 20px; }
+    justify-content: flex-end; // text on the right; hex cluster fills the left
+    gap: 3rem;
+    min-height: 360px;
+    max-width: 1080px;
+    margin: 0 auto;
   }
 
-  .hero-actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.75rem;
-    justify-content: center;
+  // Balanced ~50/50 columns like the tidymodels landing page.
+  .hero-logo-col {
+    flex: 1 1 44%;
+    min-width: 240px;
+    text-align: center;
+
+    img.hero-logo {
+      max-width: 360px;
+      width: 100%;
+      height: auto;
+      margin: 0;
+    }
   }
-}
 
-.btn-hero {
-  padding: 0.6rem 1.7rem;
-  font-size: 1.1rem;
-  font-weight: 600;
-  border-radius: 999px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  .hero-text-col {
+    flex: 1 1 44%;
+    min-width: 280px;
+    max-width: 480px;
 
-  &:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
+    // Package name as a small, letter-spaced label (tidymodels-style),
+    // in the navbar's light Lato.
+    .hero-eyebrow {
+      display: block;
+      font-size: 1.25rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      margin: 0 0 1rem;
+    }
+
+    // The description is the prominent line.
+    .hero-lead {
+      font-weight: 300;
+      font-size: 1.55rem;
+      line-height: 1.3;
+      margin: 0 0 1.5rem;
+      color: mix($body-color, $body-bg, 90%);
+    }
+
+    p { margin-bottom: 0.75rem; }
+
+    // Code block: use the theme surface (white in light, dark in dark) so it
+    // stands out against the teal band instead of blending in.
+    div.sourceCode,
+    pre {
+      background-color: $body-bg;
+      border: 1px solid mix($body-color, $body-bg, 10%);
+      border-radius: 0.5rem;
+      margin-bottom: 0;
+    }
+    pre { border: none; }
+    pre, pre code { font-size: 0.95rem; } // nudge code up a touch
+  }
 }
 
 // ==========================================================================

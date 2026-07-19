@@ -6,24 +6,29 @@ toc: false
 anchor-sections: false
 ---
 
-::: {.hero}
-![](assets/animouse.svg){.hero-logo fig-alt="animovement logo"}
+::::: {.hero}
+:::: {.hero-inner}
+::: {.hero-text-col}
+[animovement]{.hero-eyebrow}
 
 ::: {.hero-lead}
-An R toolbox for analysing animal movement across space and time.
+An R toolbox for analysing movement across space and time.
 :::
 
-::: {.hero-badges}
-[![DOI](https://zenodo.org/badge/773406370.svg)](https://zenodo.org/doi/10.5281/zenodo.13235277)
-[![R-CMD-check](https://github.com/animovement/animovement/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/animovement/animovement/actions/workflows/R-CMD-check.yaml)
-[![r-universe status](https://animovement.r-universe.dev/badges/animovement)](https://animovement.r-universe.dev)
-:::
+Install *animovement* with:
 
-::: {.hero-actions}
-[Get started](start/index.qmd){.btn .btn-primary .btn-hero}
-[Learn](learn/index.qmd){.btn .btn-outline-primary .btn-hero}
+```r
+install.packages(
+  "animovement",
+  repos = c(
+    "https://animovement.r-universe.dev",
+    "https://cloud.r-project.org"
+  )
+)
+```
 :::
-:::
+::::
+:::::
 
 ::: {.landing-section}
 
@@ -67,20 +72,6 @@ and you can trust your findings.
 [TRUSTED]{.feature-pill}
 :::
 :::
-
-## Install in seconds
-
-```r
-install.packages(
-  "animovement",
-  repos = c(
-    "https://animovement.r-universe.dev",
-    "https://cloud.r-project.org"
-  )
-)
-```
-
-[See the full get-started guide →](start/index.qmd)
 
 ## The packages
 

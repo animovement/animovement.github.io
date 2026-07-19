@@ -1,6 +1,6 @@
 # Shared pkgdown navbar
 
-Each package's pkgdown site (aniframe, aniread, anicheck, aniprocess, animetric,
+Each package's pkgdown site (aniframe, aniread, anicheck, aniprocess, anispace, animetric,
 anivis, and the animovement metapackage) should carry the same navbar as the hub,
 so a reader can jump to **Get Started**, the **Learn** tutorials, or any sibling
 package's reference from anywhere in the ecosystem.
@@ -34,6 +34,8 @@ navbar:
           href: https://animovement.dev/anicheck
         - text: "aniprocess — processing"
           href: https://animovement.dev/aniprocess
+        - text: "anispace — spatial transformations"
+          href: https://animovement.dev/anispace
         - text: "animetric — metrics"
           href: https://animovement.dev/animetric
         - text: "anivis — visualization"

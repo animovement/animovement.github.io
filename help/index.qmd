@@ -19,6 +19,8 @@ package that's misbehaving — that's the fastest route to a fix.
 
 [[]{.package-badge .bi .bi-gear}[aniprocess]{.package-name}[Processing]{.package-role}[github.com/animovement/aniprocess]{.package-desc}](https://github.com/animovement/aniprocess/issues){.package-card}
 
+[[]{.package-badge .bi .bi-bounding-box}[anispace]{.package-name}[Spatial transformations]{.package-role}[github.com/animovement/anispace]{.package-desc}](https://github.com/animovement/anispace/issues){.package-card}
+
 [[]{.package-badge .bi .bi-bar-chart}[animetric]{.package-name}[Metrics]{.package-role}[github.com/animovement/animetric]{.package-desc}](https://github.com/animovement/animetric/issues){.package-card}
 
 [[]{.package-badge .bi .bi-graph-up}[anivis]{.package-name}[Visualization]{.package-role}[github.com/animovement/anivis]{.package-desc}](https://github.com/animovement/anivis/issues){.package-card}

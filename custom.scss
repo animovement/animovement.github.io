@@ -208,6 +208,23 @@ h2 { margin-top: 2.75rem; }
   margin-right: 0.6rem;
 }
 
+// ==========================================================================
+// Learn page navigation — extra breathing room in the left sidebar and the
+// right-hand category list ("table of contents" on both sides).
+// ==========================================================================
+.sidebar-navigation {
+  .sidebar-item { margin-bottom: 0.55rem; }
+  .sidebar-item-container { line-height: 1.6; }
+}
+
+// Right-hand category list: plain list, no trailing count, roomier spacing.
+.quarto-listing-category {
+  .quarto-listing-category-title { font-weight: 700; margin-bottom: 0.75rem; }
+  .category { margin-bottom: 0.3rem; line-height: 1.5; }
+  .category .quarto-category-count { display: none; }
+  .category.active { color: $primary; font-weight: 600; }
+}
+
 // Full-bleed landing page (index uses page-layout: full)
 .hero, .landing-section { width: 100%; }
 .landing-section { max-width: 960px; margin-left: auto; margin-right: auto; padding: 0 1rem; }

@@ -52,6 +52,31 @@ website:
       - icon: github
         href: https://github.com/animovement
         aria-label: "animovement on GitHub"
+  sidebar:
+    - id: learn
+      title: "Learn"
+      style: floating
+      collapse-level: 1
+      contents:
+        - text: "Learn"
+          href: learn/index.qmd
+        - section: "Foundations"
+          contents:
+            - learn/load-and-explore.qmd
+        - section: "Cleaning & processing"
+          contents:
+            - learn/drop-outliers-interpolate.qmd
+            - learn/smooth-tracks.qmd
+        - section: "Input & output"
+          contents:
+            - learn/convert-formats.qmd
+        - section: "Metrics & visualisation"
+          contents:
+            - learn/head-direction.qmd
+            - learn/kinematics.qmd
+        - section: "End-to-end workflows"
+          contents:
+            - learn/deeplabcut-to-plot.qmd
   page-footer:
     left: "&copy; Mikkel Roald-Arbøl 2025"
     right:

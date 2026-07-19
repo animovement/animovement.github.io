@@ -8,6 +8,7 @@ project:
     - "learn/"
     - "help/"
     - "about/"
+    - "contribute/"
     - "!docs/"
   resources:
     - CNAME
@@ -41,6 +42,8 @@ website:
         href: learn/index.qmd
       - text: "Help"
         href: help/index.qmd
+      - text: "Contribute"
+        href: contribute/index.qmd
       - text: "About"
         href: about/index.qmd
       - icon: chat-dots-fill

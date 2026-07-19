@@ -28,9 +28,7 @@ website:
     site: "@animovement"
     card-style: summary_large_image
   navbar:
-    logo: assets/animouse.svg
-    logo-alt: "animovement logo"
-    title: false
+    title: "animovement"
     pinned: true
     left: []
     right:

@@ -21,6 +21,17 @@ $navbar-padding-y: 1rem;
 
 h2 { margin-top: 2.75rem; }
 
+// Navbar wordmark — monospace (Source Code Pro), letter-spaced, like the
+// tidymodels brand. Replaces the logo image.
+.navbar-brand {
+  font-family: "Source Code Pro", SFMono-Regular, Menlo, monospace;
+  font-weight: 500;
+  font-size: 1.2rem;
+  letter-spacing: 1.5px;
+  color: $primary;
+  &:hover, &:focus { color: shade-color($primary, 12%); }
+}
+
 // Navbar surface + text colours come from the native $navbar-bg/$navbar-fg
 // variables in theme/navbar-{light,dark}.scss (so Quarto computes a proper
 // light/dark navbar and links stay visible). Here we only add a separator.

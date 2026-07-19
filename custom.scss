@@ -8,6 +8,10 @@ $headings-line-height: 1.2;
 $border-radius: 0.6rem;
 $navbar-brand-font-size: 1.25rem;
 
+// Match navbar height across themes: cosmo defaults to 0.5rem, darkly to 1rem.
+// Pin both to the taller 1rem so it doesn't jump on light/dark toggle.
+$navbar-padding-y: 1rem;
+
 /*-- scss:rules --*/
 
 // NOTE: rules use SCSS variables ($primary, $body-bg, $body-color) rather than

@@ -1,0 +1,32 @@
+---
+title: "Packages"
+toc: false
+---
+
+*animovement* is an ecosystem of R packages, each solving one stage of the
+movement-analysis workflow. Install the [`animovement`](https://animovement.dev/animovement)
+metapackage to get everything at once, or reach for individual packages as you
+need them.
+
+Each package has its own reference site — click a card to open it.
+
+::: {.package-grid}
+[[]{.package-badge .bi .bi-box}[aniframe]{.package-name}[Core data structures]{.package-role}[S3 classes and methods for representing and manipulating movement data with consistent, intuitive interfaces.]{.package-desc}](https://animovement.dev/aniframe){.package-card}
+
+[[]{.package-badge .bi .bi-download}[aniread]{.package-name}[Reading & writing]{.package-role}[Read and write movement data from diverse sources, from video tracking systems to trackballs.]{.package-desc}](https://animovement.dev/aniread){.package-card}
+
+[[]{.package-badge .bi .bi-clipboard-check}[anicheck]{.package-name}[Data quality]{.package-role}[Diagnostic tools for assessing data quality, identifying missing values, temporal gaps and spatial outliers.]{.package-desc}](https://animovement.dev/anicheck){.package-card}
+
+[[]{.package-badge .bi .bi-gear}[aniprocess]{.package-name}[Processing & filtering]{.package-role}[Filter, smooth and process movement trajectories with advanced signal-processing techniques.]{.package-desc}](https://animovement.dev/aniprocess){.package-card}
+
+[[]{.package-badge .bi .bi-bar-chart}[animetric]{.package-name}[Metrics]{.package-role}[Calculate movement-based metrics including kinematics, navigational statistics and social interaction measures.]{.package-desc}](https://animovement.dev/animetric){.package-card}
+
+[[]{.package-badge .bi .bi-graph-up}[anivis]{.package-name}[Visualization]{.package-role}[Plotting methods for trajectories, diagnostic summaries and calculated metrics, with publication-ready outputs.]{.package-desc}](https://animovement.dev/anivis){.package-card}
+:::
+
+## The metapackage
+
+The [`animovement`](https://animovement.dev/animovement) metapackage bundles the
+whole ecosystem and re-exports the most common functions, so a single
+`library(animovement)` gives you the full workflow. Its reference site documents
+its own functions — for cross-package workflows, head to [Learn](../learn/index.qmd).

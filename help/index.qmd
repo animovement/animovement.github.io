@@ -1,0 +1,43 @@
+---
+title: "Help"
+toc: false
+---
+
+Stuck on something? Here's where to turn.
+
+## Report a bug or request a feature
+
+Each package tracks issues in its own repository. File the issue on the
+package that's misbehaving — that's the fastest route to a fix.
+
+::: {.package-grid}
+[[]{.package-badge .bi .bi-box}[aniframe]{.package-name}[Data structures]{.package-role}[github.com/animovement/aniframe]{.package-desc}](https://github.com/animovement/aniframe/issues){.package-card}
+
+[[]{.package-badge .bi .bi-download}[aniread]{.package-name}[Read & write]{.package-role}[github.com/animovement/aniread]{.package-desc}](https://github.com/animovement/aniread/issues){.package-card}
+
+[[]{.package-badge .bi .bi-clipboard-check}[anicheck]{.package-name}[Data quality]{.package-role}[github.com/animovement/anicheck]{.package-desc}](https://github.com/animovement/anicheck/issues){.package-card}
+
+[[]{.package-badge .bi .bi-gear}[aniprocess]{.package-name}[Processing]{.package-role}[github.com/animovement/aniprocess]{.package-desc}](https://github.com/animovement/aniprocess/issues){.package-card}
+
+[[]{.package-badge .bi .bi-bar-chart}[animetric]{.package-name}[Metrics]{.package-role}[github.com/animovement/animetric]{.package-desc}](https://github.com/animovement/animetric/issues){.package-card}
+
+[[]{.package-badge .bi .bi-graph-up}[anivis]{.package-name}[Visualization]{.package-role}[github.com/animovement/anivis]{.package-desc}](https://github.com/animovement/anivis/issues){.package-card}
+:::
+
+::: {.callout-tip}
+Not sure which package is at fault? Open the issue on the
+[animovement metapackage](https://github.com/animovement/animovement/issues) and
+we'll route it.
+:::
+
+## Ask a question
+
+For usage questions and general discussion, use
+[GitHub Discussions](https://github.com/orgs/animovement/discussions). Searching
+existing discussions first often turns up an answer straight away.
+
+## Contribute
+
+*animovement* is open source and community-driven. Contributions — code, docs,
+bug reports, tutorials — are all welcome. Start from the contributing guide in
+any package repository on [GitHub](https://github.com/animovement).

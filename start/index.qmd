@@ -1,0 +1,48 @@
+---
+title: "Get Started"
+---
+
+Get up and running with *animovement* in three steps.
+
+## [1]{.step-number} Install
+
+*animovement* is distributed through [r-universe](https://animovement.r-universe.dev).
+Install the metapackage — and the whole ecosystem — with:
+
+```r
+install.packages(
+  "animovement",
+  repos = c(
+    "https://animovement.r-universe.dev",
+    "https://cloud.r-project.org"
+  )
+)
+```
+
+::: {.callout-tip}
+## Only need one piece?
+Every package installs the same way — swap `"animovement"` for the individual
+package name, e.g. `"aniread"`. See [Packages](../packages/index.qmd) for the full list.
+:::
+
+## [2]{.step-number} Load
+
+Load the metapackage to bring the full workflow into scope:
+
+```r
+library(animovement)
+```
+
+## [3]{.step-number} Learn
+
+You're ready to analyse movement. Work through an end-to-end example — reading a
+tracking file, checking its quality, processing it, computing metrics and
+plotting the result — in the tutorials:
+
+[Browse the tutorials →](../learn/index.qmd){.btn .btn-primary}
+
+::: {.callout-note}
+Single-package how-tos live on each package's own reference site (see
+[Packages](../packages/index.qmd)). The [Learn](../learn/index.qmd) section here is for
+cross-package, end-to-end workflows.
+:::

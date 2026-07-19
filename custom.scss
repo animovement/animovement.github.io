@@ -1,0 +1,188 @@
+/*-- scss:defaults --*/
+
+// Accent colour + fonts come from _brand.yml (listed after the bootswatch theme
+// in _quarto.yml so it wins). This file adds layout tokens + the structural
+// rules below. Suppress cosmo's default web-font import (brand loads the fonts).
+$web-font-path: "";
+$headings-line-height: 1.2;
+$border-radius: 0.6rem;
+$navbar-brand-font-size: 1.25rem;
+
+/*-- scss:rules --*/
+
+// NOTE: rules use SCSS variables ($primary, $body-bg, $body-color) rather than
+// CSS var(--bs-*). custom.scss is compiled once per theme, so each colour is
+// baked as a literal into the light and dark stylesheets — meaning a theme
+// toggle swaps to the correct values (runtime var() can leak across the swap).
+
+h2 { margin-top: 2.75rem; }
+
+// Navbar surface + text colours come from the native $navbar-bg/$navbar-fg
+// variables in theme/navbar-{light,dark}.scss (so Quarto computes a proper
+// light/dark navbar and links stay visible). Here we only add a separator.
+.navbar {
+  border-bottom: 1px solid #{rgba($body-color, 0.12)};
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.04);
+}
+
+// tidymodels-style nav links: uppercase, tracked, thin.
+.navbar-nav .nav-link {
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-size: 0.8rem;
+  font-weight: 300;
+}
+
+// ==========================================================================
+// Hero
+// ==========================================================================
+.hero {
+  padding: 4.5rem 1rem 3.5rem;
+  text-align: center;
+  background: linear-gradient(
+    135deg,
+    mix($primary, $body-bg, 8%) 0%,
+    mix($primary, $body-bg, 22%) 100%
+  );
+  border-radius: 0 0 2rem 2rem;
+  margin-bottom: 3.5rem;
+
+  img.hero-logo {
+    max-width: 300px;
+    width: 100%;
+    height: auto;
+    margin-bottom: 1.75rem;
+  }
+
+  .hero-lead {
+    font-weight: 400;
+    font-size: 1.6rem;
+    line-height: 1.3;
+    max-width: 660px;
+    margin: 0 auto 1.75rem;
+    color: mix($body-color, $body-bg, 85%);
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    justify-content: center;
+    margin: 1rem 0 1.9rem;
+
+    img { height: 20px; }
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    justify-content: center;
+  }
+}
+
+.btn-hero {
+  padding: 0.6rem 1.7rem;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-radius: 999px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+
+  &:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15); }
+}
+
+// ==========================================================================
+// Feature row
+// ==========================================================================
+.feature-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+  margin: 2.5rem 0;
+
+  .feature {
+    text-align: center;
+    padding: 1.5rem;
+
+    h3 { font-size: 1.3rem; }
+    .feature-icon { display: block; font-size: 2rem; color: $primary; margin-bottom: 0.75rem; }
+    .feature-pill {
+      display: inline-block;
+      margin-top: 0.75rem;
+      padding: 0.15rem 0.85rem;
+      border-radius: 999px;
+      font-size: 0.7rem;
+      letter-spacing: 0.05em;
+      font-weight: 700;
+      background: mix($primary, $body-bg, 18%);
+      color: $primary;
+    }
+  }
+}
+
+// ==========================================================================
+// Package cards + hexagon badge
+// ==========================================================================
+.package-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.5rem;
+  margin: 2rem 0;
+}
+
+.package-card {
+  display: block;
+  text-align: center;
+  padding: 1.75rem 1.25rem;
+  border: 1px solid mix($body-color, $body-bg, 12%);
+  border-radius: $border-radius;
+  color: inherit;
+  text-decoration: none;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, border-color 0.25s ease;
+
+  &:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+    border-color: $primary;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .package-badge {
+    width: 66px;
+    height: 56px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background: $primary;
+    color: #fff;
+    font-size: 1.4rem;
+    clip-path: polygon(25% 0%, 75% 0%, 100% 50%, 75% 100%, 25% 100%, 0% 50%);
+    margin-bottom: 0.85rem;
+  }
+  &:hover .package-badge { background: shade-color($primary, 15%); }
+
+  .package-name { display: block; font-weight: 700; font-size: 1.25rem; margin-bottom: 0.1rem; }
+  .package-role { display: block; color: $primary; font-weight: 600; font-size: 0.9rem; margin-bottom: 0.5rem; }
+  .package-desc { display: block; font-size: 0.9rem; color: mix($body-color, $body-bg, 70%); margin: 0; }
+}
+
+// ==========================================================================
+// Numbered "get started" steps
+// ==========================================================================
+.step-number {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2.5rem;
+  height: 2.5rem;
+  border-radius: 50%;
+  background: $primary;
+  color: #fff;
+  font-weight: 700;
+  margin-right: 0.6rem;
+}
+
+// Full-bleed landing page (index uses page-layout: full)
+.hero, .landing-section { width: 100%; }
+.landing-section { max-width: 960px; margin-left: auto; margin-right: auto; padding: 0 1rem; }

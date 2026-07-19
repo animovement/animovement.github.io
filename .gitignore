@@ -1,0 +1,14 @@
+/.quarto/
+**/*.quarto_ipynb
+
+# Quarto render output (published via GitHub Actions, not committed)
+/_site/
+
+# renv (library is machine-specific; the lockfile IS committed)
+renv/library/
+renv/local/
+renv/cellar/
+renv/staging/
+
+# OS
+.DS_Store

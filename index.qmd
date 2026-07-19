@@ -1,0 +1,104 @@
+---
+pagetitle: "animovement · an R toolbox for analysing animal movement"
+image: /assets/animouse.png
+page-layout: full
+toc: false
+anchor-sections: false
+---
+
+::: {.hero}
+![](assets/animouse.svg){.hero-logo fig-alt="animovement logo"}
+
+::: {.hero-lead}
+An R toolbox for analysing animal movement across space and time.
+:::
+
+::: {.hero-badges}
+[![DOI](https://zenodo.org/badge/773406370.svg)](https://zenodo.org/doi/10.5281/zenodo.13235277)
+[![R-CMD-check](https://github.com/animovement/animovement/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/animovement/animovement/actions/workflows/R-CMD-check.yaml)
+[![r-universe status](https://animovement.r-universe.dev/badges/animovement)](https://animovement.r-universe.dev)
+:::
+
+::: {.hero-actions}
+[Get started](start/index.qmd){.btn .btn-primary .btn-hero}
+[Learn](learn/index.qmd){.btn .btn-outline-primary .btn-hero}
+:::
+:::
+
+::: {.landing-section}
+
+## A modular workflow for movement analysis
+
+A collection of R packages for every stage of movement analysis — for
+ethologists, behavioural ecologists, neuroscientists, and anyone else who
+needs to make sense of how animals move.
+
+::: {.feature-grid}
+::: {.feature}
+[]{.feature-icon .bi .bi-database}
+
+### Read from anywhere
+
+Support for video-based tracking tools such as *DeepLabCut*, *SLEAP* and
+*idtracker.ai*, plus hardware-based data from trackballs.
+
+[VERSATILE]{.feature-pill}
+:::
+
+::: {.feature}
+[]{.feature-icon .bi .bi-arrow-repeat}
+
+### Flexible toolkit
+
+A *tidyverse*-friendly suite of modular packages that form one unified
+workflow. Start with the piece you need, add others as challenges arise.
+
+[MODULAR]{.feature-pill}
+:::
+
+::: {.feature}
+[]{.feature-icon .bi .bi-shield-check}
+
+### Thoroughly tested
+
+Every package uses *testthat* and *codecov* so the code is thoroughly tested
+and you can trust your findings.
+
+[TRUSTED]{.feature-pill}
+:::
+:::
+
+## Install in seconds
+
+```r
+install.packages(
+  "animovement",
+  repos = c(
+    "https://animovement.r-universe.dev",
+    "https://cloud.r-project.org"
+  )
+)
+```
+
+[See the full get-started guide →](start/index.qmd)
+
+## The packages
+
+*animovement* is an ecosystem of R packages, each solving one stage of the
+workflow. [Browse them all →](packages/index.qmd)
+
+::: {.package-grid}
+[[]{.package-badge .bi .bi-box}[aniframe]{.package-name}[Core data structures]{.package-role}[S3 classes for representing and manipulating movement data.]{.package-desc}](https://animovement.dev/aniframe){.package-card}
+
+[[]{.package-badge .bi .bi-download}[aniread]{.package-name}[Reading & writing]{.package-role}[Read and write movement data from diverse sources.]{.package-desc}](https://animovement.dev/aniread){.package-card}
+
+[[]{.package-badge .bi .bi-clipboard-check}[anicheck]{.package-name}[Data quality]{.package-role}[Diagnose missing values, temporal gaps and spatial outliers.]{.package-desc}](https://animovement.dev/anicheck){.package-card}
+
+[[]{.package-badge .bi .bi-gear}[aniprocess]{.package-name}[Processing & filtering]{.package-role}[Filter, smooth and process movement trajectories.]{.package-desc}](https://animovement.dev/aniprocess){.package-card}
+
+[[]{.package-badge .bi .bi-bar-chart}[animetric]{.package-name}[Metrics]{.package-role}[Kinematics, navigational statistics and social measures.]{.package-desc}](https://animovement.dev/animetric){.package-card}
+
+[[]{.package-badge .bi .bi-graph-up}[anivis]{.package-name}[Visualization]{.package-role}[Publication-ready plots of trajectories, diagnostics and metrics.]{.package-desc}](https://animovement.dev/anivis){.package-card}
+:::
+
+:::

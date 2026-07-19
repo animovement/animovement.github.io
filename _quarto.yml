@@ -1,0 +1,68 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "index.qmd"
+    - "packages/"
+    - "start/"
+    - "learn/"
+    - "help/"
+    - "!docs/"
+  resources:
+    - CNAME
+    - assets/
+
+execute:
+  freeze: auto
+
+website:
+  title: "animovement"
+  description: "An R toolbox for analysing animal movement across space and time."
+  site-url: https://animovement.dev
+  favicon: assets/animouse.png
+  image: assets/animouse.png
+  open-graph: true
+  twitter-card:
+    site: "@animovement"
+    card-style: summary_large_image
+  navbar:
+    logo: assets/animouse.svg
+    logo-alt: "animovement logo"
+    title: false
+    pinned: true
+    left: []
+    right:
+      - text: "Packages"
+        href: packages/index.qmd
+      - text: "Get Started"
+        href: start/index.qmd
+      - text: "Learn"
+        href: learn/index.qmd
+      - text: "Help"
+        href: help/index.qmd
+      - icon: github
+        href: https://github.com/animovement
+        aria-label: "animovement on GitHub"
+  page-footer:
+    left: "&copy; Mikkel Roald-Arbøl 2025"
+    right:
+      - icon: github
+        href: https://github.com/animovement
+        aria-label: "animovement on GitHub"
+
+format:
+  html:
+    # `brand` sits AFTER the bootswatch theme so _brand.yml colours/fonts win
+    # over cosmo/darkly (brand is otherwise lowest priority), and custom.scss
+    # (structural rules) comes last.
+    theme:
+      light: [cosmo, brand, theme/navbar-light.scss, custom.scss]
+      dark: [darkly, brand, theme/navbar-dark.scss, custom.scss]
+    # Honour the visitor's OS/browser light-or-dark preference on first load
+    # (Quarto 1.7+). Falls back to the first (light) theme without JS.
+    respect-user-color-scheme: true
+    toc: true
+    code-copy: true
+    code-overflow: wrap
+    grid:
+      body-width: 900px

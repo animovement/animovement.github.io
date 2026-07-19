@@ -1,0 +1,21 @@
+---
+title: "Learn"
+subtitle: "End-to-end tutorials across the animovement ecosystem"
+listing:
+  id: tutorials
+  contents: "*.qmd"
+  type: grid
+  sort: "order"
+  fields: [title, description, reading-time]
+  exclude:
+    filename: "index.qmd"
+toc: false
+---
+
+These tutorials show how the *animovement* packages fit together in a complete
+workflow. Single-package how-tos live on each package's own reference site
+(see [Packages](../packages/index.qmd)); everything here is **cross-package** and
+end-to-end.
+
+::: {#tutorials}
+:::

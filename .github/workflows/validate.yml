@@ -1,0 +1,50 @@
+name: Validate tutorials
+
+# Re-executes the Learn tutorials against the LATEST published package versions
+# so a breaking API change in the ecosystem fails loudly instead of silently
+# rotting the hub. Does not deploy.
+
+on:
+  schedule:
+    - cron: "0 6 * * 1" # every Monday 06:00 UTC
+  release:
+    types: [published]
+  workflow_dispatch:
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Quarto
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Set up R
+        uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      # Deliberately install the LATEST versions from r-universe — not the
+      # pinned renv.lock — so we detect breakage before it reaches users.
+      - name: Install latest animovement packages
+        run: |
+          install.packages(
+            c("aniframe", "aniread", "anicheck", "aniprocess",
+              "animetric", "anivis", "animovement",
+              "ggplot2", "knitr", "rmarkdown"),
+            repos = c(
+              "https://animovement.r-universe.dev",
+              "https://cloud.r-project.org"
+            )
+          )
+        shell: Rscript {0}
+
+      # The `validate` profile disables freeze so chunks actually re-execute.
+      - name: Render tutorials (fresh execution)
+        env:
+          QUARTO_PROFILE: validate
+        run: |
+          rm -rf _freeze
+          quarto render learn

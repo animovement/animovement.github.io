@@ -120,29 +120,37 @@ h2 { margin-top: 2.75rem; }
     mask-size: cover;
   }
 
-  // Placeholder package hex logos, drawn on the SAME 1600x700 grid and painted
-  // with the identical cover/center sizing, so they land exactly on top of
-  // specific outline hexes. Above the honeycomb, below the content.
-  &::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    display: none;
-    pointer-events: none;
-    background-image: url('assets/hex-logos.svg');
-    background-repeat: no-repeat;
-    background-position: center;
-    background-size: cover;
+  @media (min-width: 992px) {
+    &::before { display: block; }
   }
 
+  // Clickable package stickers — an inline SVG on the same 1600x700 grid, sized
+  // with preserveAspectRatio="slice" (= cover) so it lines up with the honeycomb
+  // background. Sits above the honeycomb, below the text. Only the hex <a>s are
+  // interactive, so the SVG never blocks the text on the right.
+  .hero-hexes {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 3; // above .hero-inner so the hex links are clickable
+    display: none;
+    pointer-events: none; // only the hex <a>s capture clicks (see below)
+
+    a {
+      pointer-events: auto;
+      cursor: pointer;
+      image { transition: filter 0.15s ease; }
+      &:hover image { filter: brightness(1.08); }
+    }
+  }
   @media (min-width: 992px) {
-    &::before, &::after { display: block; }
+    .hero-hexes { display: block; }
   }
 
   .hero-inner {
     position: relative;
-    z-index: 1;
+    z-index: 2;
     display: flex;
     align-items: center;
     flex-wrap: wrap;

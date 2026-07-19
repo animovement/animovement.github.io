@@ -7,6 +7,9 @@ anchor-sections: false
 ---
 
 ::::: {.hero}
+
+{{< include _hexgrid.qmd >}}
+
 :::: {.hero-inner}
 ::: {.hero-text-col}
 [animovement]{.hero-eyebrow}

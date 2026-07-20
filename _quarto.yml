@@ -4,12 +4,11 @@ project:
   render:
     - "index.qmd"
     - "packages/"
-    - "start/"
+    - "get-started/"
     - "learn/"
     - "help/"
     - "about/"
     - "contribute/"
-    - "!docs/"
   resources:
     - CNAME
     - assets/
@@ -21,8 +20,8 @@ website:
   title: "animovement"
   description: "An R toolbox for analysing animal movement across space and time."
   site-url: https://animovement.dev
-  favicon: assets/animouse.png
-  image: assets/animouse.png
+  favicon: assets/images/animouse.png
+  image: assets/images/animouse.png
   open-graph: true
   twitter-card:
     site: "@animovement"
@@ -35,7 +34,7 @@ website:
       - text: "Packages"
         href: packages/index.qmd
       - text: "Get Started"
-        href: start/index.qmd
+        href: get-started/index.qmd
       - text: "Learn"
         href: learn/index.qmd
       - text: "Help"
@@ -88,8 +87,8 @@ format:
     # over cosmo/darkly (brand is otherwise lowest priority), and custom.scss
     # (structural rules) comes last.
     theme:
-      light: [cosmo, brand, theme/navbar-light.scss, custom.scss]
-      dark: [darkly, brand, theme/navbar-dark.scss, custom.scss]
+      light: [cosmo, brand, assets/scss/navbar-light.scss, assets/scss/custom.scss]
+      dark: [darkly, brand, assets/scss/navbar-dark.scss, assets/scss/custom.scss]
     # Honour the visitor's OS/browser light-or-dark preference on first load
     # (Quarto 1.7+). Falls back to the first (light) theme without JS.
     respect-user-color-scheme: true

@@ -1,6 +1,6 @@
 ---
 pagetitle: "animovement · an R toolbox for analysing animal movement"
-image: /assets/animouse.png
+image: /assets/images/animouse.png
 page-layout: full
 toc: false
 anchor-sections: false
@@ -8,7 +8,9 @@ anchor-sections: false
 
 ::::: {.hero}
 
-{{< include _hexgrid.qmd >}}
+```{=html}
+<svg class="hero-hexes" viewBox="0 0 1600 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="animovement packages"><g transform="translate(-69.3,0)"><a href="https://animovement.dev/animovement" aria-label="animovement"><image href="assets/logos/animovement.svg" x="255.7" y="80.0" width="160" height="160"/></a><a href="https://animovement.dev/aniframe" aria-label="aniframe"><image href="assets/logos/aniframe.svg" x="186.4" y="200.0" width="160" height="160"/></a><a href="https://animovement.dev/aniread" aria-label="aniread"><image href="assets/logos/aniread.svg" x="255.7" y="320.0" width="160" height="160"/></a><a href="https://animovement.dev/anicheck" aria-label="anicheck"><image href="assets/logos/anicheck.svg" x="394.3" y="320.0" width="160" height="160"/></a><a href="https://animovement.dev/aniprocess" aria-label="aniprocess"><image href="assets/logos/aniprocess.svg" x="463.5" y="200.0" width="160" height="160"/></a><a href="https://animovement.dev/animetric" aria-label="animetric"><image href="assets/logos/animetric.svg" x="602.1" y="200.0" width="160" height="160"/></a><a href="https://animovement.dev/anispace" aria-label="anispace"><image href="assets/logos/anispace.svg" x="671.4" y="320.0" width="160" height="160"/></a><a href="https://animovement.dev/anivis" aria-label="anivis"><image href="assets/logos/anivis.svg" x="602.1" y="440.0" width="160" height="160"/></a></g></svg>
+```
 
 :::: {.hero-inner}
 ::: {.hero-text-col}

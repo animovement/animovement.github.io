@@ -8,22 +8,24 @@ tutorials. Each individual package keeps its own pkgdown reference site at
 
 ## Structure
 
-| Path | Page |
+| Path | Contents |
 | --- | --- |
-| `index.qmd` | Landing page (custom hero + package grid) |
+| `index.qmd` | Landing page (custom hero + package hex grid) |
 | `packages/` | The package ecosystem, linking to each pkgdown site |
-| `start/` | Get Started — install / load / learn |
-| `help/` | Getting help — issues, discussions, contributing |
+| `get-started/` | Get Started — install / load / learn |
 | `learn/` | Tutorial listing + cross-package tutorials |
+| `help/` | Getting help — issues, discussions, contributing |
+| `about/`, `contribute/` | About and Contribute pages |
 | `_brand.yml` | Central brand: accent colour (teal) + fonts (Lato / Source Code Pro) |
-| `custom.scss` | Structural theme rules, layered over `cosmo` (light) / `darkly` (dark) |
 | `_quarto.yml` | Site + navbar config |
-| `assets/` | Logos and images |
+| `assets/images/` | Logos and images (incl. the honeycomb background) |
+| `assets/logos/` | Per-package hex stickers (`<package>.svg`) |
+| `assets/scss/` | Theme styling — `custom.scss` + per-theme `navbar-{light,dark}.scss` |
 
 Colours and fonts live in `_brand.yml`. It is listed **after** the bootswatch
-theme (`theme: [cosmo, brand, custom.scss]`) so its values win — `brand` is
-otherwise lowest priority. The site follows the visitor's OS light/dark
-preference via `respect-user-color-scheme: true`.
+theme (`theme: [cosmo, brand, assets/scss/custom.scss]`) so its values win —
+`brand` is otherwise lowest priority. The site follows the visitor's OS
+light/dark preference via `respect-user-color-scheme: true`.
 
 ## Develop
 
@@ -72,6 +74,6 @@ breaking API change fails loudly.
 
 ## Package sites
 
-The per-package pkgdown sites live in separate repositories. To give them the
-same shared navbar (Learn + Packages dropdown) as this hub, see
-[`docs/pkgdown-navbar.md`](docs/pkgdown-navbar.md).
+The per-package pkgdown sites live in separate repositories and are reached at
+`animovement.dev/<package>`; the hub links out to them from the navbar and the
+Packages page.

@@ -325,6 +325,60 @@ h2 { margin-top: 2.75rem; }
   .category.active { color: $primary; font-weight: 600; }
 }
 
+// ==========================================================================
+// Packages page — tidymodels-style honeycomb list: a rail of linked logo hexes
+// joined by empty outline hexes on the left, name + description on the right.
+// ==========================================================================
+.pkg-list {
+  display: flex;
+  align-items: flex-start;
+  gap: 2rem;
+  // Pull up to absorb most of the first row's centred top whitespace, leaving a
+  // little breathing room below the intro line.
+  margin: -1.25rem 0 2rem;
+}
+.pkg-rail {
+  flex: 0 0 180px;
+  width: 180px;
+  height: auto;
+
+  .empty { fill: none; stroke: mix($body-color, $body-bg, 22%); stroke-width: 2; }
+  a image { transition: filter 0.15s ease; }
+  a:hover image { filter: brightness(1.08); }
+}
+.pkg-texts { flex: 1 1 auto; min-width: 0; }
+.pkg-item {
+  height: 195px;                 // matches the rail's per-logo step
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+
+  p { margin-bottom: 0.4rem; }
+}
+.pkg-name {
+  display: block;
+  font-weight: 700;
+  font-size: 1.4rem;
+  color: $primary;
+  text-decoration: none;
+  margin-bottom: 0.1rem;
+  &:hover { color: shade-color($primary, 12%); }
+}
+.pkg-go { white-space: nowrap; }
+.pkg-logo-inline { display: none; } // rail shows the logos on wide screens
+
+// Stack on narrow screens: drop the rail, show a small logo per item.
+@media (max-width: 760px) {
+  .pkg-rail { display: none; }
+  .pkg-list { flex-direction: column; gap: 0; margin-top: 1rem; }
+  .pkg-item {
+    height: auto;
+    padding: 1.25rem 0;
+    border-bottom: 1px solid mix($body-color, $body-bg, 12%);
+  }
+  .pkg-logo-inline { display: block; width: 64px; height: auto; margin-bottom: 0.6rem; }
+}
+
 // Full-bleed landing page (index uses page-layout: full)
 .hero, .landing-section { width: 100%; }
 .landing-section { max-width: 960px; margin-left: auto; margin-right: auto; padding: 0 1rem; }

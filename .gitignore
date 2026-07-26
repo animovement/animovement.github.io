@@ -10,5 +10,10 @@ renv/local/
 renv/cellar/
 renv/staging/
 
+# Logo working files: source montage + archived old logos
+# (kept locally, but not committed or published)
+assets/logos/archive/
+assets/logos/ecosystem-sheet.png
+
 # OS
 .DS_Store

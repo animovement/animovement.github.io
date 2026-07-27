@@ -1,6 +1,6 @@
 ---
-pagetitle: "animovement · an R toolbox for analysing animal movement"
-image: /assets/images/animouse.png
+pagetitle: "animovement · an R toolbox for analysing movement"
+image: /assets/images/opengraph-card.png
 page-layout: full
 toc: false
 anchor-sections: false

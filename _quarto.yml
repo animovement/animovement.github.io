@@ -18,10 +18,10 @@ execute:
 
 website:
   title: "animovement"
-  description: "An R toolbox for analysing animal movement across space and time."
+  description: "An R toolbox for analysing movement across space and time."
   site-url: https://animovement.dev
-  favicon: assets/logos/new-icons/circle-wave-v-a.svg
-  image: assets/images/animouse.png
+  favicon: assets/images/favicon.svg
+  image: assets/images/opengraph-card.png
   open-graph: true
   twitter-card:
     site: "@animovement"

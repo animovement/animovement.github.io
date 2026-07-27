@@ -20,3 +20,7 @@ assets/logos/new-icons/vshapes-sheet.png
 # OS
 .DS_Store
 assets/logos/new-logos.zip
+/social-preview.html
+/og-options.html
+assets/images/social-backgrounds/
+assets/images/opengraph-card.svg

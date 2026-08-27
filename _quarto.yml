@@ -20,6 +20,9 @@ website:
   title: "animovement"
   description: "An R toolbox for analysing movement across space and time."
   site-url: https://animovement.dev
+  # Previous/Next links at the foot of each page, ordered by the sidebar
+  # (like MkDocs Material). Applies to the Get Started and Learn sections.
+  page-navigation: true
   favicon: assets/images/favicon.svg
   image: assets/images/opengraph-card.png
   open-graph: true
@@ -50,6 +53,21 @@ website:
         href: https://github.com/animovement
         aria-label: "animovement on GitHub"
   sidebar:
+    - id: get-started
+      title: "Get Started"
+      style: floating
+      collapse-level: 1
+      contents:
+        - text: "Overview"
+          href: get-started/index.qmd
+        - section: "Set up"
+          contents:
+            - get-started/install.qmd
+        - section: "Core concepts"
+          contents:
+            - get-started/movement-data.qmd
+            - get-started/read-data.qmd
+            - get-started/process-data.qmd
     - id: learn
       title: "Learn"
       style: floating
@@ -75,7 +93,7 @@ website:
           contents:
             - learn/deeplabcut-to-plot.qmd
   page-footer:
-    left: "&copy; Mikkel Roald-Arbøl 2025"
+    left: "&copy; Mikkel Roald-Arbøl 2026"
     right:
       - icon: github
         href: https://github.com/animovement

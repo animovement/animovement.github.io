@@ -3,10 +3,7 @@ title: "How to contribute to animovement"
 toc: true
 ---
 
-The ecosystem of *animovement* packages would not be possible without the
-contributions of the R community. No matter your current skills, it's possible
-to contribute back to *animovement*. Contributions are guided by our design
-goals.
+The ecosystem of *animovement* packages would not be possible without the contributions of the R community. No matter your current skills, it's possible to contribute back to *animovement*. Contributions are guided by our design goals.
 
 ## Design goals
 
@@ -32,49 +29,32 @@ packages.
 
 You can help others use and learn *animovement* by answering questions on our
 [Zulip chat](https://animovement.zulipchat.com) and in
-[GitHub Discussions](https://github.com/orgs/animovement/discussions). Many
-people asking for help with *animovement* don't know what a reprex is or how to
-craft one. Acknowledging an individual's problem, showing them how to build a
-reprex, and pointing them to helpful resources are all enormously beneficial,
-even if you don't immediately solve their problem.
+[GitHub Discussions](https://github.com/orgs/animovement/discussions). Many people asking for help don't know what a reprex is or how to craft one. Acknowledging an individual's problem, showing them how to build a *reprex*, and pointing them to helpful resources are all enormously beneficial, even if you don't immediately solve their problem.
 
-Remember that while you might have seen a problem a hundred times before, it's
-new to the person asking it. Be patient, polite, and empathic.
+Remember that while you might have seen a problem a hundred times before, it's new to the person asking it. Be patient, polite, and empathic.
 
 ### File issues
 
-If you've found a bug, first create a minimal reprex. Spend some time working to
-make it as minimal as possible; the more time you spend doing this, the easier
-it is to fix the bug. When your reprex is ready, file it on the GitHub repo of
-the appropriate package.
+If you've found a bug, first create a minimal reprex. Spend some time working to make it as minimal as possible; the more time you spend doing this, the easier it is to fix the bug. When your reprex is ready, file it on the GitHub repo of the appropriate package.
 
-The *animovement* team often focuses on one package at a time to reduce context
-switching and be more efficient. We may not address each issue right away, but
-we will use the reprex you create to understand your problem when it is time to
-focus on that package.
+The *animovement* team is small (currently I'm a one-man team - hi!). I often focus on one package at a time to reduce context switching and be more efficient. We may not address each issue right away, but we will use the reprex you create to understand your problem when it is time to focus on that package.
 
 ### Contribute documentation
 
-Documentation is a high priority for *animovement*, and pull requests to correct
-or improve documentation are welcome. The most important thing to know is that
-*animovement* packages use roxygen2; this means that documentation is found in
-the R code close to the source of each function. There are some special tags,
-but most *animovement* packages use markdown in the documentation. This makes it
-particularly easy to get started!
+Documentation is a high priority for *animovement*, and pull requests to correct or improve documentation are welcome. We roughly divide the documentation into two types, documentation of functions and vignettes/articles.
+
+Documentation of functions take place inside the source .R files, and for those, the most important thing to know is that *animovement* packages use roxygen2; this means that documentation is found in the R code close to the source of each function. 
+
+We also write articles to help users learn how to use the packages. The articles explaining workflows and how to use the packages together live in here in the [animovement.dev site](), while we have a few articles in individual packages that focus on some aspect that relates to that package alone. 
+
+We would be particularly happy to receive real-life examples, e.g. from research articles, that use *animovement*. These should be made as new Quarto markdown files (*.qmd) in the *Learn* folder.
+
+Generally, most *animovement* packages use markdown in the documentation. This makes it particularly easy to get started!
 
 ### Contribute code
 
-If you are a more experienced R programmer, you may have the inclination,
-interest, and ability to contribute directly to package development. Before you
-submit a pull request on an *animovement* package, always file an issue and
-confirm the *animovement* team agrees with your idea and is happy with your
-basic proposal.
+If you are a more experienced R programmer, you may have the inclination, interest, and ability to contribute directly to package development. Before you submit a pull request on an *animovement* package, always file an issue and confirm the *animovement* team agrees with your idea and is happy with your basic proposal.
 
-In *animovement* packages, we use the
-[tidyverse style guide](https://style.tidyverse.org) which will make sure that
-your new code and documentation matches the existing style. This makes the
-review process much smoother.
+In *animovement* packages, we use the [tidyverse style guide](https://style.tidyverse.org) which will make sure that your new code and documentation matches the existing style. We also use [air formatting](https://posit-dev.github.io/air/), to ensure that the format code format is consistent across all the packages. This makes the review process much smoother.
 
-The *animovement* packages are explicitly built to support the creation of other
-movement analysis tools, and we would love to hear about what you build
-yourself! Check out our [tutorials](../learn/index.qmd) to get started.
+The *animovement* packages are explicitly built to support the creation of other movement analysis tools, and we would love to hear about what you build yourself! Check out our [tutorials](../learn/index.qmd) to get started.

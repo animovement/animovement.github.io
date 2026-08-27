@@ -1,48 +1,48 @@
 ---
 title: "Get Started"
+subtitle: "Everything you need to go from a raw tracking file to a clean, analysis-ready dataset."
+toc: false
 ---
 
-Get up and running with *animovement* in three steps.
+*animovement* is a collection of R packages that share one data structure and
+one workflow. These four guides take you from installing the ecosystem to
+reading, understanding, and processing your own movement data. Work through
+them in order — each builds on the last.
 
-## [1]{.step-number} Install
+## [1]{.step-number} [Install animovement](install.qmd)
 
-*animovement* is distributed through [r-universe](https://animovement.r-universe.dev).
-Install the metapackage — and the whole ecosystem — with:
+Install the whole ecosystem (or just the piece you need) from
+[r-universe](https://animovement.r-universe.dev), load it, and add the optional
+packages some functions rely on.
 
-```r
-install.packages(
-  "animovement",
-  repos = c(
-    "https://animovement.r-universe.dev",
-    "https://cloud.r-project.org"
-  )
-)
-```
+## [2]{.step-number} [Movement data & the aniframe](movement-data.qmd)
 
-::: {.callout-tip}
-## Only need one piece?
-Every package installs the same way — swap `"animovement"` for the individual
-package name, e.g. `"aniread"`. See [Packages](../packages/index.qmd) for the full list.
-:::
+Meet the *aniframe* — the tidy table that every *animovement* package speaks.
+Learn how it answers *what* is moving, *when*, and *where*, and how to create
+one from scratch.
 
-## [2]{.step-number} Load
+## [3]{.step-number} [Read your data](read-data.qmd)
 
-Load the metapackage to bring the full workflow into scope:
+Turn an export from *DeepLabCut*, *SLEAP*, *idtracker.ai*, a trackball, or any
+of the 18 supported sources into an *aniframe* with a single `read_*()` call —
+and grab bundled sample data to follow along.
 
-```r
-library(animovement)
-```
+## [4]{.step-number} [Check & process your tracks](process-data.qmd)
 
-## [3]{.step-number} Learn
-
-You're ready to analyse movement. Work through an end-to-end example — reading a
-tracking file, checking its quality, processing it, computing metrics and
-plotting the result — in the tutorials:
-
-[Browse the tutorials →](../learn/index.qmd){.btn .btn-primary}
+Inspect data quality, drop low-confidence points, fill gaps by interpolation,
+and smooth noisy trajectories — all while staying in the same *aniframe*.
 
 ::: {.callout-note}
-Single-package how-tos live on each package's own reference site (see
-[Packages](../packages/index.qmd)). The [Learn](../learn/index.qmd) section here is for
-cross-package, end-to-end workflows.
+## New to R or the tidyverse?
+To get the most out of *animovement*, we recommend getting comfortable with the
+basics of R and the [tidyverse](https://www.tidyverse.org) first. *animovement*
+is tidyverse-friendly: *aniframes* are tibbles, and you can pipe them through
+`dplyr`, `tidyr` and friends alongside the `ani*` functions.
+:::
+
+::: {.callout-tip}
+## Already set up?
+If you've installed the ecosystem and know the data model, jump straight to the
+end-to-end tutorials in [Learn](../learn/index.qmd), which combine every package
+into complete, real-world workflows.
 :::

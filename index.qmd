@@ -9,7 +9,7 @@ anchor-sections: false
 ::::: {.hero}
 
 ```{=html}
-<svg class="hero-hexes" viewBox="0 0 1600 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="animovement packages"><g transform="translate(-69.3,0)"><a href="https://animovement.dev/animovement" aria-label="animovement"><image href="assets/logos/animovement.svg" x="255.7" y="80.0" width="160" height="160"/></a><a href="https://animovement.dev/aniframe" aria-label="aniframe"><image href="assets/logos/aniframe.svg" x="186.4" y="200.0" width="160" height="160"/></a><a href="https://animovement.dev/aniread" aria-label="aniread"><image href="assets/logos/aniread.svg" x="255.7" y="320.0" width="160" height="160"/></a><a href="https://animovement.dev/anicheck" aria-label="anicheck"><image href="assets/logos/anicheck.svg" x="394.3" y="320.0" width="160" height="160"/></a><a href="https://animovement.dev/aniprocess" aria-label="aniprocess"><image href="assets/logos/aniprocess.svg" x="463.5" y="200.0" width="160" height="160"/></a><a href="https://animovement.dev/animetric" aria-label="animetric"><image href="assets/logos/animetric.svg" x="602.1" y="200.0" width="160" height="160"/></a><a href="https://animovement.dev/anispace" aria-label="anispace"><image href="assets/logos/anispace.svg" x="671.4" y="320.0" width="160" height="160"/></a><a href="https://animovement.dev/anivis" aria-label="anivis"><image href="assets/logos/anivis.svg" x="602.1" y="440.0" width="160" height="160"/></a></g></svg>
+<svg class="hero-hexes" viewBox="0 0 1600 700" preserveAspectRatio="xMidYMid slice" role="img" aria-label="animovement packages"><g transform="translate(-69.3,0)"><a href="https://animovement.dev/animovement" aria-label="animovement"><image href="assets/logos/animovement.svg" x="255.7" y="80.0" width="160" height="160"/></a><a href="https://animovement.dev/anicore" aria-label="anicore"><image href="assets/logos/anicore.svg" x="186.4" y="200.0" width="160" height="160"/></a><a href="https://animovement.dev/aniread" aria-label="aniread"><image href="assets/logos/aniread.svg" x="255.7" y="320.0" width="160" height="160"/></a><a href="https://animovement.dev/anicheck" aria-label="anicheck"><image href="assets/logos/anicheck.svg" x="394.3" y="320.0" width="160" height="160"/></a><a href="https://animovement.dev/aniprocess" aria-label="aniprocess"><image href="assets/logos/aniprocess.svg" x="463.5" y="200.0" width="160" height="160"/></a><a href="https://animovement.dev/animetric" aria-label="animetric"><image href="assets/logos/animetric.svg" x="602.1" y="200.0" width="160" height="160"/></a><a href="https://animovement.dev/anispace" aria-label="anispace"><image href="assets/logos/anispace.svg" x="671.4" y="320.0" width="160" height="160"/></a><a href="https://animovement.dev/anivis" aria-label="anivis"><image href="assets/logos/anivis.svg" x="602.1" y="440.0" width="160" height="160"/></a></g></svg>
 ```
 
 :::: {.hero-inner}
@@ -76,25 +76,6 @@ and you can trust your findings.
 
 [TRUSTED]{.feature-pill}
 :::
-:::
-
-## The packages
-
-*animovement* is an ecosystem of R packages, each solving one stage of the
-workflow. [Browse them all →](packages/index.qmd)
-
-::: {.package-grid}
-[[]{.package-badge .bi .bi-box}[aniframe]{.package-name}[Core data structures]{.package-role}[S3 classes for representing and manipulating movement data.]{.package-desc}](https://animovement.dev/aniframe){.package-card}
-
-[[]{.package-badge .bi .bi-download}[aniread]{.package-name}[Reading & writing]{.package-role}[Read and write movement data from diverse sources.]{.package-desc}](https://animovement.dev/aniread){.package-card}
-
-[[]{.package-badge .bi .bi-clipboard-check}[anicheck]{.package-name}[Data quality]{.package-role}[Diagnose missing values, temporal gaps and spatial outliers.]{.package-desc}](https://animovement.dev/anicheck){.package-card}
-
-[[]{.package-badge .bi .bi-gear}[aniprocess]{.package-name}[Processing & filtering]{.package-role}[Filter, smooth and process movement trajectories.]{.package-desc}](https://animovement.dev/aniprocess){.package-card}
-
-[[]{.package-badge .bi .bi-bar-chart}[animetric]{.package-name}[Metrics]{.package-role}[Kinematics, navigational statistics and social measures.]{.package-desc}](https://animovement.dev/animetric){.package-card}
-
-[[]{.package-badge .bi .bi-graph-up}[anivis]{.package-name}[Visualization]{.package-role}[Publication-ready plots of trajectories, diagnostics and metrics.]{.package-desc}](https://animovement.dev/anivis){.package-card}
 :::
 
 :::

@@ -11,7 +11,7 @@ Each package tracks issues in its own repository. File the issue on the
 package that's misbehaving — that's the fastest route to a fix.
 
 ::: {.package-grid}
-[[]{.package-badge .bi .bi-box}[aniframe]{.package-name}[Data structures]{.package-role}[github.com/animovement/aniframe]{.package-desc}](https://github.com/animovement/aniframe/issues){.package-card}
+[[]{.package-badge .bi .bi-box}[anicore]{.package-name}[Data structures]{.package-role}[github.com/animovement/anicore]{.package-desc}](https://github.com/animovement/anicore/issues){.package-card}
 
 [[]{.package-badge .bi .bi-download}[aniread]{.package-name}[Read & write]{.package-role}[github.com/animovement/aniread]{.package-desc}](https://github.com/animovement/aniread/issues){.package-card}
 

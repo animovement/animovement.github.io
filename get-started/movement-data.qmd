@@ -1,0 +1,134 @@
+---
+title: "Movement data & the aniframe"
+description: "Meet the aniframe — the tidy data structure every animovement package reads and returns."
+order: 2
+---
+
+Every *animovement* package speaks the same language: the **aniframe**. It's the
+data structure defined by [anicore](https://animovement.dev/anicore) that
+readers return, processing functions transform, and plotting functions
+visualise. Understand it once, and the whole ecosystem clicks into place.
+
+## What is an aniframe? {#sec-what}
+
+An aniframe is a [tibble](https://tibble.tidyverse.org) with some extra
+structure. It stays *tidy* — one observation per row — and it carries metadata
+about your recording. Because it's a tibble underneath, every `dplyr`, `tidyr`
+and `ggplot2` trick you already know works on it.
+
+Each row answers three questions:
+
+| Question | Slot | Default columns |
+|----------|------|-----------------|
+| **What** is moving? | `variables_what` | `individual`, `keypoint` |
+| **When**? | `variables_when` | `session`, `trial`, `time` |
+| **Where**? | `variables_where` | `x`, `y` (and `z` in 3-D) |
+
+The *what* and *when* columns together form a key that uniquely identifies each
+row; the *where* columns hold the measured position. Pose-estimation data also
+carries a `confidence` column — how sure the tracker was about each point.
+
+## A first look {#sec-look}
+
+The quickest way to see one is `example_aniframe()`, which simulates a small
+dataset for you:
+
+```r
+library(animovement)
+
+movement <- example_aniframe(
+  n_individuals = 2,
+  n_keypoints = 3,
+  n_obs = 100
+)
+
+movement
+```
+
+Printing an aniframe shows a short header summarising *what* it contains,
+followed by the tidy table:
+
+```
+# Individuals: 1, 2
+# Keypoints:   head, neck, shoulder_right
+# Sessions:    1
+# Trials:      1
+   individual keypoint        session trial  time       x        y confidence
+        <int> <fct>             <int> <int> <int>   <dbl>    <dbl>      <dbl>
+ 1          1 head                  1     1     1 -1.31    -0.771       0.929
+ 2          1 head                  1     1     2  0.0531   1.22        0.380
+ 3          1 head                  1     1     3  0.915   -0.532       0.645
+ # … with many more rows
+```
+
+The `#` header lines are the summary; the columns below map straight onto the
+*what / when / where* slots from the table above.
+
+## Create one from your own data {#sec-create}
+
+Most of the time you won't build an aniframe by hand — a
+[reader](read-data.qmd) does it for you. But when your data is already in a
+plain data frame, `as_aniframe()` casts it, and you tell it which columns fill
+which slot:
+
+```r
+df <- data.frame(
+  track = rep(c("A", "B"), each = 4),  # which animal
+  time  = rep(1:4, 2),                 # when
+  x     = runif(8),                    # where
+  y     = runif(8)
+)
+
+movement <- as_aniframe(
+  df,
+  variables_what = "track",   # identity lives in `track`, not `individual`
+  variables_when = "time"
+)
+```
+
+If your columns already use the default names (`individual`, `keypoint`,
+`time`, `x`, `y`), you can drop the arguments entirely: `as_aniframe(df)`.
+
+To build one directly from vectors, use `aniframe()`:
+
+```r
+aniframe(
+  individual = rep(1:2, each = 25),
+  time       = rep(1:10, 5),
+  x          = rnorm(50),
+  y          = rnorm(50)
+)
+```
+
+Check whether any object is an aniframe with `is_aniframe()`.
+
+## Metadata: units, sampling rate, origin {#sec-metadata}
+
+An aniframe remembers context that a bare data frame would lose — the sampling
+rate, the units of space and time, where the coordinate origin sits. Set these
+so downstream calculations (speeds, distances) come out in meaningful units:
+
+```r
+movement <- movement |>
+  set_sampling_rate(30) |>       # frames per second
+  set_unit_time("s") |>
+  set_unit_space("mm")
+
+get_metadata(movement)
+```
+
+## Events: the anievent {#sec-anievent}
+
+Alongside the aniframe, *anicore* defines the **anievent** — a companion
+structure for *labelled events* rather than continuous tracks (think behavioural
+annotations: "grooming from t = 12 to t = 20", or a point event at a single
+frame). You'll meet it when you work with annotation exports such as
+[BORIS](read-data.qmd); create one with `anievent()` or derive it from per-frame
+data with `to_anievent()`.
+
+::: {.callout-note collapse="true"}
+## A note on the printed output
+The console output above is illustrative — code blocks in these guides are shown
+for reference and aren't executed when the site is built. Run them in your own R
+session to see your data.
+:::

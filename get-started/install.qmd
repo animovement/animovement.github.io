@@ -1,0 +1,67 @@
+---
+title: "Install animovement"
+description: "Install the animovement ecosystem from r-universe, load it, and add the optional packages."
+order: 1
+---
+
+## Install the ecosystem {#sec-install}
+
+*animovement* is distributed through
+[r-universe](https://animovement.r-universe.dev). Installing the `animovement`
+metapackage pulls in the whole ecosystem — the core packages you need for a
+complete movement-analysis workflow:
+
+```r
+install.packages(
+  "animovement",
+  repos = c(
+    "https://animovement.r-universe.dev",
+    "https://cloud.r-project.org"
+  )
+)
+```
+
+The second repository (`cloud.r-project.org`, i.e. CRAN) is there so that any
+dependencies that don't live on r-universe are found too.
+
+::: {.callout-tip}
+## Only need one piece?
+Every package installs the same way — just swap `"animovement"` for the
+individual package name:
+
+```r
+install.packages(
+  "aniread",
+  repos = c(
+    "https://animovement.r-universe.dev",
+    "https://cloud.r-project.org"
+  )
+)
+```
+
+See [Packages](../packages/index.qmd) for the full list of what each package does.
+:::
+
+## Load it {#sec-load}
+
+Load the metapackage to bring the full workflow into scope. Like the tidyverse,
+`library(animovement)` attaches the core packages in one call:
+
+```r
+library(animovement)
+```
+
+From here on, the guides assume you've run this.
+
+## Optional (suggested) packages {#sec-suggested}
+
+Some functions rely on extra packages that aren't installed by default — for
+example, particular file readers or smoothing methods. Install all of these
+*suggested* packages in one go with:
+
+```r
+install_suggested_packages()
+```
+
+You can always install them later; *animovement* will tell you which package a
+function needs if it's missing.

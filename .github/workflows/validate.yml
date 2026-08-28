@@ -31,7 +31,7 @@ jobs:
       - name: Install latest animovement packages
         run: |
           install.packages(
-            c("aniframe", "aniread", "anicheck", "aniprocess",
+            c("anicore", "aniread", "anicheck", "aniprocess",
               "animetric", "anivis", "animovement",
               "ggplot2", "knitr", "rmarkdown"),
             repos = c(

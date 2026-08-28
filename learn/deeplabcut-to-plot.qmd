@@ -54,7 +54,7 @@ movement <- read_deeplabcut("path/to/DLC_output.h5")
 :::
 
 The result is a tidy movement table — the shared data structure defined by
-[aniframe](https://animovement.dev/aniframe) that every other package accepts.
+[anicore](https://animovement.dev/anicore) that every other package accepts.
 
 ## 2. Check {#sec-check}
 

@@ -1,0 +1,147 @@
+---
+title: "Check & process your tracks"
+description: "Inspect data quality, drop bad points, fill gaps, and smooth trajectories — all within the aniframe."
+order: 4
+---
+
+Raw tracking data is rarely clean: trackers lose sight of keypoints, mislabel
+points with high confidence, and jitter frame-to-frame. Before you compute a
+single metric, it pays to **check** what you have and **process** it into shape.
+Two packages handle this:
+[anicheck](https://animovement.dev/anicheck) diagnoses quality, and
+[aniprocess](https://animovement.dev/aniprocess) fixes it — both operating on the
+same [aniframe](movement-data.qmd) you read in.
+
+We'll pick up right where [Read your data](read-data.qmd) left off:
+
+```r
+library(animovement)
+
+movement <- read_deeplabcut(get_sample_data("deeplabcut"))
+```
+
+## 1. Check data quality {#sec-check}
+
+[anicheck](https://animovement.dev/anicheck) gives you three diagnostics.
+They summarise a problem without changing your data, so you can decide how
+aggressively to clean.
+
+```r
+# How confident was the tracker, per keypoint?
+movement |> check_confidence()
+
+# How big are the gaps of missing values?
+movement |> check_na_gapsize()
+
+# When in the recording do missing values occur?
+movement |> check_na_timing()
+```
+
+Each returns a small summary table. Pair it with
+[anivis](https://animovement.dev/anivis) to *see* the distribution — calling
+`plot()` on a check result draws it:
+
+```r
+movement |> check_confidence() |> plot()
+```
+
+::: {.callout-warning}
+## Why check confidence first?
+Pose-estimation exports often contain low-confidence points that still read as
+perfectly valid coordinates. If you don't screen them out, those outliers
+propagate into every downstream speed, distance and angle. Always look at
+confidence before processing.
+:::
+
+## 2. Drop low-confidence points {#sec-drop}
+
+`filter_na_confidence()` replaces the coordinates of any point below a
+confidence threshold with `NA` — turning "the tracker guessed here" into an
+honest gap you can deal with next:
+
+```r
+movement <- movement |>
+  filter_na_confidence(threshold = 0.6)
+```
+
+*aniprocess* has a family of `filter_na_*()` functions for this — for example,
+`filter_na_range()` (values outside a plausible range),
+`filter_na_roi()` (outside a region of interest) and
+`filter_na_speed()` (physically impossible jumps).
+
+## 3. Fill the gaps {#sec-interpolate}
+
+Now interpolate across those `NA`s. `replace_na_linear()` fills a gap by drawing
+a straight line between the known points on either side. The `max_gap` argument
+is your safety valve — leave long gaps unfilled rather than inventing data
+across them:
+
+```r
+movement <- movement |>
+  dplyr::group_by(individual, keypoint) |>
+  dplyr::mutate(
+    x = replace_na_linear(x, max_gap = 5),
+    y = replace_na_linear(y, max_gap = 5)
+  ) |>
+  dplyr::ungroup()
+```
+
+We group by `individual` and `keypoint` so interpolation never bleeds from one
+track into another. Prefer a smoother fill? Swap in `replace_na_spline()`, or
+carry the last value forward with `replace_na_locf()`.
+
+## 4. Smooth the trajectory {#sec-smooth}
+
+Finally, tame frame-to-frame jitter. `filter_rollmedian()` applies a rolling
+median — great for removing spikes while keeping edges crisp:
+
+```r
+movement <- movement |>
+  dplyr::group_by(individual, keypoint) |>
+  dplyr::mutate(
+    x = filter_rollmedian(x, window_width = 5),
+    y = filter_rollmedian(y, window_width = 5)
+  ) |>
+  dplyr::ungroup()
+```
+
+For a gentler, weighted smooth, reach for `filter_gaussian()` or
+`filter_sgolay()` (Savitzky–Golay); for model-based smoothing of noisy tracks,
+`filter_kalman()`.
+
+## Putting it together {#sec-together}
+
+The whole clean-up reads as one pipe:
+
+```r
+clean <- read_deeplabcut(get_sample_data("deeplabcut")) |>
+  filter_na_confidence(threshold = 0.6) |>
+  dplyr::group_by(individual, keypoint) |>
+  dplyr::mutate(
+    x = replace_na_linear(x, max_gap = 5),
+    y = replace_na_linear(y, max_gap = 5),
+    x = filter_rollmedian(x, window_width = 5),
+    y = filter_rollmedian(y, window_width = 5)
+  ) |>
+  dplyr::ungroup()
+```
+
+You still have an aniframe — same structure you started with, just cleaner.
+
+::: {.callout-tip}
+## Keep going
+Your data is analysis-ready. From here you can compute metrics with
+[animetric](https://animovement.dev/animetric) — for example,
+`calculate_kinematics()` adds speed, heading and acceleration — and plot the
+result with [anivis](https://animovement.dev/anivis)' `plot_trajectory()`. See
+both in a full, cross-package walkthrough in the
+[tutorials](../learn/index.qmd).
+:::
+
+::: {.callout-note collapse="true"}
+## A note on reproducibility
+Code blocks in these guides are shown for reference and aren't executed when the
+site is built. Run them in your own R session — starting from
+`get_sample_data()` — to reproduce every step against the latest package
+versions.
+:::

@@ -11,4 +11,4 @@ This example is a placeholder — the full walkthrough is coming soon.
 :::
 
 A short tour of reading movement data with [aniread](https://animovement.dev/aniread)
-and inspecting the resulting [aniframe](https://animovement.dev/aniframe).
+and inspecting the resulting [aniframe](https://animovement.dev/anicore).

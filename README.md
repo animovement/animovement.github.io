@@ -54,7 +54,7 @@ the ecosystem packages to the lockfile once:
 
 ```r
 renv::install(c(
-  "animovement", "aniframe", "aniread", "anicheck",
+  "animovement", "anicore", "aniread", "anicheck",
   "aniprocess", "animetric", "anivis", "ggplot2"
 ))
 renv::snapshot()

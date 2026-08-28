@@ -1,0 +1,120 @@
+---
+title: "Read your data"
+description: "Turn a tracking export into an aniframe with aniread — and grab bundled sample data to follow along."
+order: 3
+---
+
+[aniread](https://animovement.dev/aniread) reads movement data from a wide range
+of sources — video-based pose estimation, centroid trackers, motion capture,
+even hardware trackballs — and hands you back a tidy
+[aniframe](movement-data.qmd). Every source has a dedicated `read_*()` function,
+and they all return the same structure, so the rest of your pipeline doesn't
+care where the data came from.
+
+## Grab some sample data {#sec-sample}
+
+You don't need your own files to follow along. `get_sample_data()` downloads a
+real example export for any supported source and returns the path to the
+downloaded file:
+
+```r
+library(animovement)
+
+path <- get_sample_data("deeplabcut")
+path
+#> "/tmp/RtmpXXXX/deeplabcut_sample.csv"
+```
+
+To see everything that's available, call it with `list_datasets = TRUE`:
+
+```r
+get_sample_data(list_datasets = TRUE)
+```
+
+Some sources ship more than one dataset; pick one with the `dataset` argument
+(and pass a permanent `cache_dir` if you'd like the download to persist across
+sessions):
+
+```r
+path <- get_sample_data("sleap", dataset = "single_fly")
+```
+
+You can even point it at any URL to pull a file from a remote source:
+
+```r
+path <- get_sample_data("https://example.com/my_tracking_file.csv")
+```
+
+See the full reference for
+[`get_sample_data()`](https://animovement.dev/aniread/reference/get_sample_data.html).
+
+## Read it into an aniframe {#sec-read}
+
+Feed that path to the matching reader. For our DeepLabCut sample:
+
+```r
+movement <- read_deeplabcut(path)
+
+movement
+#> # Individuals: 1
+#> # Keypoints:   snout, leftear, rightear, tailbase
+#> ...
+```
+
+The result is a standard aniframe — ready for
+[checking and processing](process-data.qmd).
+
+::: {.callout-note}
+## Image coordinates are flipped for you
+Pose-estimation tools such as DeepLabCut store positions in *image* coordinates,
+where `y` grows *downward* from the top-left. `read_deeplabcut()` reflects `y`
+so the aniframe uses the conventional bottom-left origin. If your export doesn't
+record the video resolution, pass `video_height =` (in pixels) for an accurate
+flip; otherwise the reader falls back to the largest `y` value it sees.
+:::
+
+## Pick the right reader {#sec-readers}
+
+The reader name matches the source. A few of the most common:
+
+| Source | Function |
+|--------|----------|
+| DeepLabCut | `read_deeplabcut()` |
+| SLEAP | `read_sleap()` |
+| idtracker.ai | `read_idtracker()` |
+| LightningPose | `read_lightningpose()` |
+| Anipose (3-D) | `read_anipose()` |
+| Trackball hardware | `read_trackball()` |
+| BORIS annotations | `read_boris()` |
+
+Swap the reader, keep the rest of your workflow identical — that's the whole
+point of a shared data structure:
+
+```r
+# Same pipeline, different source
+movement <- read_sleap(get_sample_data("sleap"))
+```
+
+For the complete list of sources and their file formats, call:
+
+```r
+get_supported_sources()
+#> # A tibble: 18 × 3
+#>   source       reader              suffix
+#>   <chr>        <chr>               <chr>
+#> 1 deeplabcut   read_deeplabcut     csv, h5
+#> 2 sleap        read_sleap          h5
+#> # … with 16 more rows
+```
+
+## Reading your own files {#sec-own}
+
+Once you're ready, replace `get_sample_data()` with a path to your own export:
+
+```r
+movement <- read_deeplabcut("~/experiments/session01/DLC_output.csv")
+```
+
+Have a format aniread doesn't cover yet? `read_custom()` lets you map arbitrary
+columns onto the aniframe slots, and `write_aniframe()` saves any aniframe to a
+fast Parquet file you can re-open with `read_aniframe()`.

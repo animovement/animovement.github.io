@@ -12,8 +12,8 @@ tutorials. Each individual package keeps its own pkgdown reference site at
 | --- | --- |
 | `index.qmd` | Landing page (custom hero + package hex grid) |
 | `packages/` | The package ecosystem, linking to each pkgdown site |
-| `get-started/` | Get Started — install / load / learn |
-| `learn/` | Tutorial listing + cross-package tutorials |
+| `get-started/` | Get Started — install, read, check, process, measure (executable) |
+| `learn/` | Learn landing page (tutorials to come) |
 | `help/` | Getting help — issues, discussions, contributing |
 | `about/`, `contribute/` | About and Contribute pages |
 | `_brand.yml` | Central brand: accent colour (teal) + fonts (Lato / Source Code Pro) |
@@ -49,28 +49,39 @@ published by GitHub Actions (`.github/workflows/publish.yml`) on every push to
 
 Package versions are pinned with [renv](https://rstudio.github.io/renv/)
 (`renv.lock`). The lockfile currently pins the R version, the r-universe + CRAN
-repositories, and renv itself. When tutorials become executable (see below), add
-the ecosystem packages to the lockfile once:
+repositories, renv itself, and the animovement ecosystem — the Get Started
+guides execute their code at render time, so `renv::restore()` is enough to
+build the site. To add or refresh the ecosystem in the lockfile:
 
 ```r
 renv::install(c(
-  "animovement", "anicore", "aniread", "anicheck",
-  "aniprocess", "animetric", "anivis", "ggplot2"
+  "animovement", "anicore", "aniread", "anicheck", "aniprocess",
+  "animetric", "anivis", "anispace", "ggplot2",
+  # suggested packages the guides exercise
+  "signal", "circular", "bioc::rhdf5"
 ))
 renv::snapshot()
 ```
 
-## Tutorials
+## Guides and tutorials
 
-Tutorials live in `learn/` and use Quarto authoring features (tabsets, callouts,
-cross-references, and `freeze`). Code blocks are currently display-only; when
-bundled example data is available, make the chunks executable so the validation
-job exercises them.
+The **Get Started** guides in `get-started/` execute their R code at render
+time against the packages in `renv.lock`, so the printed output and figures on
+the site are real. Rendering them needs the ecosystem installed
+(`renv::restore()` does it), including the suggested packages `rhdf5` (HDF5
+exports), `signal` (Savitzky-Golay) and `circular` (circular summaries).
+Executed output is cached in `_freeze/`, which **is committed** — the deploy
+job renders from it rather than re-running R.
 
-`.github/workflows/validate.yml` re-renders `learn/` against the **latest**
-published package versions (freeze disabled via the `validate` profile,
-`_quarto-validate.yml`) on a weekly schedule and on each ecosystem release, so a
-breaking API change fails loudly.
+`learn/` currently holds only its landing page. The earlier placeholder pages
+were removed rather than left half-written; real tutorials go back in once
+there are complete, end-to-end workflows to show. When they return, add
+`learn/` alongside `get-started/` in the validation workflow's render step.
+
+`.github/workflows/validate.yml` re-renders `get-started/` against the
+**latest** published package versions (freeze disabled via the `validate`
+profile, `_quarto-validate.yml`) on a weekly schedule and on each ecosystem
+release, so a breaking API change fails loudly.
 
 ## Package sites
 

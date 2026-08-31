@@ -1,8 +1,10 @@
-name: Validate tutorials
+name: Validate guides
 
-# Re-executes the Learn tutorials against the LATEST published package versions
-# so a breaking API change in the ecosystem fails loudly instead of silently
-# rotting the hub. Does not deploy.
+# Re-executes the Get Started guides against the LATEST published package
+# versions so a breaking API change in the ecosystem fails loudly instead of
+# silently rotting the hub. Does not deploy.
+#
+# Add `learn/` to the render step below once tutorials live there too.
 
 on:
   schedule:
@@ -32,19 +34,23 @@ jobs:
         run: |
           install.packages(
             c("anicore", "aniread", "anicheck", "aniprocess",
-              "animetric", "anivis", "animovement",
-              "ggplot2", "knitr", "rmarkdown"),
+              "animetric", "anivis", "anispace", "animovement",
+              "ggplot2", "knitr", "rmarkdown",
+              # Suggested packages the guides exercise: HDF5 exports (rhdf5),
+              # Savitzky-Golay smoothing (signal), circular summaries (circular).
+              "rhdf5", "signal", "circular"),
             repos = c(
               "https://animovement.r-universe.dev",
+              "https://bioc-release.r-universe.dev",
               "https://cloud.r-project.org"
             )
           )
         shell: Rscript {0}
 
       # The `validate` profile disables freeze so chunks actually re-execute.
-      - name: Render tutorials (fresh execution)
+      - name: Render guides (fresh execution)
         env:
           QUARTO_PROFILE: validate
         run: |
           rm -rf _freeze
-          quarto render learn
+          quarto render get-started

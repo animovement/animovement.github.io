@@ -1,48 +1,26 @@
 ---
 title: "Get Started"
-subtitle: "Everything you need to go from a raw tracking file to a clean, analysis-ready dataset."
+subtitle: "What do you need to know to start using animovement? Learn what you need in 5 articles."
 toc: false
 ---
 
-*animovement* is a collection of R packages that share one data structure and
-one workflow. These four guides take you from installing the ecosystem to
-reading, understanding, and processing your own movement data. Work through
-them in order — each builds on the last.
+*animovement* is a family of R packages for movement data analysis. 
+Each package owns one stage of the analysis, and they all speak the same
+data structure — the **aniframe** — so the output of one stage is the input to
+the next, with nothing to convert in between.
 
-## [1]{.step-number} [Install animovement](install.qmd)
-
-Install the whole ecosystem (or just the piece you need) from
-[r-universe](https://animovement.r-universe.dev), load it, and add the optional
-packages some functions rely on.
-
-## [2]{.step-number} [Movement data & the aniframe](movement-data.qmd)
-
-Meet the *aniframe* — the tidy table that every *animovement* package speaks.
-Learn how it answers *what* is moving, *when*, and *where*, and how to create
-one from scratch.
-
-## [3]{.step-number} [Read your data](read-data.qmd)
-
-Turn an export from *DeepLabCut*, *SLEAP*, *idtracker.ai*, a trackball, or any
-of the 18 supported sources into an *aniframe* with a single `read_*()` call —
-and grab bundled sample data to follow along.
-
-## [4]{.step-number} [Check & process your tracks](process-data.qmd)
-
-Inspect data quality, drop low-confidence points, fill gaps by interpolation,
-and smooth noisy trajectories — all while staying in the same *aniframe*.
+These five articles take you along that arc, from installing the ecosystem to
+speed, heading and distance travelled, using one recording throughout. Work
+through them in order — each builds on the last. Once you have the basics,
+[Learn](../learn/index.qmd) is where you go further.
 
 ::: {.callout-note}
 ## New to R or the tidyverse?
-To get the most out of *animovement*, we recommend getting comfortable with the
-basics of R and the [tidyverse](https://www.tidyverse.org) first. *animovement*
-is tidyverse-friendly: *aniframes* are tibbles, and you can pipe them through
-`dplyr`, `tidyr` and friends alongside the `ani*` functions.
-:::
-
-::: {.callout-tip}
-## Already set up?
-If you've installed the ecosystem and know the data model, jump straight to the
-end-to-end tutorials in [Learn](../learn/index.qmd), which combine every package
-into complete, real-world workflows.
+To get the most out of *animovement*, we recommend starting with the basics of
+R and the [tidyverse](https://www.tidyverse.org) first — the
+[Posit primers](https://posit.cloud/learn/primers),
+[R for Data Science](https://r4ds.hadley.nz) or
+[ModernDive](https://moderndive.com) are all good places to begin.
+*animovement* is tidyverse-friendly: aniframes are tibbles, so `dplyr`,
+`tidyr` and `ggplot2` work on them as they do on any other data.
 :::

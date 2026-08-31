@@ -60,14 +60,11 @@ website:
       contents:
         - text: "Overview"
           href: get-started/index.qmd
-        - section: "Set up"
-          contents:
-            - get-started/install.qmd
-        - section: "Core concepts"
-          contents:
-            - get-started/movement-data.qmd
-            - get-started/read-data.qmd
-            - get-started/process-data.qmd
+        - get-started/install.qmd
+        - get-started/read-data.qmd
+        - get-started/check-data.qmd
+        - get-started/process-data.qmd
+        - get-started/calculate-metrics.qmd
     - id: learn
       title: "Learn"
       style: floating

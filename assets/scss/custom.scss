@@ -382,3 +382,81 @@ h2 { margin-top: 2.75rem; }
 // Full-bleed landing page (index uses page-layout: full)
 .hero, .landing-section { width: 100%; }
 .landing-section { max-width: 960px; margin-left: auto; margin-right: auto; padding: 0 1rem; }
+
+// ==========================================================================
+// Inline code
+// ==========================================================================
+// Bootstrap pins a near-white background on inline `code` (#f8f9fa) while
+// darkly sets the code colour to white — so in dark mode inline code is white
+// on almost-white, i.e. invisible. Most obvious in callout titles, where a
+// `function()` name in the heading disappears entirely. Derive both ends from
+// the current theme instead of pinning either.
+code:not(.sourceCode) {
+  color: $code-color;
+  background-color: mix($body-color, $body-bg, 8%);
+  border-radius: 0.25rem;
+}
+
+// Callout headers carry their own tinted background, so inline code there
+// should take the heading's colour rather than the global code colour.
+.callout-header code:not(.sourceCode),
+.callout-title-container code:not(.sourceCode) {
+  color: inherit;
+  background-color: mix($body-color, $body-bg, 14%);
+}
+
+// ==========================================================================
+// Executed code cells
+// ==========================================================================
+// Quarto emits each message as its own `.cell-output` block, so a multi-line
+// banner arrives as several unstyled <pre> elements — each with its own margin
+// and its own scrollbar, sitting on the page background with nothing to mark
+// them as output. Style them as a panel attached to the input block that
+// produced them: pkgdown-style, output on the page surface, with the border
+// and the muted text doing the work rather than a second grey box.
+//
+// A cell interleaves input and output, so the selectors key off what follows
+// rather than position within the cell.
+.cell {
+  .cell-output > pre {
+    margin: 0 0 1rem;
+    padding: 0.5rem 0.75rem;
+    background-color: $body-bg;
+    border: 1px solid mix($body-color, $body-bg, 18%);
+    border-top: none;
+    border-radius: 0 0 $border-radius $border-radius;
+    color: mix($body-color, $body-bg, 78%);
+
+    code {
+      background-color: transparent;
+      padding: 0;
+      color: inherit;
+    }
+  }
+
+  // Consecutive outputs — a package that emits one message per line — read as
+  // a single panel: no rounding, no margin, and no padding where they meet, so
+  // the run has the line spacing of one block rather than nine.
+  .cell-output:has(+ .cell-output) > pre {
+    border-radius: 0;
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  .cell-output + .cell-output > pre {
+    padding-top: 0;
+  }
+
+  .cell-output-display {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+  }
+}
+
+// An input block with output attached below meets it flush; one without keeps
+// its own rounding and spacing.
+.code-copy-outer-scaffold:has(+ .cell-output) div.sourceCode {
+  margin-bottom: 0;
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+}

@@ -1,0 +1,184 @@
+---
+title: "Process trajectories"
+subtitle: "You rarely want completely raw movement data: there may be observations you don't trust, gaps that are worth filling, and jitter to smooth out. Here we give you a brief overview of how to do this in `animovement`."
+order: 4
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(animovement)
+knitr::opts_chunk$set(
+  comment = "#>",
+  fig.width = 7, fig.height = 4.5, fig.align = "center",
+  dpi = 150, out.width = "100%"
+)
+```
+
+In *animovement*, [aniprocess](https://animovement.dev/aniprocess) is the package responsible for the cleaning. Here you have three possible actions
+
+1. **Mask** the points you don't trust, turning them into honest `NA`s (`filter_na_*`).
+2. **Fill** the gaps short enough to interpolate across (`replace_na_*`).
+3. **Smooth** what's left, to take out frame-to-frame jitter (`filter_*`).
+
+It is generally good practice to approach the steps in that order, masking first (turning unreliable observations into gaps), before filling gaps and finally smoothing the trajectories which can produce more realistic tracks.
+
+```{r}
+#| label: read
+library(animovement)
+
+movement <- read_sleap(get_sample_data("sleap")) |>
+  set_sampling_rate(30)
+```
+
+::: {.callout-warning}
+## `filter_*()` doesn't filter rows
+In *animovement*, `filter_` means **signal filtering**. `filter_sgolay()`
+smooths, `filter_na_confidence()` masks bad points to `NA` — neither one drops
+a row. `dplyr::filter()` still works on an aniframe and still subsets rows, as
+it always did. Two different jobs, unfortunately similar names.
+:::
+
+## 1. Mask what you don't trust {#sec-mask}
+
+`filter_na_across()` applies a criterion across every spatial column at once,
+using the aniframe's own metadata to know which those are. Two criteria earn
+their place here, and they catch different kinds of wrong.
+
+**Where the animal cannot have been.** The maze runs from roughly x = 300 to
+1010 and y = 0 to 690 — read straight off the [first plot](read-data.qmd#sec-look).
+Anything outside that box is not a mouse:
+
+```{r}
+#| label: mask-roi
+in_maze <- movement |>
+  filter_na_across("roi", x_min = 300, x_max = 1010, y_min = 0, y_max = 690)
+```
+
+That's a rectangle around a plus-shaped maze, so it only rules out the
+impossible, not everything implausible — the corners of the box are floor the
+mouse can't reach either. It costs almost nothing and removes every stray point:
+missing data goes from 8.3% to just
+`r round(100 * mean(is.na(in_maze$x)), 2)`%, and the excursions are gone.
+
+**Where the tracker wasn't sure.** The [previous guide](check-data.qmd) put the
+confidence threshold at 0.6:
+
+```{r}
+#| label: mask
+masked <- in_maze |>
+  filter_na_across("confidence", threshold = 0.6)
+```
+
+The warning is worth reading rather than dismissing: some rows have no
+confidence value at all, so there's nothing to compare against a threshold and
+they're left alone. Between them the two masks take the missing data to
+`r round(100 * mean(is.na(masked$x)), 1)`% — the guesswork, now visible as
+absence:
+
+```{r}
+#| label: mask-pct
+round(100 * mean(is.na(masked$x)), 1)
+```
+
+Confidence is one criterion among several. `filter_na_across()` also takes
+`"range"` (values outside plausible bounds), `"roi"` (outside a region of
+interest), `"speed"` (jumps too fast to be real) and `"excursion"` (a point that
+leaps away and comes straight back). Each has a standalone form too —
+`filter_na_speed()` and friends — for when you want to treat one column
+differently from the rest.
+
+Using two criteria together is the norm, not belt-and-braces. A confidence
+threshold alone would have left the stray points in place — the tracker was
+perfectly confident about them — and an ROI alone keeps every low-confidence
+guess that happens to land on the maze. Wrong *in space* and wrong *in the
+tracker's own estimation* are different failures, and each needs its own test.
+
+## 2. Fill the gaps worth filling {#sec-fill}
+
+Now interpolate, but only across gaps short enough to be honest about. `max_gap`
+is the safety valve — leave the long absences missing rather than inventing a
+trajectory through them:
+
+```{r}
+#| label: fill
+filled <- masked |>
+  replace_na_across("linear", max_gap = 5)
+
+round(100 * mean(is.na(filled$x)), 1)
+```
+
+Five frames is a sixth of a second here. Gaps that short get a straight line
+drawn across them; the 197-frame absences we found earlier stay `NA`, which is
+why `r round(100 * mean(is.na(filled$x)), 1)`% is still missing — and should be.
+
+Other methods swap in by name: `"spline"` for a smoother curve through the gap,
+`"stine"` for Stineman interpolation, `"locf"` to carry the last value forward,
+`"value"` for a constant.
+
+## 3. Smooth the jitter {#sec-smooth}
+
+Even well-tracked keypoints wobble a pixel or two per frame, and that wobble
+becomes noise the moment you differentiate it into speed.
+`filter_across("sgolay")` applies a Savitzky–Golay filter, which fits a local
+polynomial and so preserves the shape of real movement better than a plain
+moving average:
+
+```{r}
+#| label: smooth
+clean <- filled |>
+  filter_across("sgolay", window_width = 11, order = 3)
+```
+
+A window of 11 frames at 30 fps is about a third of a second. Widen it and the
+track gets smoother but real detail starts to disappear — for a mouse's snout,
+this is roughly the limit. Alternatives: `"rollmedian"` (spike-resistant, keeps
+edges crisp), `"gaussian"` or `"triangular"` (gentle weighted smooths),
+`"lowpass"` and `"kalman"` for more control.
+
+## Did it work? {#sec-verify}
+
+Run the same checks as before — that's the point of them being cheap:
+
+```{r}
+#| label: recheck
+check_na_gapsize(clean)
+```
+
+And look at it. Fifteen seconds of the snout, before and after:
+
+```{r}
+#| label: before-after
+#| fig-width: 10
+#| fig-height: 4
+#| fig-cap: "The snout over fifteen seconds: raw on the left, processed on the right."
+window <- function(data) {
+  dplyr::filter(data, keypoint == "snout", time > 100, time < 115)
+}
+
+plots(
+  plot(window(movement)),
+  plot(window(clean))
+)
+```
+
+The processed track keeps the same path, with the jitter gone and the short
+dropouts bridged. The dashed segments are the gaps that were too long to fill —
+left as holes on purpose.
+
+## The whole thing {#sec-together}
+
+Three steps, one pipe, still an aniframe at the end:
+
+```{r}
+#| label: pipeline
+#| eval: false
+clean <- read_sleap(get_sample_data("sleap")) |>
+  set_sampling_rate(30) |>
+  filter_na_across("roi", x_min = 300, x_max = 1010, y_min = 0, y_max = 690) |>
+  filter_na_across("confidence", threshold = 0.6) |>
+  replace_na_across("linear", max_gap = 5) |>
+  filter_across("sgolay", window_width = 11, order = 3)
+```
+
+Next: [calculate metrics](calculate-metrics.qmd).

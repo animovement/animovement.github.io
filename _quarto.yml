@@ -1,0 +1,123 @@
+project:
+  type: website
+  output-dir: _site
+  render:
+    - "index.qmd"
+    - "packages/"
+    - "get-started/"
+    - "learn/"
+    - "help/"
+    - "about/"
+    - "contribute/"
+  resources:
+    - CNAME
+    - assets/
+
+execute:
+  freeze: auto
+
+website:
+  title: "animovement"
+  description: "An R toolbox for analysing movement across space and time."
+  site-url: https://animovement.dev
+  # Previous/Next links at the foot of each page, ordered by the sidebar
+  # (like MkDocs Material). Applies to the Get Started and Learn sections.
+  page-navigation: true
+  favicon: assets/images/favicon.svg
+  image: assets/images/opengraph-card.png
+  open-graph: true
+  twitter-card:
+    site: "@animovement"
+    card-style: summary_large_image
+  navbar:
+    title: "animovement"
+    pinned: true
+    left: []
+    right:
+      - text: "Packages"
+        href: packages/index.qmd
+      - text: "Get Started"
+        href: get-started/index.qmd
+      - text: "Learn"
+        href: learn/index.qmd
+      - text: "Help"
+        href: help/index.qmd
+      - text: "Contribute"
+        href: contribute/index.qmd
+      - text: "About"
+        href: about/index.qmd
+      - icon: chat-dots-fill
+        href: https://animovement.zulipchat.com
+        aria-label: "Chat on Zulip"
+      - icon: github
+        href: https://github.com/animovement
+        aria-label: "animovement on GitHub"
+  sidebar:
+    - id: get-started
+      title: "Get Started"
+      style: floating
+      collapse-level: 1
+      contents:
+        - text: "Overview"
+          href: get-started/index.qmd
+        - get-started/install.qmd
+        - get-started/read-data.qmd
+        - get-started/check-data.qmd
+        - get-started/process-data.qmd
+        - get-started/calculate-metrics.qmd
+    - id: learn
+      title: "Learn"
+      style: floating
+      collapse-level: 1
+      contents:
+        - text: "Learn"
+          href: learn/index.qmd
+        # No tutorials are published yet, so this glob currently resolves to
+        # nothing and only the "Learn" entry above shows. Drop a .qmd into
+        # learn/ and it appears here on its own — no config change needed.
+        #
+        # Once there are enough of them, replace the glob with hand-written
+        # sections again, i.e.:
+        #
+        #   - section: "Foundations"
+        #     contents:
+        #       - learn/load-and-explore.qmd
+        #   - section: "Cleaning & processing"
+        #     contents:
+        #       - learn/drop-outliers-interpolate.qmd
+        #       - learn/smooth-tracks.qmd
+        #   - section: "Input & output"
+        #     contents:
+        #       - learn/convert-formats.qmd
+        #   - section: "Metrics & visualisation"
+        #     contents:
+        #       - learn/head-direction.qmd
+        #       - learn/kinematics.qmd
+        #   - section: "End-to-end workflows"
+        #     contents:
+        #       - learn/deeplabcut-to-plot.qmd
+        - auto: "learn/*.qmd"
+  page-footer:
+    left: "&copy; Mikkel Roald-Arbøl 2026"
+    right:
+      - icon: github
+        href: https://github.com/animovement
+        aria-label: "animovement on GitHub"
+
+format:
+  html:
+    # `brand` sits AFTER the bootswatch theme so _brand.yml colours/fonts win
+    # over cosmo/darkly (brand is otherwise lowest priority), and custom.scss
+    # (structural rules) comes last.
+    theme:
+      light: [cosmo, brand, assets/scss/navbar-light.scss, assets/scss/custom.scss]
+      dark: [darkly, brand, assets/scss/navbar-dark.scss, assets/scss/custom.scss]
+    # Honour the visitor's OS/browser light-or-dark preference on first load
+    # (Quarto 1.7+). Falls back to the first (light) theme without JS.
+    respect-user-color-scheme: true
+    include-in-header: assets/head-icons.html
+    toc: true
+    code-copy: true
+    code-overflow: wrap
+    grid:
+      body-width: 900px

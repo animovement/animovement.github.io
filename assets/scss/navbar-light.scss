@@ -1,0 +1,8 @@
+/*-- scss:defaults --*/
+
+// Light-theme navbar: white surface, dark text. Setting the native $navbar-*
+// variables (instead of overriding in CSS) lets Quarto/Bootstrap compute a
+// proper light navbar, so the links stay visible. $navbar-hl (hover/active)
+// falls back to $primary (teal) from _brand.yml.
+$navbar-bg: #ffffff;
+$navbar-fg: rgba(0, 0, 0, 0.7);

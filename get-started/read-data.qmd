@@ -1,0 +1,188 @@
+---
+title: "Read your data"
+description: "Turn a tracking export into an aniframe with aniread, and tell it about your recording."
+order: 2
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(animovement)
+knitr::opts_chunk$set(
+  comment = "#>",
+  fig.width = 7, fig.height = 4.5, fig.align = "center",
+  dpi = 150, out.width = "100%"
+)
+```
+
+[aniread](https://animovement.dev/aniread) reads movement data from a wide range
+of sources — video-based pose estimation, centroid trackers, motion capture,
+even hardware trackballs — and hands back the same structure every time. Which
+tool wrote your file is a detail that stops mattering after this first step.
+
+## Get some data to follow along {#sec-sample}
+
+You don't need your own files. `get_sample_data()` downloads a real export for
+any supported source and returns the path to it:
+
+```{r}
+#| label: sample
+path <- get_sample_data("sleap")
+basename(path)
+```
+
+We'll use this recording throughout the guides: ten minutes of a single mouse on
+an elevated plus maze, tracked with [SLEAP](https://sleap.ai). To see what else
+is on offer, call `get_sample_data(list_datasets = TRUE)`; sources with several
+datasets take a `dataset` argument, and passing a URL downloads any file you
+point it at.
+
+## Read it {#sec-read}
+
+Every source has a dedicated `read_*()` function. Give it the path:
+
+```{r}
+#| label: read
+movement <- read_sleap(path)
+movement
+```
+
+## What you got back {#sec-aniframe}
+
+That's an **aniframe** — the data structure defined by
+[anicore](https://animovement.dev/anicore) that every other package in the
+ecosystem reads and returns. It's a [tibble](https://tibble.tidyverse.org)
+underneath, so `dplyr` and `ggplot2` work on it as usual, with metadata on top
+recording what each column means:
+
+| Question | Slot | Here |
+|----------|------|------|
+| **What** is moving? | `variables_what` | `individual`, `keypoint` |
+| **When**? | `variables_index` | `time` |
+| **Where**? | `variables_where` | `x`, `y` |
+
+```{r}
+#| label: slots
+get_variables_what(movement)
+get_index(movement)
+get_axes(movement)
+```
+
+Two consequences worth knowing from the start. Column *names* are free — the
+roles are what matter, so a file whose identity column is called `track` works
+just as well. And an aniframe arrives **grouped by identity**, so everything
+downstream runs within each track rather than across them:
+
+```{r}
+#| label: groups
+dplyr::n_groups(movement)
+```
+
+Six groups — one mouse × six keypoints. That grouping is why interpolation never
+bleeds from the snout into the tail, and why speed is never computed across the
+join between two individuals.
+
+::: {.callout-tip}
+## Going deeper
+This is the short version. anicore's own articles cover the data structure in
+full — [The aniframe data structure](https://animovement.dev/anicore/articles/aniframe-structure.html)
+for the roles and how to set them, and
+[Metadata on an aniframe](https://animovement.dev/anicore/articles/aniframe-metadata.html)
+for everything below.
+:::
+
+## Take a first look {#sec-look}
+
+Calling `plot()` on an aniframe draws the trajectories, and reads the axis
+labels off the metadata:
+
+```{r}
+#| label: first-plot
+#| fig-cap: "Raw SLEAP tracks. The plus maze is clearly visible — and so is a handful of points that landed nowhere near it."
+plot(movement)
+```
+
+The maze shape comes straight out of the data — no annotation needed. So do the
+two long lines reaching off to the left: a few dozen points, out of 110,910,
+that landed well outside the maze, drawn as long straight lines because the plot
+joins consecutive positions. Whether that matters, and what else is hiding in
+there, is what the [next guide](check-data.qmd) is for.
+
+## Tell it about your recording {#sec-metadata}
+
+An aniframe remembers context a bare data frame would lose. Some of it the
+reader fills in for you:
+
+```{r}
+#| label: metadata
+get_metadata(movement)
+```
+
+Note `sampling_rate` — SLEAP exports don't record a frame rate, so aniread can't
+either, and `time` is counted in frames. Nothing downstream can turn frames into
+seconds until you say what the rate was:
+
+```{r}
+#| label: set-rate
+movement <- movement |>
+  set_sampling_rate(30)
+```
+
+That one call changes what the rest of the workflow means. The time column is now
+in seconds, the printed header gains a duration, and speeds will come out per
+second instead of per frame:
+
+```{r}
+#| label: after-rate
+movement
+```
+
+::: {.callout-warning}
+## Use your own frame rate
+We're assuming 30 fps for this sample. Set whatever your recording actually was
+— everything downstream that involves time scales with this number.
+:::
+
+Coordinates are in pixels (`unit_space: px`), which is the honest answer for a
+video export. If you've calibrated against something of known size, tell the
+frame with `set_unit_space()` and distances and speeds become real-world units.
+Sampling rate, units, axis directions and handedness are all set the same way,
+with `set_*()` and read back with `get_*()`.
+
+## Reading your own files {#sec-own}
+
+The reader name matches the source:
+
+| Source | Function |
+|--------|----------|
+| SLEAP | `read_sleap()` |
+| DeepLabCut | `read_deeplabcut()` |
+| LightningPose | `read_lightningpose()` |
+| idtracker.ai | `read_idtracker()` |
+| TRex | `read_trex()` |
+| Anipose (3-D) | `read_anipose()` |
+| Trackball hardware | `read_trackball()` |
+| BORIS annotations | `read_boris()` |
+
+Swap the reader, keep the rest of your workflow identical — that's the whole
+point of a shared data structure. For the full list of what's supported:
+
+```{r}
+#| label: sources
+get_supported_sources()
+```
+
+Not sure what wrote a file? `detect_source()` works it out, and `read_dataset()`
+goes one further and reads it with whatever reader that turns out to be:
+
+```{r}
+#| label: detect
+detect_source(path)
+```
+
+Have a format aniread doesn't cover? `read_custom()` maps arbitrary columns onto
+the aniframe roles. And once you've read something, `write_aniframe()` saves it
+— metadata and all — to a Parquet file that `read_aniframe()` opens again far
+faster than re-parsing the original export.
+
+Next: [check what you actually have](check-data.qmd).

@@ -1,0 +1,144 @@
+---
+title: "Check your data"
+description: "Find out how good your tracking really is — confidence, gaps, and when they happen — before changing anything."
+order: 3
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(animovement)
+knitr::opts_chunk$set(
+  comment = "#>",
+  fig.width = 7, fig.height = 4.5, fig.align = "center",
+  dpi = 150, out.width = "100%"
+)
+```
+
+Tracking data is never perfect. Keypoints get occluded, the tracker guesses,
+and a guess looks exactly like a measurement once it's written to file — a pair
+of plausible coordinates, indistinguishable from the real thing.
+
+[anicheck](https://animovement.dev/anicheck) exists to tell them apart. Its
+functions only *report*: they take an aniframe and give you back a summary,
+leaving your data untouched. Cleaning comes next, once you know what you're
+cleaning.
+
+```{r}
+#| label: read
+library(animovement)
+
+movement <- read_sleap(get_sample_data("sleap")) |>
+  set_sampling_rate(30)
+```
+
+## How confident was the tracker? {#sec-confidence}
+
+Pose-estimation tools score every point they place. `check_confidence()`
+summarises those scores per keypoint:
+
+```{r}
+#| label: check-conf
+check_confidence(movement)
+```
+
+Already informative: the snout and tail end are tracked far less confidently
+than the centre or the ears — which makes sense, they're the parts that
+disappear when the mouse turns. Pair the check with `plot()` to see the whole
+distribution rather than two numbers:
+
+```{r}
+#| label: plot-conf
+#| fig-cap: "Confidence per keypoint. The spike at zero is the tracker admitting it had no idea."
+plot(check_confidence(movement))
+```
+
+This is the plot that picks your threshold. The bulk of each keypoint sits near
+1, with a separate clump at zero and a thin tail between — so a cut somewhere
+around 0.6 removes the failures without touching the good tracking. Where
+exactly to cut is a judgement call about your data, and this plot is how you
+make it rather than guess it.
+
+::: {.callout-note}
+## Confidence isn't a probability
+Scores are whatever the tracker chose to emit. SLEAP's run past 1 in this
+recording, and a "0.9" from one tool means nothing about a "0.9" from another.
+Read the distribution, don't import a threshold from someone else's paper.
+:::
+
+## Where are the gaps? {#sec-gaps}
+
+Missing values are the other half of the story. `check_na_gapsize()` reports how
+many there are and, more usefully, how they're distributed between short
+dropouts and long absences:
+
+```{r}
+#| label: check-gaps
+check_na_gapsize(movement)
+```
+
+Eight percent of this recording is missing, but that number hides the shape of
+the problem: the snout alone accounts for 331 separate gaps, one of them 197
+frames long. Plotting one keypoint at a time shows the shape clearly:
+
+```{r}
+#| label: plot-gaps
+#| fig-height: 3.5
+#| fig-cap: "Gap sizes for the snout. Most gaps are a handful of frames; the red bars count gaps, the blue bars count the missing values they add up to."
+movement |>
+  dplyr::filter(keypoint == "snout") |>
+  check_na_gapsize() |>
+  plot()
+```
+
+That distinction matters for the next step. A one-frame gap is worth
+interpolating across — the mouse can't have gone far. A 197-frame gap is nearly
+seven seconds, and anything you draw across it is invention.
+
+::: {.callout-tip}
+## Plotting several groups at once
+These check plots put each group in its own panel, so with six keypoints you'll
+want a taller figure — `fig-height: 10` or so — before they become readable.
+One keypoint at a time is usually easier to read anyway.
+:::
+
+## When do they happen? {#sec-timing}
+
+Gaps clustered in one stretch mean something different from gaps sprinkled
+evenly — a lighting change, say, versus a keypoint the model was never good at.
+`check_na_timing()` splits the recording into intervals and shows what fraction
+of each is missing:
+
+```{r}
+#| label: check-timing
+check_na_timing(movement)
+```
+
+```{r}
+#| label: plot-timing
+#| fig-height: 3.5
+#| fig-cap: "When the snout goes missing. Nearly half of some early intervals, barely any of others."
+movement |>
+  dplyr::filter(keypoint == "snout") |>
+  check_na_timing() |>
+  plot()
+```
+
+Here it's spread across the whole recording, with a couple of bad patches near
+the start and around eight minutes in — the mouse in the closed arms, out of
+sight of the camera. Nothing to fix in the setup; something to be careful about
+when interpreting behaviour from those stretches.
+
+## What we learned {#sec-summary}
+
+Three checks, three decisions for the [next guide](process-data.qmd):
+
+- The maze occupies roughly x ∈ [300, 1010], y ∈ [0, 690]; the few points
+  outside it are impossible, so they can go.
+- Confidence separates cleanly around **0.6**, so that's where we'll mask.
+- Most gaps are a few frames long and safe to interpolate; a handful run to
+  nearly 200 frames and are not.
+- The missing data is spread through the recording rather than concentrated in
+  one broken stretch, so there's no reason to discard part of it.
+
+Next: [process the trajectories](process-data.qmd).

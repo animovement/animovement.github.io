@@ -1,0 +1,26 @@
+---
+title: "Get Started"
+subtitle: "What do you need to know to start using animovement? Learn what you need in 5 articles."
+toc: false
+---
+
+*animovement* is a family of R packages for movement data analysis. 
+Each package owns one stage of the analysis, and they all speak the same
+data structure — the **aniframe** — so the output of one stage is the input to
+the next, with nothing to convert in between.
+
+These five articles take you along that arc, from installing the ecosystem to
+speed, heading and distance travelled, using one recording throughout. Work
+through them in order — each builds on the last. Once you have the basics,
+[Learn](../learn/index.qmd) is where you go further.
+
+::: {.callout-note}
+## New to R or the tidyverse?
+To get the most out of *animovement*, we recommend starting with the basics of
+R and the [tidyverse](https://www.tidyverse.org) first — the
+[Posit primers](https://posit.cloud/learn/primers),
+[R for Data Science](https://r4ds.hadley.nz) or
+[ModernDive](https://moderndive.com) are all good places to begin.
+*animovement* is tidyverse-friendly: aniframes are tibbles, so `dplyr`,
+`tidyr` and `ggplot2` work on them as they do on any other data.
+:::

@@ -1,0 +1,109 @@
+---
+title: "Install animovement"
+subtitle: "Install the animovement ecosystem from r-universe, load it, and add the optional packages."
+order: 1
+code-annotations: hover
+---
+
+
+```{r}
+#| label: setup
+#| include: false
+# animovement is deliberately NOT attached here — the visible chunk below does
+# it, so the page shows the real attach banner.
+knitr::opts_chunk$set(comment = "#>")
+```
+
+## Install the ecosystem {#sec-install}
+
+*animovement* is distributed through
+[our r-universe](https://animovement.r-universe.dev). Installing the `animovement`
+metapackage pulls in the whole ecosystem:
+
+```{r}
+#| eval: false
+install.packages(
+  "animovement",
+  repos = c(
+    "https://animovement.r-universe.dev",
+    "https://cloud.r-project.org" # <1>
+  )
+)
+```
+
+1. The second repository (CRAN) is there so that dependencies which don't live on r-universe are found too. Once the metapackage is installed you can get that repository pair back at any time with `animovement_repos()`, which is what the other install helpers use by default.
+
+::: {.callout-tip}
+## Only need one piece?
+Every package installs the same way — just swap `"animovement"` for the
+individual package name, for example `"aniread"`. See
+[Packages](../packages/index.qmd) for what each one does.
+:::
+
+## Load it {#sec-load}
+
+Like the tidyverse, `library(animovement)` attaches the core packages in one
+call and tells you what you got:
+
+```{r}
+#| label: attach
+library(animovement)
+```
+
+That's the metapackage plus the `r length(animovement_packages()) - 1` working
+packages, one per stage of the workflow:
+
+```{r}
+#| label: show-packages
+animovement_packages()
+```
+
+From here on, the guides assume you've run `library(animovement)`.
+
+## Optional packages {#sec-suggested}
+
+Some functions need a package that isn't installed by default. See which packages are suggested with:
+
+```{r}
+#| label: suggested
+animovement_show_suggested()
+```
+
+You don't have to install these up front. When a function needs one it will
+say so and offer to install it there and then:
+
+```r
+read_sleap(get_sample_data("sleap"))
+#> Downloading sleap data...
+#> ℹ The package "rhdf5" is required for reading HDF5 files,
+#> ✖ Would you like to install it?
+#>
+#> 1: Yes
+#> 2: No
+```
+
+Answer `1` and it installs and carries on with what you asked for without needing to
+restart or re-run. To get them all in one go instead:
+
+```{r}
+#| eval: false
+animovement_install_suggested()
+```
+
+::: {.callout-note}
+## HDF5 exports need `rhdf5`
+The samples used in these guides are SLEAP and DeepLabCut HDF5 files, so
+`rhdf5` is the one you're most likely to meet first. It comes from
+Bioconductor rather than CRAN, so `install.packages("rhdf5")` won't find it —
+use the prompt above when you encounter it, or `animovement_install_suggested()`.
+:::
+
+## Update packages {#sec-update}
+
+The ecosystem is under active development. To update every *animovement*
+package at once:
+
+```{r}
+#| eval: false
+animovement_update()
+```

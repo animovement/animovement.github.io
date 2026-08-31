@@ -1,0 +1,8 @@
+---
+title: "About"
+toc: false
+---
+
+::: {.callout-note}
+This page is a placeholder — content coming soon.
+:::

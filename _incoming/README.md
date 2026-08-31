@@ -12,15 +12,18 @@ here affects the build until it is refined and moved into place.
 
 ## What is here
 
+The hub's own `learn/` placeholder pages have since been removed, so nothing
+here is superseded — these drafts are the only tutorial material we have.
+
 | file | destination | hub equivalent | notes |
 | --- | --- | --- | --- |
 | `learn/read-trackball.Rmd` | `learn/` | none | no trackball tutorial on the hub yet |
 | `learn/trackball.qmd` | `learn/` | none | end-to-end trackball workflow |
 | `learn/calculate-summary-statistics.Rmd` | `learn/` | none | no summary-statistics tutorial yet |
 | `learn/batch-processing.qmd` | `learn/` | none | |
-| `learn/calculate-kinematics.Rmd` | `learn/` | `learn/kinematics.qmd` | likely superseded |
-| `learn/clean-tracks.Rmd` | `learn/` | `learn/drop-outliers-interpolate.qmd`, `learn/smooth-tracks.qmd` | likely superseded |
-| `learn/deeplabcut.qmd` | `learn/` | `learn/deeplabcut-to-plot.qmd` | likely superseded |
+| `learn/calculate-kinematics.Rmd` | `learn/` | none | |
+| `learn/clean-tracks.Rmd` | `learn/` | none | |
+| `learn/deeplabcut.qmd` | `learn/` | none | |
 | `about/mission.qmd` | `about/` | — | |
 | `contribute/roadmaps.qmd` | `contribute/` | — | |
 | `learn/_setup.R` | — | — | knitr hooks the `.Rmd` files source as `../_setup.R` |

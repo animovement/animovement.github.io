@@ -1,6 +1,6 @@
 ---
 title: "Learn"
-subtitle: "Examples and end-to-end tutorials across the animovement ecosystem"
+subtitle: "Go further with animovement in your movement analysis projects"
 listing:
   id: tutorials
   contents: "*.qmd"
@@ -15,10 +15,20 @@ listing:
 toc: false
 ---
 
-Short, focused examples and longer end-to-end tutorials showing how the
-*animovement* packages work — on their own and together. Filter by category
-below. For the full function reference of any single package, see its own site
-under [Packages](../packages/index.qmd).
+Once you have what you need to [get started](../get-started/index.qmd), this is
+where you go next. The articles here help you solve specific problems with the
+*animovement* packages — from short, focused examples to end-to-end workflows
+that carry one dataset through the whole ecosystem.
+
+<!-- Remove this callout as soon as the first tutorial lands. -->
+::: {.callout-note}
+## Tutorials are on their way
+
+There are none published yet. Until they land,
+[Get Started](../get-started/index.qmd) covers the core concepts, and each
+package's own site under [Packages](../packages/index.qmd) has its full function
+reference.
+:::
 
 ::: {#tutorials}
 :::

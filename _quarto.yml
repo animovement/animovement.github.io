@@ -75,23 +75,31 @@ website:
       contents:
         - text: "Learn"
           href: learn/index.qmd
-        - section: "Foundations"
-          contents:
-            - learn/load-and-explore.qmd
-        - section: "Cleaning & processing"
-          contents:
-            - learn/drop-outliers-interpolate.qmd
-            - learn/smooth-tracks.qmd
-        - section: "Input & output"
-          contents:
-            - learn/convert-formats.qmd
-        - section: "Metrics & visualisation"
-          contents:
-            - learn/head-direction.qmd
-            - learn/kinematics.qmd
-        - section: "End-to-end workflows"
-          contents:
-            - learn/deeplabcut-to-plot.qmd
+        # No tutorials are published yet, so this glob currently resolves to
+        # nothing and only the "Learn" entry above shows. Drop a .qmd into
+        # learn/ and it appears here on its own — no config change needed.
+        #
+        # Once there are enough of them, replace the glob with hand-written
+        # sections again, i.e.:
+        #
+        #   - section: "Foundations"
+        #     contents:
+        #       - learn/load-and-explore.qmd
+        #   - section: "Cleaning & processing"
+        #     contents:
+        #       - learn/drop-outliers-interpolate.qmd
+        #       - learn/smooth-tracks.qmd
+        #   - section: "Input & output"
+        #     contents:
+        #       - learn/convert-formats.qmd
+        #   - section: "Metrics & visualisation"
+        #     contents:
+        #       - learn/head-direction.qmd
+        #       - learn/kinematics.qmd
+        #   - section: "End-to-end workflows"
+        #     contents:
+        #       - learn/deeplabcut-to-plot.qmd
+        - auto: "learn/*.qmd"
   page-footer:
     left: "&copy; Mikkel Roald-Arbøl 2026"
     right:

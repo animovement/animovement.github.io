@@ -95,39 +95,6 @@ $hero-pad-x: 1.5rem;
   position: relative;
   overflow: hidden;
 
-  // Decorative honeycomb, large screens only. An original hex-outline SVG used
-  // as a mask so the outlines take a theme-adaptive teal tint (not a baked
-  // colour). Anchored left so it sits behind the logo, keeping the text clear.
-  &::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    z-index: 0;
-    display: none;
-    pointer-events: none;
-    // Teal tint that fades out left -> right, so hexes are strong behind the
-    // logo and gone by the time they reach the text on the right.
-    background: linear-gradient(
-      to right,
-      mix($primary, $body-bg, 70%) 0%,
-      transparent 72%
-    );
-    opacity: 0.5;
-    // Hex outlines fill the whole band (cover), clipped to the tint above.
-    -webkit-mask-image: url('assets/images/hero-honeycomb.svg');
-    mask-image: url('assets/images/hero-honeycomb.svg');
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    -webkit-mask-position: center;
-    mask-position: center;
-    -webkit-mask-size: cover;
-    mask-size: cover;
-  }
-
-  @media (min-width: 992px) {
-    &::before { display: block; }
-  }
-
   // Clickable package stickers — an inline SVG on the same 1600x700 grid, sized
   // with preserveAspectRatio="slice" (= cover) so it lines up with the honeycomb
   // background. Sits above the honeycomb, below the text. Only the hex <a>s are
@@ -140,7 +107,18 @@ $hero-pad-x: 1.5rem;
     left: max(#{$hero-pad-x}, calc(50vw - #{$hero-content-width / 2}));
     width: min(#{$hero-content-width}, calc(100% - #{2 * $hero-pad-x}));
     height: 100%;
+    // The honeycomb behind the stickers is drawn in this SVG, on the same grid,
+    // so the two always line up. It reaches past the SVG's box to the left edge
+    // of the band (the band clips it), and fades out before the text.
+    overflow: visible;
     z-index: 3; // above .hero-inner so the hex links are clickable
+
+    .hero-honeycomb {
+      fill: none;
+      stroke: mix($primary, $body-bg, 70%);
+      stroke-width: 3.2;
+      opacity: 0.5;
+    }
     display: none;
     pointer-events: none; // only the hex <a>s capture clicks (see below)
 

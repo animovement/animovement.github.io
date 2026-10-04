@@ -74,7 +74,7 @@ website:
           href: learn/index.qmd
         # No tutorials are published yet, so this glob currently resolves to
         # nothing and only the "Learn" entry above shows. Drop a .qmd into
-        # learn/ and it appears here on its own — no config change needed.
+        # learn/ and it appears here on its own; no config change needed.
         #
         # Once there are enough of them, replace the glob with hand-written
         # sections again, i.e.:

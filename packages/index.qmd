@@ -5,7 +5,7 @@ toc: false
 
 ## Installation and use
 
-Install all the packages in the *animovement* ecosystem by running:
+Install every package in the *animovement* ecosystem from R:
 
 ```r
 install.packages(
@@ -14,11 +14,17 @@ install.packages(
 )
 ```
 
-Run `library(animovement)` to load the packages and make them available in
-your current R session.
+or, in a [Pixi](https://pixi.sh) project, as conda packages from the
+[animovement channel](https://prefix.dev/channels/animovement) on prefix.dev:
 
-Some functions also need additional packages to be installed. You can install
-all these *suggested* packages with `install_suggested_packages()`.
+```bash
+pixi add --channel https://prefix.dev/animovement --channel conda-forge r-animovement
+```
+
+Then run `library(animovement)` to load them. Some functions need extra
+packages, such as `rhdf5` for HDF5 files. In R, install them all with
+`animovement_install_suggested()`. [Install animovement](../get-started/install.qmd)
+covers both routes in more detail.
 
 ## Core packages
 
@@ -44,7 +50,7 @@ The metapackage that installs and loads the core packages you need for movement 
 
 [anicore](https://animovement.dev/anicore){.pkg-name}
 
-The core data structures — S3 classes for representing and manipulating movement data. [Go to package …](https://animovement.dev/anicore){.pkg-go}
+The core data structures: S3 classes for representing and manipulating movement data. [Go to package …](https://animovement.dev/anicore){.pkg-go}
 :::
 
 ::: {.pkg-item}
@@ -60,7 +66,7 @@ Reads and writes movement data from diverse sources, from video tracking tools t
 
 [anicheck](https://animovement.dev/anicheck){.pkg-name}
 
-Diagnoses data quality — missing values, temporal gaps and spatial outliers. [Go to package …](https://animovement.dev/anicheck){.pkg-go}
+Diagnoses data quality: missing values, temporal gaps and spatial outliers. [Go to package …](https://animovement.dev/anicheck){.pkg-go}
 :::
 
 ::: {.pkg-item}
@@ -76,7 +82,7 @@ Filters, smooths and processes movement trajectories. [Go to package …](https:
 
 [anispace](https://animovement.dev/anispace){.pkg-name}
 
-Spatial transformation methods for movement data — reproject, rescale and reframe trajectories. [Go to package …](https://animovement.dev/anispace){.pkg-go}
+Spatial transformation methods for movement data, to reproject, rescale and reframe trajectories. [Go to package …](https://animovement.dev/anispace){.pkg-go}
 :::
 
 ::: {.pkg-item}
@@ -84,7 +90,7 @@ Spatial transformation methods for movement data — reproject, rescale and refr
 
 [animetric](https://animovement.dev/animetric){.pkg-name}
 
-Calculates movement metrics — kinematics, navigational statistics and social interaction measures. [Go to package …](https://animovement.dev/animetric){.pkg-go}
+Calculates movement metrics: kinematics, navigational statistics and social interaction measures. [Go to package …](https://animovement.dev/animetric){.pkg-go}
 :::
 
 ::: {.pkg-item}

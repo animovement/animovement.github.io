@@ -4,5 +4,5 @@ toc: false
 ---
 
 ::: {.callout-note}
-This page is a placeholder — content coming soon.
+This page is a placeholder. Content is coming soon.
 :::

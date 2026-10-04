@@ -8,7 +8,7 @@ Stuck on something? Here's where to turn.
 ## Report a bug or request a feature
 
 Each package tracks issues in its own repository. File the issue on the
-package that's misbehaving — that's the fastest route to a fix.
+package that's misbehaving. That's the fastest route to a fix.
 
 ::: {.package-grid}
 [[]{.package-badge .bi .bi-box}[anicore]{.package-name}[Data structures]{.package-role}[github.com/animovement/anicore]{.package-desc}](https://github.com/animovement/anicore/issues){.package-card}
@@ -40,6 +40,6 @@ existing discussions first often turns up an answer straight away.
 
 ## Contribute
 
-*animovement* is open source and community-driven. Contributions — code, docs,
-bug reports, tutorials — are all welcome. Start from the contributing guide in
+*animovement* is open source and community-driven. Contributions of every kind, whether code, docs,
+bug reports or tutorials, are welcome. Start from the contributing guide in
 any package repository on [GitHub](https://github.com/animovement).

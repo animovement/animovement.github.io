@@ -1,6 +1,6 @@
 ---
 title: "Calculate metrics"
-description: "Turn clean positions into speed, acceleration, heading and distance travelled — then summarise them."
+description: "Turn clean positions into speed, direction of travel, body heading and distance travelled, then summarise them."
 order: 5
 ---
 
@@ -16,28 +16,32 @@ knitr::opts_chunk$set(
 ```
 
 Positions are rarely the answer to a research question. Speed, distance
-travelled, how much an animal turned and when — those are.
+travelled, and how much an animal turned and when usually are.
 [animetric](https://animovement.dev/animetric) derives them from a clean
-aniframe.
+anipoint. We start from the pipeline in the [previous guide](process-data.qmd),
+with one addition: angles in degrees rather than radians, which are easier to
+read.
 
 ```{r}
 #| label: pipeline
 #| warning: false
 library(animovement)
 
-clean <- read_sleap(get_sample_data("sleap")) |>
-  set_sampling_rate(30) |>
-  filter_na_across("roi", x_min = 300, x_max = 1010, y_min = 0, y_max = 690) |>
-  filter_na_across("confidence", threshold = 0.6) |>
+clean <- read_dataset(get_sample_data("sleap")) |>
+  set_metadata(sampling_rate = 30) |>
+  convert_unit_time("s") |>
+  convert_unit_angle("deg") |>
+  mask_na_across("roi", x_min = 300, x_max = 1010, y_min = 0, y_max = 690) |>
+  mask_na_across("confidence", threshold = 0.6) |>
   replace_na_across("linear", max_gap = 5) |>
   filter_across("sgolay", window_width = 11, order = 3)
 ```
 
 ## Kinematics {#sec-kinematics}
 
-`calculate_kinematics()` takes the aniframe and adds a column for each
-derived quantity. No arguments to configure — it reads the coordinate system,
-the sampling rate and the grouping from the metadata:
+`calculate_kinematics()` adds a column for each derived quantity. There's
+nothing to configure: it reads the coordinate system, the sampling rate, the
+angle unit and the grouping from the metadata.
 
 ```{r}
 #| label: kinematics
@@ -46,11 +50,15 @@ kinematics <- calculate_kinematics(clean)
 setdiff(names(kinematics), names(clean))
 ```
 
-Thirteen new columns, in two families. Translational: `speed`, `acceleration`,
-`path_length`, and the per-axis components `v_x`, `v_y`, `a_x`, `a_y`.
-Rotational: `heading` and its unwrapped twin, `angular_speed`,
-`angular_velocity`, `angular_acceleration`, `angular_path_length`. For 3-D data
-you get the translational family only.
+The new columns come in two families:
+
+- **How fast:** `speed`, `acceleration`, `path_length` (the distance travelled
+  so far), and the velocity and acceleration along each axis, `v_x`, `v_y`,
+  `a_x` and `a_y`.
+- **Which way:** `course`, the direction of travel, and how it changes:
+  `turning_rate`, `turning_speed`, `turning_acceleration`, and
+  `cumulative_turning`. `course_unwrapped` is the same direction without the
+  jump from 180° to −180°.
 
 ```{r}
 #| label: kin-print
@@ -59,16 +67,16 @@ kinematics
 
 ::: {.callout-important}
 ## Check your units before you believe a number
-Speed here is **pixels per second** — pixels because that's what the video gave
-us, per second because we set the sampling rate when reading. Get the sampling
-rate wrong and every one of these numbers is wrong by the same factor. If you've
-calibrated the recording, `set_unit_space()` before this step and you'll get
-real-world units out.
+Speed here is in **pixels per second**: pixels because that's what the video
+gave us, and seconds because we set the sampling rate and converted the time.
+Get the sampling rate wrong and every one of these numbers is wrong by the same
+factor. If you've calibrated the recording, use `convert_unit_space()` before
+this step to get real-world units.
 :::
 
 ## Look at it {#sec-plot}
 
-`plot_timeseries()` draws any column against the index:
+`plot_timeseries()` draws a column against time:
 
 ```{r}
 #| label: speed-plot
@@ -79,53 +87,94 @@ kinematics |>
   plot_timeseries(variable = "speed")
 ```
 
-Bursts of movement separated by long still stretches — the shape you'd expect
-from a mouse on a plus maze. Note the spike in the first seconds: the recording
-starts before the tracking settles, and it's the kind of artefact worth going
-back and masking with `filter_na_speed()` rather than explaining away.
+Bursts of movement separated by long still stretches: the pattern you'd expect
+from a mouse exploring a plus maze. A spike that looks too sudden to be real is
+worth going back to mask, with the `"speed"` or `"hampel"` method of
+`mask_na_across()`, rather than explaining away.
+
+## Where it goes and where it faces {#sec-heading}
+
+`course` is the direction a point is *moving*. That isn't always the direction
+the animal is *facing*: a mouse can turn its body while barely moving, and
+when it stops, there is no direction of travel at all.
+
+Where the body points is its orientation, and `add_orientation()` works it out
+from two points. Here, the line from the base of the tail to the snout gives
+the mouse's heading:
+
+```{r}
+#| label: orientation
+oriented <- clean |>
+  add_orientation(from = "tail_base", to = "snout", level = "keypoint") |>
+  calculate_kinematics()
+```
+
+The heading is attached to every keypoint, since it belongs to the body as a
+whole. Over one second of a run, the two directions start apart while the
+mouse turns, then come together as it runs straight:
+
+```{r}
+#| label: course-heading
+#| message: false
+oriented |>
+  dplyr::filter(keypoint == "centre", time > 100, time < 101) |>
+  dplyr::select(time, speed, course, heading)
+```
 
 ## Summarise {#sec-summarise}
 
-Per-frame kinematics are the raw material; usually you want one row per
-individual. `summarise_kinematics()` collapses each group, defaulting to median
-and MAD because movement data is rarely symmetric enough for mean and SD to
-describe it well:
+Per-frame kinematics are the raw material; usually you want one row per track.
+animetric has two kinds of summary.
+
+`summarise_aniframe()` summarises the distribution of each per-frame measure.
+It defaults to the median and the median absolute deviation (MAD), because
+movement data is rarely symmetric enough for a mean and standard deviation to
+describe it well. Angles such as `course` and `heading` get circular
+statistics, so the average of 350° and 10° comes out as 0°, not 180°.
 
 ```{r}
 #| label: summarise
-summarise_kinematics(kinematics)
+summarise_aniframe(oriented)
 ```
 
-One row per keypoint here, since that's how this recording is grouped. The snout
-moves fastest — it swings as the mouse turns, so it covers more ground than the
-body it's attached to. Pass `measures = "mean_sd"` if you'd rather have mean and
-standard deviation.
+There's one row per keypoint, since that's how this recording is grouped. The
+snout moves fastest: it swings as the mouse turns its head, so it covers more
+ground than the body it's attached to. Pass `measures = "mean_sd"` if you'd
+rather have the mean and standard deviation.
+
+`summarise_path()` describes each track's path as a whole: the total distance,
+the total turning, how far the animal ended up from where it started, and how
+straight or winding the path was:
+
+```{r}
+#| label: summarise-path
+summarise_path(clean)
+```
 
 ## Beyond kinematics {#sec-more}
 
-The same aniframe feeds the rest of animetric:
+The same anipoint feeds the rest of animetric:
 
-- `calculate_tortuosity()` — how convoluted a path is, over sliding windows;
-  `compute_straightness()`, `compute_sinuosity()` and `compute_emax()` give the
-  individual indices.
-- `calculate_nnd()` — distance to the *n*-th nearest neighbour, for recordings
-  with several individuals.
-- `add_centroid()` — add a derived centroid keypoint, e.g. the middle of a set
-  of body points.
-- `mean_angle()` and `median_angle()` — circular statistics, for angles where an
-  ordinary mean would put the average of 350° and 10° at 180°.
+- `add_point()` adds a point derived from others, such as the centroid of the
+  head from the snout and both ears.
+- `calculate_tortuosity()` measures how winding a path is over sliding windows.
+- `calculate_nnd()` finds the distance to the nearest neighbour, for
+  recordings with several individuals.
 
-And when the question is about space rather than time,
+When the question is about space rather than time,
 [anispace](https://animovement.dev/anispace) transforms the coordinates
-themselves — `transform_to_egocentric()` to re-express the world from the
-animal's own point of view, `map_to_polar()` and friends to change coordinate
-system, `rotate_coords()` and `translate_coords()` to align recordings.
+themselves. `transform_to_egocentric()` re-expresses positions from the
+animal's own point of view, `map_to_polar()` and related functions change the
+coordinate system, and `rotate_coords()` and `translate_coords()` align
+recordings with each other.
 
 ## Where next {#sec-next}
 
-You've been through the whole arc: read, check, process, measure. From here:
+You've been through the whole workflow: read, check, process, measure. From
+here:
 
-- **[Packages](../packages/index.qmd)** — each package's own site, with the full
-  function reference and examples.
-- **[Learn](../learn/index.qmd)** — worked examples and end-to-end tutorials.
-- **[Help](../help/index.qmd)** — where to ask when something doesn't behave.
+- **[Packages](../packages/index.qmd)** has each package's own site, with the
+  full function reference and examples.
+- **[Learn](../learn/index.qmd)** is for worked examples and end-to-end
+  tutorials.
+- **[Help](../help/index.qmd)** is where to ask when something doesn't behave.

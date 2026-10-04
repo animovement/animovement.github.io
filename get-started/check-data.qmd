@@ -34,7 +34,7 @@ path <- get_sample_data("sleap")
 movement <- read_dataset(path) |>
   set_metadata(sampling_rate = 30) |>
   convert_unit_time("s") |>
-  convert_unit_space("cm", calibration_factor = 0.1) |>
+  convert_unit_space("cm", calibration_factor = 9 / 140) |>
   set_structure(read_structure(path))
 ```
 
@@ -166,7 +166,7 @@ catching gross errors, such as two keypoints swapped, than at judging precision.
 
 What the checks mean for the [next guide](process-data.qmd):
 
-- The maze occupies roughly x from 30 to 101 cm and y from 0 to 69 cm. Points
+- The maze occupies roughly x from 19 to 65 cm and y from 0 to 45 cm. Points
   outside it are impossible, so they can go.
 - Confidence separates cleanly around **0.6**, so that's where we'll mask.
 - Most gaps are a few frames long and safe to interpolate, but some run to

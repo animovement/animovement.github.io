@@ -14,7 +14,7 @@ tutorials. Each individual package keeps its own pkgdown reference site at
 | `packages/` | The package ecosystem, linking to each pkgdown site |
 | `get-started/` | Get Started — install, read, check, process, measure (executable) |
 | `learn/` | Learn landing page (tutorials to come) |
-| `help/` | Getting help — issues, discussions, contributing |
+| `help/` | Getting help: where to look things up, and asking on Zulip |
 | `about/`, `contribute/` | About and Contribute pages |
 | `_brand.yml` | Central brand: accent colour (teal) + fonts (Lato / Source Code Pro) |
 | `_quarto.yml` | Site + navbar config |

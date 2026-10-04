@@ -28,14 +28,38 @@ packages.
 ### Answer questions
 
 You can help others use and learn *animovement* by answering questions on our
-[Zulip chat](https://animovement.zulipchat.com) and in
-[GitHub Discussions](https://github.com/orgs/animovement/discussions). Many people asking for help don't know what a reprex is or how to craft one. Acknowledging an individual's problem, showing them how to build a *reprex*, and pointing them to helpful resources are all enormously beneficial, even if you don't immediately solve their problem.
+[Zulip chat](https://animovement.zulipchat.com). Many people asking for help don't know what a reprex is or how to craft one. Acknowledging an individual's problem, showing them how to build a *reprex*, and pointing them to helpful resources are all enormously beneficial, even if you don't immediately solve their problem.
 
 Remember that while you might have seen a problem a hundred times before, it's new to the person asking it. Be patient, polite, and empathic.
 
-### File issues
+### File issues {#sec-issues}
 
-If you've found a bug, first create a minimal reprex. Spend some time working to make it as minimal as possible; the more time you spend doing this, the easier it is to fix the bug. When your reprex is ready, file it on the GitHub repo of the appropriate package.
+Bug reports and feature requests are both welcome. Each package tracks its
+issues in its own repository, so file yours on the package concerned:
+
+::: {.package-grid}
+[[]{.package-badge .bi .bi-box}[anicore]{.package-name}[Data structures]{.package-role}[github.com/animovement/anicore]{.package-desc}](https://github.com/animovement/anicore/issues){.package-card}
+
+[[]{.package-badge .bi .bi-download}[aniread]{.package-name}[Read & write]{.package-role}[github.com/animovement/aniread]{.package-desc}](https://github.com/animovement/aniread/issues){.package-card}
+
+[[]{.package-badge .bi .bi-clipboard-check}[anicheck]{.package-name}[Data quality]{.package-role}[github.com/animovement/anicheck]{.package-desc}](https://github.com/animovement/anicheck/issues){.package-card}
+
+[[]{.package-badge .bi .bi-gear}[aniprocess]{.package-name}[Processing]{.package-role}[github.com/animovement/aniprocess]{.package-desc}](https://github.com/animovement/aniprocess/issues){.package-card}
+
+[[]{.package-badge .bi .bi-bounding-box}[anispace]{.package-name}[Spatial transformations]{.package-role}[github.com/animovement/anispace]{.package-desc}](https://github.com/animovement/anispace/issues){.package-card}
+
+[[]{.package-badge .bi .bi-bar-chart}[animetric]{.package-name}[Metrics]{.package-role}[github.com/animovement/animetric]{.package-desc}](https://github.com/animovement/animetric/issues){.package-card}
+
+[[]{.package-badge .bi .bi-graph-up}[anivis]{.package-name}[Visualization]{.package-role}[github.com/animovement/anivis]{.package-desc}](https://github.com/animovement/anivis/issues){.package-card}
+:::
+
+::: {.callout-tip}
+Not sure which package is at fault? Open the issue on the
+[animovement metapackage](https://github.com/animovement/animovement/issues) and
+we'll move it.
+:::
+
+For a bug, first create a minimal reprex. Spend some time working to make it as minimal as possible; the more time you spend doing this, the easier it is to fix the bug. For a feature request, describe the problem it would solve, not only the solution you have in mind.
 
 The *animovement* team is small (currently I'm a one-man team - hi!). I often focus on one package at a time to reduce context switching and be more efficient. We may not address each issue right away, but we will use the reprex you create to understand your problem when it is time to focus on that package.
 
@@ -45,7 +69,7 @@ Documentation is a high priority for *animovement*, and pull requests to correct
 
 Documentation of functions take place inside the source .R files, and for those, the most important thing to know is that *animovement* packages use roxygen2; this means that documentation is found in the R code close to the source of each function. 
 
-We also write articles to help users learn how to use the packages. The articles explaining workflows and how to use the packages together live in here in the [animovement.dev site](), while we have a few articles in individual packages that focus on some aspect that relates to that package alone. 
+We also write articles to help users learn how to use the packages. The articles explaining workflows and how to use the packages together live here on [animovement.dev](../index.qmd), while we have a few articles in individual packages that focus on some aspect that relates to that package alone. 
 
 We would be particularly happy to receive real-life examples, e.g. from research articles, that use *animovement*. These should be made as new Quarto markdown files (*.qmd) in the *Learn* folder.
 

@@ -30,9 +30,9 @@ library(animovement)
 clean <- read_dataset(get_sample_data("sleap")) |>
   set_metadata(sampling_rate = 30) |>
   convert_unit_time("s") |>
-  convert_unit_space("cm", calibration_factor = 0.1) |>
+  convert_unit_space("cm", calibration_factor = 9 / 140) |>
   convert_unit_angle("deg") |>
-  mask_na_across("roi", x_min = 30, x_max = 101, y_min = 0, y_max = 69) |>
+  mask_na_across("roi", x_min = 19, x_max = 65, y_min = 0, y_max = 45) |>
   mask_na_across("confidence", threshold = 0.6) |>
   replace_na_across("linear", max_gap = 5) |>
   filter_across("sgolay", window_width = 11, order = 3)

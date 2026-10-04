@@ -138,15 +138,14 @@ was: everything downstream that involves time scales with this number.
 ### Space in centimetres {#sec-space}
 
 Coordinates are in pixels (`unit_space: px`), which is all a video can tell
-you. To get real distances you need something of known size in the picture: a
-calibration object, or here, the maze itself. A standard mouse plus maze
-measures 65 cm from the end of one arm to the end of the opposite one, which
-spans roughly 650 pixels in this video. So a pixel is about a millimetre:
+you. To get real distances you need something of known size in the picture.
+Here we use the mouse itself: an adult mouse measures about 9 cm from its snout
+to the base of its tail, and stretched out, this one spans about 140 pixels.
 
 ```{r}
 #| label: calibrate
 movement <- movement |>
-  convert_unit_space("cm", calibration_factor = 0.1)
+  convert_unit_space("cm", calibration_factor = 9 / 140)
 ```
 
 `convert_unit_space()` rescales every coordinate by that factor and records the

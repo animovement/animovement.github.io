@@ -40,8 +40,8 @@ install.packages(
 ## A modular workflow for movement analysis
 
 A collection of R packages for every stage of movement analysis, for
-ethologists, behavioural ecologists, neuroscientists, and anyone else who
-needs to make sense of how animals move.
+ethologists, behavioural ecologists, neuroscientists, biomechanists, sports
+scientists, and anyone else who needs to make sense of how animals move.
 
 ::: {.feature-grid}
 ::: {.feature}

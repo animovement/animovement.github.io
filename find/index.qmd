@@ -56,14 +56,39 @@ topics <- lapply(pkgs, function(package) {
 })
 topics <- do.call(rbind, topics)
 
-search_table <- function(data, page_length = 25) {
+# Functions in alphabetical order of package, then of name
+topics <- topics[order(topics$package, tolower(topics$functions)), ]
+
+# A lifecycle badge, with the stage as hidden text so search finds it
+lifecycle_badge <- function(stage) {
+  ifelse(
+    stage == "",
+    "",
+    sprintf(
+      '<a href="https://lifecycle.r-lib.org/articles/stages.html#%1$s"><img src="../assets/images/lifecycle/lifecycle-%1$s.svg" alt="%1$s" class="lifecycle-badge"><span class="visually-hidden">%1$s</span></a>',
+      stage
+    )
+  )
+}
+
+no_wrap <- function(x) sprintf('<span style="white-space: nowrap">%s</span>', x)
+
+search_table <- function(data, page_length = 25, hidden = NULL) {
+  columns <- if (inherits(data, "SharedData")) names(data$origData()) else names(data)
+  hidden_cols <- which(columns %in% hidden) - 1
   DT::datatable(
     data,
     rownames = FALSE,
     escape = FALSE,
     style = "bootstrap5",
     class = "table table-sm",
-    options = list(pageLength = page_length, autoWidth = FALSE)
+    options = list(
+      pageLength = page_length,
+      autoWidth = FALSE,
+      # Keep the order the rows were given in until a column is clicked
+      order = list(),
+      columnDefs = list(list(visible = FALSE, targets = hidden_cols))
+    )
   )
 }
 ```
@@ -78,17 +103,42 @@ the search box to filter by name, package or description.
 ```{r}
 #| label: all-functions
 #| echo: false
-topics |>
-  dplyr::transmute(
-    Function = link(functions, reference_url(package, topic)),
-    Package = link(package, sprintf("https://animovement.dev/%s/", package)),
-    Description = title,
-    Stage = stage
-  ) |>
-  search_table()
+all_functions <- crosstalk::SharedData$new(
+  data.frame(
+    package = topics$package,
+    Function = link(
+      vapply(
+        strsplit(topics$functions, ", "),
+        function(f) paste(no_wrap(f), collapse = ", "),
+        ""
+      ),
+      reference_url(topics$package, topics$topic)
+    ),
+    Package = no_wrap(link(
+      topics$package,
+      sprintf("https://animovement.dev/%s/", topics$package)
+    )),
+    Description = topics$title,
+    Stage = lifecycle_badge(topics$stage)
+  ),
+  group = "all-functions"
+)
+
+htmltools::div(
+  class = "find-filter",
+  crosstalk::filter_select(
+    "package-filter",
+    "Package",
+    all_functions,
+    ~package,
+    multiple = FALSE
+  )
+)
+search_table(all_functions, hidden = "package")
 ```
 
-Functions marked *experimental* may still change. See the
+Functions marked ![experimental](../assets/images/lifecycle/lifecycle-experimental.svg){.lifecycle-badge}
+may still change. See the
 [lifecycle stages](https://lifecycle.r-lib.org/articles/stages.html) for what
 each stage means.
 

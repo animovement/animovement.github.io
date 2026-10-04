@@ -33,6 +33,8 @@ website:
   navbar:
     title: "animovement"
     pinned: true
+    # Eight menu items plus icons don't fit on one line below 1200px
+    collapse-below: xl
     left: []
     right:
       - text: "Packages"
@@ -41,10 +43,10 @@ website:
         href: get-started/index.qmd
       - text: "Learn"
         href: learn/index.qmd
-      - text: "Find"
-        href: find/index.qmd
       - text: "Help"
         href: help/index.qmd
+      - text: "Find"
+        href: find/index.qmd
       - text: "Contribute"
         href: contribute/index.qmd
       - text: "About"

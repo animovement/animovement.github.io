@@ -74,14 +74,18 @@ h2 { margin-top: 2.75rem; }
 // (title + description + install) right. Sits below the navbar with all four
 // corners rounded (no longer flush/cut off at the top).
 // ==========================================================================
+// The content (hex cluster + text) is a 1080px box centred on the page, like
+// the sections below. The band runs from the left edge of the screen to just
+// past that box, so it reaches the left edge at any width and the content
+// stays in the middle.
+$hero-content-width: 1080px;
+$hero-pad-x: 1.5rem;
+
 .hero {
-  // Full-bleed teal band (no box): span the whole viewport width, flush under
-  // the navbar, with the content constrained + centered inside.
-  width: 100vw;
   margin-left: calc(50% - 50vw);
-  margin-right: calc(50% - 50vw);
   margin-bottom: 3.5rem;
-  padding: 3.5rem 1.5rem 4rem;
+  width: min(100vw, calc(50vw + #{$hero-content-width / 2} + 3.5rem));
+  padding: 3.5rem $hero-pad-x 4rem;
   background: linear-gradient(
     135deg,
     mix($primary, $body-bg, 8%) 0%,
@@ -128,10 +132,13 @@ h2 { margin-top: 2.75rem; }
   // with preserveAspectRatio="slice" (= cover) so it lines up with the honeycomb
   // background. Sits above the honeycomb, below the text. Only the hex <a>s are
   // interactive, so the SVG never blocks the text on the right.
+  // Anchored to the centred content box, so the stickers move with the text.
   .hero-hexes {
     position: absolute;
-    inset: 0;
-    width: 100%;
+    top: 0;
+    bottom: 0;
+    left: max(#{$hero-pad-x}, calc(50vw - #{$hero-content-width / 2}));
+    width: min(#{$hero-content-width}, calc(100% - #{2 * $hero-pad-x}));
     height: 100%;
     z-index: 3; // above .hero-inner so the hex links are clickable
     display: none;
@@ -157,8 +164,9 @@ h2 { margin-top: 2.75rem; }
     justify-content: flex-end; // text on the right; hex cluster fills the left
     gap: 3rem;
     min-height: 360px;
-    max-width: 1080px;
-    margin: 0 auto;
+    max-width: $hero-content-width;
+    // Centre the box on the page rather than in the band
+    margin: 0 0 0 max(0px, calc(50vw - #{$hero-content-width / 2} - #{$hero-pad-x}));
   }
 
   // Balanced ~50/50 columns like the tidymodels landing page.
@@ -380,7 +388,7 @@ h2 { margin-top: 2.75rem; }
 }
 
 // Full-bleed landing page (index uses page-layout: full)
-.hero, .landing-section { width: 100%; }
+.landing-section { width: 100%; }
 .landing-section { max-width: 960px; margin-left: auto; margin-right: auto; padding: 0 1rem; }
 
 // ==========================================================================
@@ -460,3 +468,34 @@ code:not(.sourceCode) {
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 0;
 }
+
+// Find page tables (DT) and their package filter (crosstalk/selectize): the
+// dark theme draws form inputs white, so match them to the page instead.
+.dataTables_wrapper .form-control,
+.dataTables_wrapper .form-select,
+.dataTables_wrapper select,
+.dataTables_wrapper input,
+.find-filter select,
+.find-filter .form-control,
+.find-filter .selectize-input,
+.find-filter .selectize-dropdown {
+  background-color: $body-bg;
+  color: $body-color;
+  border-color: rgba($body-color, 0.25);
+}
+// selectize's own stylesheet paints the box white with more specific rules
+.find-filter .selectize-control.single .selectize-input,
+.find-filter .selectize-control.single .selectize-input.input-active,
+.find-filter .selectize-dropdown {
+  background: $body-bg !important;
+  color: $body-color;
+  border-color: rgba($body-color, 0.25);
+  box-shadow: none;
+}
+.find-filter .selectize-input .item,
+.find-filter .selectize-input input { color: $body-color; }
+.find-filter .selectize-dropdown .active { background-color: rgba($primary, 0.2); color: $body-color; }
+.find-filter { max-width: 18rem; }
+
+// Lifecycle badges in the Find tables
+.lifecycle-badge { height: 1.1rem; vertical-align: middle; }

@@ -30,8 +30,9 @@ library(animovement)
 clean <- read_dataset(get_sample_data("sleap")) |>
   set_metadata(sampling_rate = 30) |>
   convert_unit_time("s") |>
+  convert_unit_space("cm", calibration_factor = 0.1) |>
   convert_unit_angle("deg") |>
-  mask_na_across("roi", x_min = 300, x_max = 1010, y_min = 0, y_max = 690) |>
+  mask_na_across("roi", x_min = 30, x_max = 101, y_min = 0, y_max = 69) |>
   mask_na_across("confidence", threshold = 0.6) |>
   replace_na_across("linear", max_gap = 5) |>
   filter_across("sgolay", window_width = 11, order = 3)
@@ -67,11 +68,11 @@ kinematics
 
 ::: {.callout-important}
 ## Check your units before you believe a number
-Speed here is in **pixels per second**: pixels because that's what the video
-gave us, and seconds because we set the sampling rate and converted the time.
-Get the sampling rate wrong and every one of these numbers is wrong by the same
-factor. If you've calibrated the recording, use `convert_unit_space()` before
-this step to get real-world units.
+Speed here is in **centimetres per second**, because we
+[converted both units](read-data.qmd#sec-metadata) when reading the data. Every
+one of these numbers is only as good as those two conversions: get the
+sampling rate or the spatial scale wrong, and every speed is off by the same
+factor.
 :::
 
 ## Look at it {#sec-plot}
@@ -81,7 +82,7 @@ this step to get real-world units.
 ```{r}
 #| label: speed-plot
 #| fig-height: 3.5
-#| fig-cap: "Speed of the mouse's centre over ten minutes, in pixels per second."
+#| fig-cap: "Speed of the mouse's centre over ten minutes, in centimetres per second."
 kinematics |>
   dplyr::filter(keypoint == "centre") |>
   plot_timeseries(variable = "speed")

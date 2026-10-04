@@ -34,8 +34,13 @@ path <- get_sample_data("sleap")
 movement <- read_dataset(path) |>
   set_metadata(sampling_rate = 30) |>
   convert_unit_time("s") |>
+  convert_unit_space("cm", calibration_factor = 0.1) |>
   set_structure(read_structure(path))
 ```
+
+Most checks report on every keypoint at once. When we look closer, we'll follow
+one: the **centre** of the mouse, which is the point most analyses of where an
+animal goes and how fast are based on.
 
 ## How confident was the tracker? {#sec-confidence}
 
@@ -47,10 +52,10 @@ summarises those scores per keypoint:
 check_confidence(movement)
 ```
 
-The snout and the tail end are tracked far less confidently than the centre or
-the ears. That makes sense, since they're the parts that disappear when the
-mouse turns. To see the whole distribution rather than a summary, plot the
-check:
+The centre is tracked most consistently, while the snout and the tail end are
+tracked far less confidently. That makes sense: they're the parts that
+disappear when the mouse turns. To see the whole distribution rather than a
+summary, plot the check:
 
 ```{r}
 #| label: plot-conf
@@ -82,23 +87,24 @@ absences:
 check_na_gapsize(movement)
 ```
 
-The overall percentage hides the shape of the problem. The snout alone has
-hundreds of separate gaps, and the longest runs to nearly 200 frames. Plotting
-one keypoint at a time shows the shape:
+The overall percentage hides the shape of the problem, and it differs a lot
+between keypoints. The snout and the tail end have hundreds of gaps each. The
+centre has far fewer, though its longest still runs to over a hundred frames.
+Plotting the centre on its own shows the shape:
 
 ```{r}
 #| label: plot-gaps
 #| fig-height: 3.5
-#| fig-cap: "Gap sizes for the snout. Most gaps are a handful of frames long."
+#| fig-cap: "Gap sizes for the centre. Most gaps are a handful of frames long."
 movement |>
-  dplyr::filter(keypoint == "snout") |>
+  dplyr::filter(keypoint == "centre") |>
   check_na_gapsize() |>
   plot()
 ```
 
 The difference matters for the next step. A gap of one frame is worth
-interpolating across, because the mouse can't have gone far. A gap of 200
-frames is nearly seven seconds, and anything drawn across it is invention.
+interpolating across, because the mouse can't have gone far. A gap of a hundred
+frames is over three seconds, and anything drawn across it is invention.
 
 ::: {.callout-tip}
 ## Plotting several groups at once
@@ -117,25 +123,24 @@ each is missing:
 ```{r}
 #| label: check-timing
 #| fig-height: 3.5
-#| fig-cap: "When the snout goes missing, interval by interval."
+#| fig-cap: "When the centre goes missing, interval by interval."
 movement |>
-  dplyr::filter(keypoint == "snout") |>
+  dplyr::filter(keypoint == "centre") |>
   check_na_timing() |>
   plot()
 ```
 
-Here the gaps are spread across the whole recording, with a few worse patches.
-That points to the mouse moving out of the camera's clear view, in the closed
-arms, rather than to a broken stretch of recording. There's nothing to fix in
-the setup, but it's worth remembering when you interpret behaviour in those
-stretches.
+Very little of the centre is missing, with two worse patches: at the very
+start, and around seven and a half minutes in. Neither is a broken stretch of
+recording worth throwing away. They're more likely moments when the mouse is
+hard to see, which is worth remembering when you interpret what it did then.
 
 ## Does the body keep its shape? {#sec-segments}
 
-A mouse doesn't stretch to twice its length between two frames, so a body
-segment whose length jumps around points to a keypoint placed in the wrong
-spot. With the skeleton attached, `check_segment_length()` compares each
-segment's length in every frame with its usual length:
+A mouse can't stretch to twice its length between two frames, so a body segment
+whose length jumps around can point to a keypoint placed in the wrong spot.
+With the skeleton attached, `check_segment_length()` compares each segment's
+length in every frame with its usual length:
 
 ```{r}
 #| label: check-segments
@@ -149,23 +154,23 @@ check_segment_length(movement)
 plot(check_segment_length(movement))
 ```
 
-The body axis, from snout to centre to tail, holds its length well. The
-segments from the snout to the ears don't: they're well off their usual length
-in a large share of frames. The ears are small and close together, so they're
-the easiest points for a tracker to misplace. Keep that in mind before using
-the ears for anything precise, such as head direction.
+Read this with care in 2D. A camera looking down sees each segment's length
+*projected* onto the floor, and that changes whenever the mouse rears, lowers
+its head or turns it. So segments vary in length even when the tracking is
+perfect. The short segments from the snout to the ears vary most, because a
+small movement of the head changes them by a large fraction. In 3D, where the
+true length is measured, the same check is much stricter. In 2D it is better at
+catching gross errors, such as two keypoints swapped, than at judging precision.
 
 ## What we learned {#sec-summary}
 
 What the checks mean for the [next guide](process-data.qmd):
 
-- The maze occupies roughly x from 300 to 1010 and y from 0 to 690. Points
+- The maze occupies roughly x from 30 to 101 cm and y from 0 to 69 cm. Points
   outside it are impossible, so they can go.
 - Confidence separates cleanly around **0.6**, so that's where we'll mask.
-- Most gaps are a few frames long and safe to interpolate, but a handful run to
-  nearly 200 frames and are not.
-- The missing data is spread through the recording rather than concentrated in
-  one broken stretch, so there's no reason to discard part of it.
-- The ears are the least reliable part of the skeleton.
+- Most gaps are a few frames long and safe to interpolate, but some run to
+  several seconds and are not.
+- No stretch of the recording is broken badly enough to discard.
 
 Next: [process the trajectories](process-data.qmd).

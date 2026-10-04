@@ -20,6 +20,20 @@ of sources: pose estimation from video, centroid trackers, motion capture, even
 trackball hardware. Whichever tool wrote the file, you get back the same
 structure, so after this first step it stops mattering.
 
+## What it can read {#sec-sources}
+
+These are the sources aniread supports, with the reader for each and the file
+types it accepts:
+
+```{r}
+#| label: sources
+get_supported_sources() |>
+  print(n = Inf)
+```
+
+You rarely need to call those readers yourself. `read_dataset()` reads any of
+these files: it works out which tool wrote it and calls the matching reader.
+
 ## Get some data to follow along {#sec-sample}
 
 You don't need your own files. `get_sample_data()` downloads a real export for
@@ -36,9 +50,6 @@ an elevated plus maze, tracked with [SLEAP](https://sleap.ai). To see what else
 is available, call `get_sample_data(list_datasets = TRUE)`.
 
 ## Read it {#sec-read}
-
-`read_dataset()` reads any supported file. It works out which tool wrote it, so
-you don't need to know which reader it needs:
 
 ```{r}
 #| label: read
@@ -93,6 +104,69 @@ for the roles and how to set them, and
 for everything below.
 :::
 
+## Tell it about your recording {#sec-metadata}
+
+An anipoint keeps context that a bare data frame would lose. The reader fills in
+what the file records:
+
+```{r}
+#| label: metadata
+get_metadata(movement)
+```
+
+Two things are missing that everything downstream depends on: how fast the
+camera recorded, and how big a pixel is.
+
+### Time in seconds {#sec-time}
+
+SLEAP's analysis files don't record a frame rate, so `time` counts frames.
+Declare the rate, then convert the time column to seconds:
+
+```{r}
+#| label: set-rate
+movement <- movement |>
+  set_metadata(sampling_rate = 30) |>
+  convert_unit_time("s")
+```
+
+::: {.callout-warning}
+## Use your own frame rate
+We're assuming 30 fps for this sample. Set whatever your recording actually
+was: everything downstream that involves time scales with this number.
+:::
+
+### Space in centimetres {#sec-space}
+
+Coordinates are in pixels (`unit_space: px`), which is all a video can tell
+you. To get real distances you need something of known size in the picture: a
+calibration object, or here, the maze itself. A standard mouse plus maze
+measures 65 cm from the end of one arm to the end of the opposite one, which
+spans roughly 650 pixels in this video. So a pixel is about a millimetre:
+
+```{r}
+#| label: calibrate
+movement <- movement |>
+  convert_unit_space("cm", calibration_factor = 0.1)
+```
+
+`convert_unit_space()` rescales every coordinate by that factor and records the
+new unit. The header now shows the sampling rate and the duration, and from
+here on, distances come out in centimetres and speeds in centimetres per
+second:
+
+```{r}
+#| label: after-units
+movement
+```
+
+::: {.callout-note}
+## Calibrate against something in the same plane
+For your own recordings, film an object of known size, such as a ruler or the
+arena itself, at the height the animal moves at. A rough scale is fine for
+following these guides, but measurements are only as good as the calibration
+behind them.
+:::
+
 ## Take a first look {#sec-look}
 
 Calling `plot()` on an anipoint draws the trajectories, with axis labels taken
@@ -111,47 +185,6 @@ They're drawn as long straight lines because the plot joins consecutive
 positions. Whether that matters, and what else is hiding in there, is what the
 [next guide](check-data.qmd) is for.
 
-## Tell it about your recording {#sec-metadata}
-
-An anipoint keeps context that a bare data frame would lose. The reader fills in
-what the file records:
-
-```{r}
-#| label: metadata
-get_metadata(movement)
-```
-
-Note `sampling_rate`. SLEAP's analysis files don't record a frame rate, so `time`
-counts frames, and nothing downstream can turn frames into seconds until you
-say what the rate was. Declare it, then convert the time column to seconds:
-
-```{r}
-#| label: set-rate
-movement <- movement |>
-  set_metadata(sampling_rate = 30) |>
-  convert_unit_time("s")
-```
-
-The printed header now shows the rate and the duration, and from here on speeds
-come out per second rather than per frame:
-
-```{r}
-#| label: after-rate
-movement
-```
-
-::: {.callout-warning}
-## Use your own frame rate
-We're assuming 30 fps for this sample. Set whatever your recording actually
-was: everything downstream that involves time scales with this number.
-:::
-
-Coordinates are in pixels (`unit_space: px`), which is the honest answer for a
-video export. If you've measured how many pixels make up a known distance,
-`convert_unit_space()` converts the coordinates, and distances and speeds come
-out in real-world units. Sampling rate, axis directions and handedness are set
-the same way, with `set_metadata()`, and read back with `get_metadata()`.
-
 ## Attach the skeleton {#sec-structure}
 
 Pose-estimation tools also record which keypoints are joined to which: the
@@ -167,23 +200,14 @@ get_structure(movement)
 ```
 
 With the skeleton attached, functions that work on body segments know what the
-segments are. The [next guide](check-data.qmd) uses it to check whether the
-mouse keeps its shape. The anicore article on
+segments are. The anicore article on
 [structures](https://animovement.dev/anicore/articles/structures.html) covers
 them in full.
 
 ## Reading your own files {#sec-own}
 
-`read_dataset()` is the one function to remember. Point it at a file, and it
-detects the source and calls the matching reader. To see what's supported:
-
-```{r}
-#| label: sources
-get_supported_sources()
-```
-
-If you're curious what it decides a file is, `detect_source()` tells you
-without reading the file:
+Point `read_dataset()` at your file. If you're curious what it decides the file
+is, `detect_source()` tells you without reading it:
 
 ```{r}
 #| label: detect
@@ -191,14 +215,13 @@ detect_source(path)
 ```
 
 When detection can't tell two sources apart, or you want to be explicit, name
-the source: `read_dataset(path, source = "sleap")`. Each source also has its own
-reader, such as `read_sleap()` or `read_deeplabcut()`, whose help pages document
-the options specific to that format. Pass those options to `read_dataset()` and
-it hands them on.
+the source: `read_dataset(path, source = "sleap")`. Each reader's help page,
+such as `?read_sleap`, documents the options specific to that format. Pass them
+to `read_dataset()` and it hands them on.
 
 For a format aniread doesn't cover, `read_custom()` maps arbitrary columns onto
-the roles above. And once you've read something, `write_aniframe()` saves it
-to a Parquet file, metadata and all, which `read_aniframe()` opens again far
+the roles above. And once you've read something, `write_aniframe()` saves it to
+a Parquet file, metadata and all, which `read_aniframe()` opens again far
 faster than re-parsing the original export.
 
 Next: [check what you actually have](check-data.qmd).

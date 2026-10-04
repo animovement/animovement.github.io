@@ -6,6 +6,7 @@ project:
     - "packages/"
     - "get-started/"
     - "learn/"
+    - "find/"
     - "help/"
     - "about/"
     - "contribute/"
@@ -40,6 +41,8 @@ website:
         href: get-started/index.qmd
       - text: "Learn"
         href: learn/index.qmd
+      - text: "Find"
+        href: find/index.qmd
       - text: "Help"
         href: help/index.qmd
       - text: "Contribute"

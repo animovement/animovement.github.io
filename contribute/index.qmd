@@ -3,82 +3,122 @@ title: "How to contribute to animovement"
 toc: true
 ---
 
-The ecosystem of *animovement* packages would not be possible without the contributions of the R community. No matter your current skills, it's possible to contribute back to *animovement*. Contributions are guided by our design goals.
+The ecosystem of *animovement* packages would not be possible without the
+contributions of the R community. No matter your current skills, it's possible
+to contribute back to *animovement*. Contributions are guided by our design
+goals.
 
 ## Design goals
 
 The goals of *animovement* packages are to:
 
 - Encourage empirical validation and good statistical practice.
-
 - Smooth out heterogeneous interfaces.
-
 - Establish highly reusable infrastructure.
-
 - Enable a wider variety of methodologies.
-
 - Help package developers quickly build high quality movement packages of their
   own.
 
 These goals are guided by our principles for creating movement analysis
 packages.
 
-## What are different ways you can contribute?
-
-### Answer questions
+## Answer questions
 
 You can help others use and learn *animovement* by answering questions on our
-[Zulip chat](https://animovement.zulipchat.com). Many people asking for help don't know what a reprex is or how to craft one. Acknowledging an individual's problem, showing them how to build a *reprex*, and pointing them to helpful resources are all enormously beneficial, even if you don't immediately solve their problem.
+[Zulip chat](https://animovement.zulipchat.com). Many people asking for help
+don't know what a reprex is or how to craft one. Acknowledging someone's
+problem, showing them how to build a *reprex*, and pointing them to helpful
+resources are all enormously beneficial, even if you don't immediately solve
+their problem.
 
-Remember that while you might have seen a problem a hundred times before, it's new to the person asking it. Be patient, polite, and empathic.
+Remember that while you might have seen a problem a hundred times before, it's
+new to the person asking it. Be patient, polite, and empathic.
 
-### File issues {#sec-issues}
+## File issues {#sec-issues}
 
 Bug reports and feature requests are both welcome. Each package tracks its
-issues in its own repository, so file yours on the package concerned:
+issues in its own repository on [GitHub](https://github.com/animovement), so
+file yours on the package concerned. If you're not sure which one that is, use
+the [animovement](https://github.com/animovement/animovement/issues)
+repository and we'll move it.
 
-::: {.package-grid}
-[[]{.package-badge .bi .bi-box}[anicore]{.package-name}[Data structures]{.package-role}[github.com/animovement/anicore]{.package-desc}](https://github.com/animovement/anicore/issues){.package-card}
+For a bug, first create a minimal reprex. Spend some time working to make it as
+minimal as possible; the more time you spend doing this, the easier it is to
+fix the bug. For a feature request, describe the problem it would solve, not
+only the solution you have in mind. Each repository's issue form asks for
+what's needed.
 
-[[]{.package-badge .bi .bi-download}[aniread]{.package-name}[Read & write]{.package-role}[github.com/animovement/aniread]{.package-desc}](https://github.com/animovement/aniread/issues){.package-card}
+The *animovement* team is small (currently I'm a one-man team - hi!). I often
+focus on one package at a time to reduce context switching and be more
+efficient. We may not address each issue right away, but we will use the reprex
+you create to understand your problem when it is time to focus on that package.
 
-[[]{.package-badge .bi .bi-clipboard-check}[anicheck]{.package-name}[Data quality]{.package-role}[github.com/animovement/anicheck]{.package-desc}](https://github.com/animovement/anicheck/issues){.package-card}
+## Contribute documentation
 
-[[]{.package-badge .bi .bi-gear}[aniprocess]{.package-name}[Processing]{.package-role}[github.com/animovement/aniprocess]{.package-desc}](https://github.com/animovement/aniprocess/issues){.package-card}
+Documentation is a high priority for *animovement*, and pull requests to correct
+or improve it are welcome. It comes in two kinds:
 
-[[]{.package-badge .bi .bi-bounding-box}[anispace]{.package-name}[Spatial transformations]{.package-role}[github.com/animovement/anispace]{.package-desc}](https://github.com/animovement/anispace/issues){.package-card}
+- **Function documentation** lives in the R source files, as
+  [roxygen2](https://roxygen2.r-lib.org) comments next to the code it
+  describes, written in markdown.
+- **Articles** teach how to use the packages. The ones that span several
+  packages, such as the [Get Started](../get-started/index.qmd) guides and the
+  [Learn](../learn/index.qmd) tutorials, live on this site; the ones about a
+  single package live on that package's own site.
 
-[[]{.package-badge .bi .bi-bar-chart}[animetric]{.package-name}[Metrics]{.package-role}[github.com/animovement/animetric]{.package-desc}](https://github.com/animovement/animetric/issues){.package-card}
+We'd be particularly happy to receive real-life examples, for instance from
+research articles, that use *animovement*. Add them as new Quarto files
+(`.qmd`) in the *Learn* folder of the
+[website's repository](https://github.com/animovement/animovement.github.io).
 
-[[]{.package-badge .bi .bi-graph-up}[anivis]{.package-name}[Visualization]{.package-role}[github.com/animovement/anivis]{.package-desc}](https://github.com/animovement/anivis/issues){.package-card}
-:::
+## Contribute code
 
-::: {.callout-tip}
-Not sure which package is at fault? Open the issue on the
-[animovement metapackage](https://github.com/animovement/animovement/issues) and
-we'll move it.
-:::
+If you'd like to contribute to package development directly, start by filing
+an issue, and wait until we've agreed on the idea and the basic approach before
+opening a pull request. That saves both of us work.
 
-For a bug, first create a minimal reprex. Spend some time working to make it as minimal as possible; the more time you spend doing this, the easier it is to fix the bug. For a feature request, describe the problem it would solve, not only the solution you have in mind.
+The [contributing guide](https://github.com/animovement/.github/blob/main/CONTRIBUTING.md)
+has everything else. It is shared by every package. In short:
 
-The *animovement* team is small (currently I'm a one-man team - hi!). I often focus on one package at a time to reduce context switching and be more efficient. We may not address each issue right away, but we will use the reprex you create to understand your problem when it is time to focus on that package.
+- Code follows the [tidyverse style guide](https://style.tidyverse.org) and is
+  formatted with [air](https://posit-dev.github.io/air/).
+- Every change comes with tests, and a `NEWS.md` bullet when users will notice
+  it.
+- Pull request titles follow
+  [Conventional Commits](https://www.conventionalcommits.org), such as
+  `fix(animetric): keep metadata through summarise_path()`.
 
-### Contribute documentation
+If you use AI tools, please read our
+[AI policy](https://github.com/animovement/.github/blob/main/AI.md) first. You
+can use them, but you have to understand and have tested everything you
+submit.
 
-Documentation is a high priority for *animovement*, and pull requests to correct or improve documentation are welcome. We roughly divide the documentation into two types, documentation of functions and vignettes/articles.
+### Working with an AI assistant
 
-Documentation of functions take place inside the source .R files, and for those, the most important thing to know is that *animovement* packages use roxygen2; this means that documentation is found in the R code close to the source of each function. 
+The **`animovement-dev`** agent skill teaches an AI assistant such as
+[Claude Code](https://claude.com/claude-code) how the packages are developed:
+the conventions above, how releases and versions work, and the decisions that
+aren't written down anywhere else. In Claude Code:
 
-We also write articles to help users learn how to use the packages. The articles explaining workflows and how to use the packages together live here on [animovement.dev](../index.qmd), while we have a few articles in individual packages that focus on some aspect that relates to that package alone. 
+```
+/plugin marketplace add animovement/animovement-agents
+/plugin install animovement@animovement
+```
 
-We would be particularly happy to receive real-life examples, e.g. from research articles, that use *animovement*. These should be made as new Quarto markdown files (*.qmd) in the *Learn* folder.
+Other assistants can use the same skills; see
+[animovement-agents](https://github.com/animovement/animovement-agents) for how.
 
-Generally, most *animovement* packages use markdown in the documentation. This makes it particularly easy to get started!
+The *animovement* packages are built to support other movement analysis tools,
+and we would love to hear about what you build yourself!
 
-### Contribute code
+## Resources
 
-If you are a more experienced R programmer, you may have the inclination, interest, and ability to contribute directly to package development. Before you submit a pull request on an *animovement* package, always file an issue and confirm the *animovement* team agrees with your idea and is happy with your basic proposal.
-
-In *animovement* packages, we use the [tidyverse style guide](https://style.tidyverse.org) which will make sure that your new code and documentation matches the existing style. We also use [air formatting](https://posit-dev.github.io/air/), to ensure that the format code format is consistent across all the packages. This makes the review process much smoother.
-
-The *animovement* packages are explicitly built to support the creation of other movement analysis tools, and we would love to hear about what you build yourself! Check out our [tutorials](../learn/index.qmd) to get started.
+- [Contributing guide](https://github.com/animovement/.github/blob/main/CONTRIBUTING.md):
+  how we work, in full.
+- [AI policy](https://github.com/animovement/.github/blob/main/AI.md): using AI
+  tools when contributing.
+- [Code of conduct](https://github.com/animovement/.github/blob/main/CODE_OF_CONDUCT.md).
+- [Agent skills](https://github.com/animovement/animovement-agents): for AI
+  assistants working with or on the packages.
+- [Zulip chat](https://animovement.zulipchat.com): where questions and
+  discussion happen.

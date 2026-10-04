@@ -27,6 +27,26 @@ You'll get a useful answer much faster if you include:
 - **What you expected**, and what happened instead.
 - **Your versions**, from `animovement_sitrep()`.
 
+## Using an AI assistant?
+
+AI assistants often guess at function names, and in a young ecosystem like
+this one they often guess wrong. The **`animovement`** agent skill gives an
+assistant such as [Claude Code](https://claude.com/claude-code) a map of which
+package does what and how the data is structured, and tells it to check each
+function against the current documentation rather than relying on memory. In
+Claude Code:
+
+```
+/plugin marketplace add animovement/animovement-agents
+/plugin install animovement@animovement
+```
+
+Other assistants can use the same skills; see
+[animovement-agents](https://github.com/animovement/animovement-agents) for how.
+Each package's site also has an `llms.txt`, a plain list of its functions that
+any assistant can read, such as
+[animetric's](https://animovement.dev/animetric/llms.txt).
+
 ## Found a bug?
 
 If something is clearly broken, or you'd like a feature that doesn't exist yet,

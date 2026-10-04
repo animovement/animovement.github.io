@@ -77,8 +77,8 @@ If you'd like to contribute to package development directly, start by filing
 an issue, and wait until we've agreed on the idea and the basic approach before
 opening a pull request. That saves both of us work.
 
-The [contributing guide](https://github.com/animovement/.github/blob/main/CONTRIBUTING.md)
-has everything else. It is shared by every package. In short:
+The [contributing guide](guide.qmd) has everything else. It is shared by every
+package. In short:
 
 - Code follows the [tidyverse style guide](https://style.tidyverse.org) and is
   formatted with [air](https://posit-dev.github.io/air/).
@@ -88,12 +88,14 @@ has everything else. It is shared by every package. In short:
   [Conventional Commits](https://www.conventionalcommits.org), such as
   `fix(animetric): keep metadata through summarise_path()`.
 
-If you use AI tools, please read our
-[AI policy](https://github.com/animovement/.github/blob/main/AI.md) first. You
-can use them, but you have to understand and have tested everything you
-submit.
-
 ### Working with an AI assistant
+
+I love talking to people, not bots: open source is about community. So when
+you open an issue or a pull request, let me have a conversation with you, not a
+chatbot. Say what you think, in your own words, and keep it short. And come and
+say hello on [Zulip](https://animovement.zulipchat.com)! You're welcome to use
+AI tools for the work itself, as long as you understand and have tested
+everything you submit. The [AI policy](ai-policy.qmd) has the details.
 
 The **`animovement-dev`** agent skill teaches an AI assistant such as
 [Claude Code](https://claude.com/claude-code) how the packages are developed:
@@ -113,11 +115,9 @@ and we would love to hear about what you build yourself!
 
 ## Resources
 
-- [Contributing guide](https://github.com/animovement/.github/blob/main/CONTRIBUTING.md):
-  how we work, in full.
-- [AI policy](https://github.com/animovement/.github/blob/main/AI.md): using AI
-  tools when contributing.
-- [Code of conduct](https://github.com/animovement/.github/blob/main/CODE_OF_CONDUCT.md).
+- [Contributing guide](guide.qmd): how we work, in full.
+- [AI policy](ai-policy.qmd): using AI tools when contributing.
+- [Code of conduct](code-of-conduct.qmd).
 - [Agent skills](https://github.com/animovement/animovement-agents): for AI
   assistants working with or on the packages.
 - [Zulip chat](https://animovement.zulipchat.com): where questions and

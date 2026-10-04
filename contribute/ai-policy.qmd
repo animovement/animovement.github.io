@@ -1,0 +1,20 @@
+---
+title: "AI policy"
+description: "How to use AI tools when contributing to animovement."
+toc: true
+execute:
+  # Fetched fresh on every build, so the page always shows the current
+  # version of the shared document
+  freeze: false
+  echo: false
+---
+
+::: {.callout-note appearance="minimal"}
+This page shows [`AI.md`](https://github.com/animovement/.github/blob/main/AI.md)
+from the animovement organisation on GitHub, which every package shares.
+:::
+
+```{r}
+source("_shared-doc.R")
+shared_doc("AI.md")
+```

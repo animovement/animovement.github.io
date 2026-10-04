@@ -3,6 +3,11 @@ name: Publish site
 on:
   push:
     branches: [main]
+  # The contributing guide, AI policy and code of conduct pages are fetched
+  # from animovement/.github on every build, so rebuild weekly to pick up
+  # their changes even when nothing here has changed
+  schedule:
+    - cron: "0 5 * * 1" # every Monday 05:00 UTC
   workflow_dispatch:
 
 # Allow GITHUB_TOKEN to deploy to GitHub Pages

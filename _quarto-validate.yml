@@ -1,0 +1,5 @@
+# Profile used by the "Validate tutorials" CI job (QUARTO_PROFILE=validate).
+# Disables freeze so tutorial code is actually re-executed against the latest
+# package versions, surfacing any breaking API change.
+execute:
+  freeze: false

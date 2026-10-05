@@ -1,0 +1,225 @@
+---
+title: "Read your data"
+description: "Turn a tracking export into an anipoint with aniread, and tell it about your recording."
+order: 2
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(animovement)
+knitr::opts_chunk$set(
+  comment = "#>",
+  fig.width = 7, fig.height = 4.5, fig.align = "center",
+  dpi = 150, out.width = "100%"
+)
+```
+
+[aniread](https://animovement.dev/aniread) reads movement data from a wide range
+of sources: pose estimation from video, centroid trackers, motion capture, even
+trackball hardware. Whichever tool wrote the file, you get back the same
+structure, so after this first step it stops mattering.
+
+## What it can read {#sec-sources}
+
+These are the sources aniread supports, with the reader for each and the file
+types it accepts:
+
+```{r}
+#| label: sources
+get_supported_sources() |>
+  print(n = Inf)
+```
+
+You rarely need to call those readers yourself. `read_dataset()` reads any of
+these files: it works out which tool wrote it and calls the matching reader.
+
+## Get some data to follow along {#sec-sample}
+
+You don't need your own files. `get_sample_data()` downloads a real export for
+any supported source and returns its path:
+
+```{r}
+#| label: sample
+path <- get_sample_data("sleap")
+basename(path)
+```
+
+We'll use this recording in all of the guides: ten minutes of a single mouse on
+an elevated plus maze, tracked with [SLEAP](https://sleap.ai). To see what else
+is available, call `get_sample_data(list_datasets = TRUE)`.
+
+## Read it {#sec-read}
+
+```{r}
+#| label: read
+movement <- read_dataset(path)
+movement
+```
+
+## What you got back {#sec-anipoint}
+
+That's an **anipoint**: one row per point (here, each keypoint of each
+individual) at each moment. It's one of the *aniframe* classes defined by
+[anicore](https://animovement.dev/anicore), which every other package in the
+ecosystem reads and returns. Underneath it's a
+[tibble](https://tibble.tidyverse.org), so `dplyr` and `ggplot2` work on it as
+usual. On top, metadata records what each column is for:
+
+| Question | Role | Read it with | Here |
+|----------|------|--------------|------|
+| **What** is moving? | identity | `get_variables(movement, "what")` | `individual`, `keypoint` |
+| **When**? | index | `get_index(movement)` | `time` |
+| **Where**? | position | `get_axes(movement)` | `x`, `y` |
+
+```{r}
+#| label: roles
+get_variables(movement, "what")
+get_index(movement)
+get_axes(movement)
+```
+
+Two consequences worth knowing from the start:
+
+- **Column names are free.** The roles are what matter, so a file whose identity
+  column is called `track` works just as well.
+- **The frame arrives grouped by identity**, so everything downstream runs
+  within each track rather than across them:
+
+```{r}
+#| label: groups
+dplyr::n_groups(movement)
+```
+
+Six groups: one mouse × six keypoints. That grouping is why interpolation
+never bleeds from the snout into the tail, and why speed is never computed
+across the join between two tracks.
+
+::: {.callout-tip}
+## Going deeper
+This is the short version. anicore's articles cover the data structure in full:
+[The aniframe data structure](https://animovement.dev/anicore/articles/aniframe-structure.html)
+for the roles and how to set them, and
+[Metadata on an aniframe](https://animovement.dev/anicore/articles/aniframe-metadata.html)
+for everything below.
+:::
+
+## Tell it about your recording {#sec-metadata}
+
+An anipoint keeps context that a bare data frame would lose. The reader fills in
+what the file records:
+
+```{r}
+#| label: metadata
+get_metadata(movement)
+```
+
+Two things are missing that everything downstream depends on: how fast the
+camera recorded, and how big a pixel is.
+
+### Time in seconds {#sec-time}
+
+SLEAP's analysis files don't record a frame rate, so `time` counts frames.
+Declare the rate, then convert the time column to seconds:
+
+```{r}
+#| label: set-rate
+movement <- movement |>
+  set_metadata(sampling_rate = 30) |>
+  convert_unit_time("s")
+```
+
+::: {.callout-warning}
+## Use your own frame rate
+We're assuming 30 fps for this sample. Set whatever your recording actually
+was: everything downstream that involves time scales with this number.
+:::
+
+### Space in centimetres {#sec-space}
+
+Coordinates are in pixels (`unit_space: px`), which is all a video can tell
+you. To get real distances you need something of known size in the picture.
+Here we use the mouse itself: an adult mouse measures about 9 cm from its snout
+to the base of its tail, and stretched out, this one spans about 140 pixels.
+
+```{r}
+#| label: calibrate
+movement <- movement |>
+  convert_unit_space("cm", calibration_factor = 9 / 140)
+```
+
+`convert_unit_space()` rescales every coordinate by that factor and records the
+new unit. The header now shows the sampling rate and the duration, and from
+here on, distances come out in centimetres and speeds in centimetres per
+second:
+
+```{r}
+#| label: after-units
+movement
+```
+
+::: {.callout-note}
+## Calibrate against something in the same plane
+For your own recordings, film an object of known size, such as a ruler or the
+arena itself, at the height the animal moves at. A rough scale is fine for
+following these guides, but measurements are only as good as the calibration
+behind them.
+:::
+
+## Take a first look {#sec-look}
+
+Calling `plot()` on an anipoint draws the trajectories, with axis labels taken
+from the metadata:
+
+```{r}
+#| label: first-plot
+#| fig-cap: "Raw SLEAP tracks. The plus maze is clearly visible, and so are a handful of points that landed nowhere near it."
+plot(movement)
+```
+
+The maze shape comes straight out of the data, with no annotation needed. So do
+the long lines reaching off to the left: a few dozen points, out of
+`r format(nrow(movement), big.mark = ",")`, that landed well outside the maze.
+They're drawn as long straight lines because the plot joins consecutive
+positions. Whether that matters, and what else is hiding in there, is what the
+[next guide](check-data.qmd) is for.
+
+## The skeleton {#sec-structure}
+
+Pose-estimation tools also record which keypoints are joined to which: the
+skeleton. SLEAP keeps it in the same file as the tracks, so `read_dataset()`
+has already attached it:
+
+```{r}
+#| label: structure
+get_structure(movement)
+```
+
+With the skeleton attached, functions that work on body segments know what the
+segments are. Some tools keep the skeleton in a separate file, such as
+DeepLabCut's `config.yaml`. For those, read it with `read_structure()` and
+attach it with `set_structure()`. The anicore article on
+[structures](https://animovement.dev/anicore/articles/structures.html) covers
+them in full.
+
+## Reading your own files {#sec-own}
+
+Point `read_dataset()` at your file. If you're curious what it decides the file
+is, `detect_source()` tells you without reading it:
+
+```{r}
+#| label: detect
+detect_source(path)
+```
+
+When detection can't tell two sources apart, or you want to be explicit, name
+the source: `read_dataset(path, source = "sleap")`. Each reader's help page,
+such as `?read_sleap`, documents the options specific to that format. Pass them
+to `read_dataset()` and it hands them on.
+
+For a format aniread doesn't cover, `read_custom()` maps arbitrary columns onto
+the roles above. And once you've read something, `write_aniframe()` saves it to
+a Parquet file, metadata and all, which `read_aniframe()` opens again far
+faster than re-parsing the original export.
+
+Next: [check what you actually have](check-data.qmd).

@@ -1,0 +1,26 @@
+/.quarto/
+**/*.quarto_ipynb
+
+# Quarto render output (published via GitHub Actions, not committed)
+/_site/
+
+# renv (library is machine-specific; the lockfile IS committed)
+renv/library/
+renv/local/
+renv/cellar/
+renv/staging/
+
+# Logo working files: source montages / overview sheets + archived old logos
+# (kept locally, but not committed or published)
+assets/logos/archive/
+assets/logos/ecosystem-sheet.png
+assets/logos/animovement-marks-overview.png
+assets/logos/new-icons/vshapes-sheet.png
+
+# OS
+.DS_Store
+assets/logos/new-logos.zip
+/social-preview.html
+/og-options.html
+assets/images/social-backgrounds/
+assets/images/opengraph-card.svg

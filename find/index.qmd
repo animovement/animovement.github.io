@@ -1,0 +1,211 @@
+---
+title: "Find"
+subtitle: "Search every function in the animovement packages, the formats they read, and the methods they offer."
+toc: false
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(animovement)
+
+pkgs <- c(
+  "anicore", "aniread", "anicheck", "aniprocess",
+  "anispace", "animetric", "anivis", "animovement"
+)
+
+reference_url <- function(package, topic) {
+  sprintf("https://animovement.dev/%s/reference/%s.html", package, topic)
+}
+
+link <- function(text, url) sprintf('<a href="%s">%s</a>', url, text)
+
+# The parts of an Rd file with a given tag, as plain text
+rd_field <- function(rd, tag) {
+  tags <- vapply(rd, function(x) attr(x, "Rd_tag"), "")
+  unlist(lapply(rd[tags == tag], function(x) paste(unlist(x), collapse = "")))
+}
+
+# One row per help topic that documents exported functions
+topics <- lapply(pkgs, function(package) {
+  db <- tools::Rd_db(package)
+  exports <- getNamespaceExports(package)
+  rows <- lapply(names(db), function(file) {
+    rd <- db[[file]]
+    if ("internal" %in% rd_field(rd, "\\keyword")) {
+      return(NULL)
+    }
+    functions <- intersect(rd_field(rd, "\\alias"), exports)
+    if (length(functions) == 0) {
+      return(NULL)
+    }
+    description <- paste(rd_field(rd, "\\description"), collapse = " ")
+    stage <- regmatches(
+      description,
+      regexpr("#(experimental|superseded|deprecated)", description)
+    )
+    data.frame(
+      package = package,
+      topic = sub("[.]Rd$", "", file),
+      functions = paste(functions, collapse = ", "),
+      title = trimws(gsub("\\s+", " ", rd_field(rd, "\\title"))),
+      stage = if (length(stage)) sub("#", "", stage) else ""
+    )
+  })
+  do.call(rbind, rows)
+})
+topics <- do.call(rbind, topics)
+
+# Functions in alphabetical order of package, then of name
+topics <- topics[order(topics$package, tolower(topics$functions)), ]
+
+# A lifecycle badge, with the stage as hidden text so search finds it
+lifecycle_badge <- function(stage) {
+  ifelse(
+    stage == "",
+    "",
+    sprintf(
+      '<a href="https://lifecycle.r-lib.org/articles/stages.html#%1$s"><img src="../assets/images/lifecycle/lifecycle-%1$s.svg" alt="%1$s" class="lifecycle-badge"><span class="visually-hidden">%1$s</span></a>',
+      stage
+    )
+  )
+}
+
+no_wrap <- function(x) sprintf('<span style="white-space: nowrap">%s</span>', x)
+
+search_table <- function(data, page_length = 25, hidden = NULL) {
+  columns <- if (inherits(data, "SharedData")) names(data$origData()) else names(data)
+  hidden_cols <- which(columns %in% hidden) - 1
+  DT::datatable(
+    data,
+    rownames = FALSE,
+    escape = FALSE,
+    style = "bootstrap5",
+    class = "table table-sm",
+    options = list(
+      pageLength = page_length,
+      autoWidth = FALSE,
+      # Keep the order the rows were given in until a column is clicked
+      order = list(),
+      columnDefs = list(list(visible = FALSE, targets = hidden_cols))
+    )
+  )
+}
+```
+
+Looking for a function, but not sure which package it's in? Every function the
+*animovement* packages export is below, with a link to its help page. Type in
+the search box to filter by name, package or description.
+
+::: {.panel-tabset}
+## All functions
+
+```{r}
+#| label: all-functions
+#| echo: false
+all_functions <- crosstalk::SharedData$new(
+  data.frame(
+    package = topics$package,
+    Function = link(
+      vapply(
+        strsplit(topics$functions, ", "),
+        function(f) paste(no_wrap(f), collapse = ", "),
+        ""
+      ),
+      reference_url(topics$package, topics$topic)
+    ),
+    Package = no_wrap(link(
+      topics$package,
+      sprintf("https://animovement.dev/%s/", topics$package)
+    )),
+    Description = topics$title,
+    Stage = lifecycle_badge(topics$stage)
+  ),
+  group = "all-functions"
+)
+
+htmltools::div(
+  class = "find-filter",
+  crosstalk::filter_select(
+    "package-filter",
+    "Package",
+    all_functions,
+    ~package,
+    multiple = FALSE
+  )
+)
+search_table(all_functions, hidden = "package")
+```
+
+Functions marked ![experimental](../assets/images/lifecycle/lifecycle-experimental.svg){.lifecycle-badge}
+may still change. See the
+[lifecycle stages](https://lifecycle.r-lib.org/articles/stages.html) for what
+each stage means.
+
+## Data sources
+
+`read_dataset()` reads all of these formats, working out the source from the
+file itself. Each source also has its own reader, whose help page documents
+the options for that format.
+
+```{r}
+#| label: sources
+#| echo: false
+get_supported_sources() |>
+  dplyr::transmute(
+    Source = source,
+    Reader = link(reader, reference_url("aniread", reader)),
+    `File types` = vapply(suffix, paste, "", collapse = ", ")
+  ) |>
+  search_table()
+```
+
+## Processing methods
+
+The `*_across()` functions apply a method to every position column of an
+anipoint, and the `*_with()` functions do the same for a single column. Each
+method is also a function of its own.
+
+```{r}
+#| label: methods
+#| echo: false
+methods_of <- function(fun) eval(formals(fun)$method)
+
+methods <- rbind(
+  data.frame(
+    Step = "Mask",
+    Method = methods_of(aniprocess::mask_na_across),
+    prefix = "mask_na_"
+  ),
+  data.frame(
+    Step = "Fill",
+    Method = methods_of(aniprocess::replace_na_across),
+    prefix = "replace_na_"
+  ),
+  data.frame(
+    Step = "Smooth",
+    Method = methods_of(aniprocess::filter_across),
+    prefix = "filter_"
+  )
+)
+methods$fun <- paste0(methods$prefix, methods$Method)
+methods <- merge(
+  methods,
+  topics[topics$package == "aniprocess", c("functions", "topic", "title")],
+  by.x = "fun",
+  by.y = "functions",
+  all.x = TRUE,
+  sort = FALSE
+)
+methods <- methods[order(match(methods$Step, c("Mask", "Fill", "Smooth"))), ]
+
+methods |>
+  dplyr::transmute(
+    Step,
+    Method = sprintf("<code>\"%s\"</code>", Method),
+    Function = link(fun, reference_url("aniprocess", topic)),
+    Description = title
+  ) |>
+  search_table()
+```
+:::

@@ -1,0 +1,20 @@
+---
+title: "Code of conduct"
+description: "The standards we hold ourselves and each other to."
+toc: true
+execute:
+  # Fetched fresh on every build, so the page always shows the current
+  # version of the shared document
+  freeze: false
+  echo: false
+---
+
+::: {.callout-note appearance="minimal"}
+This page shows [`CODE_OF_CONDUCT.md`](https://github.com/animovement/.github/blob/main/CODE_OF_CONDUCT.md)
+from the animovement organisation on GitHub, which every package shares.
+:::
+
+```{r}
+source("_shared-doc.R")
+shared_doc("CODE_OF_CONDUCT.md")
+```

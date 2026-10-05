@@ -1,0 +1,211 @@
+---
+title: "Calculate metrics"
+description: "Turn clean positions into speed, direction of travel, body heading and distance travelled, then summarise them."
+order: 5
+---
+
+```{r}
+#| label: setup
+#| include: false
+library(animovement)
+knitr::opts_chunk$set(
+  comment = "#>",
+  fig.width = 7, fig.height = 4.5, fig.align = "center",
+  dpi = 150, out.width = "100%"
+)
+```
+
+Positions are rarely the answer to a research question. Speed, distance
+travelled, and how much an animal turned and when usually are.
+[animetric](https://animovement.dev/animetric) derives them from a clean
+anipoint. We start from the pipeline in the [previous guide](process-data.qmd),
+with one addition: angles in degrees rather than radians, which are easier to
+read.
+
+```{r}
+#| label: pipeline
+#| warning: false
+library(animovement)
+
+clean <- read_dataset(get_sample_data("sleap")) |>
+  set_metadata(sampling_rate = 30) |>
+  convert_unit_time("s") |>
+  convert_unit_space("cm", calibration_factor = 9 / 140) |>
+  convert_unit_angle("deg") |>
+  mask_na_across("roi", x_min = 19, x_max = 65, y_min = 0, y_max = 45) |>
+  mask_na_across("confidence", threshold = 0.6) |>
+  replace_na_across("linear", max_gap = 5) |>
+  filter_across("sgolay", window_width = 11, order = 3)
+```
+
+## Kinematics {#sec-kinematics}
+
+`add_kinematics()` adds a column for each derived quantity. There's nothing
+to configure: it reads the coordinate system, the sampling rate, the angle unit
+and the grouping from the metadata.
+
+```{r}
+#| label: kinematics
+kinematics <- add_kinematics(clean)
+
+setdiff(names(kinematics), names(clean))
+```
+
+The new columns come in two families:
+
+- **How fast:** `speed`, `acceleration` (how fast the speed changes),
+  `cumulative_distance` (the distance travelled so far), and the velocity and
+  acceleration along each axis, `v_x`, `v_y`, `a_x` and `a_y`.
+- **Which way:** `course`, the direction of travel, and how it changes:
+  `turning_rate`, `turning_speed`, `turning_acceleration`, and
+  `cumulative_turning`. `course_unwrapped` is the same direction without the
+  jump from 180° to −180°.
+
+```{r}
+#| label: kin-print
+kinematics
+```
+
+A direction of travel only means something when the point actually moves.
+While the mouse sits still, tracking noise still moves its keypoints a fraction
+of a pixel, and the direction between two such positions is random. So below a
+minimum step, `min_step`, a row gets no `course` and adds nothing to the
+turning measures. By default it's estimated from each track's own noise, which
+is cautious. To be stricter, set it in the frame's units, for example
+`add_kinematics(clean, min_step = 0.1)` for a millimetre.
+
+::: {.callout-important}
+## Check your units before you believe a number
+Speed here is in **centimetres per second**, because we
+[converted both units](read-data.qmd#sec-metadata) when reading the data. Every
+one of these numbers is only as good as those two conversions: get the
+sampling rate or the spatial scale wrong, and every speed is off by the same
+factor.
+:::
+
+## Look at it {#sec-plot}
+
+`plot_timeseries()` draws a column against time:
+
+```{r}
+#| label: speed-plot
+#| fig-height: 3.5
+#| fig-cap: "Speed of the mouse's centre over ten minutes, in centimetres per second."
+kinematics |>
+  dplyr::filter(keypoint == "centre") |>
+  plot_timeseries(variable = "speed")
+```
+
+Bursts of movement separated by long still stretches: the pattern you'd expect
+from a mouse exploring a plus maze. A spike that looks too sudden to be real is
+worth going back to mask, with the `"speed"` or `"hampel"` method of
+`mask_na_across()`, rather than explaining away.
+
+## Where it goes and where it faces {#sec-heading}
+
+`course` is the direction a point is *moving*. That isn't always the direction
+the animal is *facing*: a mouse can turn its body while barely moving, and
+when it stops, there is no direction of travel at all.
+
+Where the body points is its orientation, and `add_orientation()` works it out
+from two points. Here, the line from the base of the tail to the snout gives
+the mouse's heading:
+
+```{r}
+#| label: orientation
+oriented <- clean |>
+  add_orientation(from = "tail_base", to = "snout", level = "keypoint") |>
+  add_kinematics()
+```
+
+The heading is attached to every keypoint, since it belongs to the body as a
+whole. Over one second of a run, the two directions start apart while the
+mouse turns, then come together as it runs straight:
+
+```{r}
+#| label: course-heading
+#| message: false
+oriented |>
+  dplyr::filter(keypoint == "centre", time > 100, time < 101) |>
+  dplyr::select(time, speed, course, heading)
+```
+
+Over the whole recording, a circular plot shows where each direction points.
+Weighting `course` by speed lets the runs count for more than the shuffles:
+
+```{r}
+#| label: rose
+#| fig-width: 10
+#| fig-height: 5
+#| fig-cap: "Directions over ten minutes: where the mouse's centre travelled (left, weighted by speed) and where its body pointed (right). The line marks the mean direction."
+centre <- dplyr::filter(oriented, keypoint == "centre")
+
+plots(
+  plot_circular(centre, variable = "course", weight = "speed"),
+  plot_circular(centre, variable = "heading")
+)
+```
+
+The direction of travel follows the four arms of the maze: that's the only
+way to go. The body's heading follows them too, but it also points along the
+diagonals, from the moments when the mouse sits nearly still and turns to look
+around. Those moments have no direction of travel at all, so only the heading
+can show them.
+
+## Summarise {#sec-summarise}
+
+Per-frame kinematics are the raw material; usually you want one row per track.
+animetric has two kinds of summary.
+
+`summarise_aniframe()` summarises the distribution of each per-frame measure.
+It defaults to the median and the median absolute deviation (MAD), because
+movement data is rarely symmetric enough for a mean and standard deviation to
+describe it well. Angles such as `course` and `heading` get circular
+statistics, so the average of 350° and 10° comes out as 0°, not 180°.
+
+```{r}
+#| label: summarise
+summarise_aniframe(oriented)
+```
+
+There's one row per keypoint, since that's how this recording is grouped. The
+snout moves fastest: it swings as the mouse turns its head, so it covers more
+ground than the body it's attached to. Pass `measures = "mean_sd"` if you'd
+rather have the mean and standard deviation.
+
+`summarise_path()` describes each track's path as a whole: the total distance,
+the total turning, how far the animal ended up from where it started, and how
+straight or winding the path was:
+
+```{r}
+#| label: summarise-path
+summarise_path(clean)
+```
+
+## Beyond kinematics {#sec-more}
+
+The same anipoint feeds the rest of animetric:
+
+- `add_point()` adds a point derived from others, such as the centroid of the
+  head from the snout and both ears.
+- `add_tortuosity()` measures how winding a path is over sliding windows.
+- `calculate_nnd()` finds the distance to the nearest neighbour, for
+  recordings with several individuals.
+
+When the question is about space rather than time,
+[anispace](https://animovement.dev/anispace) transforms the coordinates
+themselves. `transform_to_egocentric()` re-expresses positions from the
+animal's own point of view, `map_to_polar()` and related functions change the
+coordinate system, and `rotate_coords()` and `translate_coords()` align
+recordings with each other.
+
+## Where next {#sec-next}
+
+You've been through the whole workflow: read, check, process, measure. From
+here:
+
+- **[Packages](../packages/index.qmd)** has each package's own site, with the
+  full function reference and examples.
+- **[Learn](../learn/index.qmd)** is for worked examples and end-to-end
+  tutorials.
+- **[Help](../help/index.qmd)** is where to ask when something doesn't behave.

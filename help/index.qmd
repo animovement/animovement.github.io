@@ -1,0 +1,54 @@
+---
+title: "Help"
+toc: false
+---
+
+Stuck on something? Here's where to turn.
+
+## Look it up
+
+- **[Get Started](../get-started/index.qmd)** walks through a whole analysis,
+  from reading a file to summarising the movement.
+- **Each package's site** has a help page for every function, with examples.
+  [Packages](../packages/index.qmd) links to them all.
+- **[Learn](../learn/index.qmd)** collects tutorials on specific problems.
+
+## Ask a question
+
+Ask on the [animovement Zulip chat](https://animovement.zulipchat.com). It's
+the place for questions of every kind, from how to do something to why a result
+looks odd. Searching it first often turns up an answer straight away.
+
+You'll get a useful answer much faster if you include:
+
+- **A small example that shows the problem.** The best is a few lines of code
+  that anyone can run, using `get_sample_data()` or a few made-up rows rather
+  than your own files. The [reprex](https://reprex.tidyverse.org) package helps.
+- **What you expected**, and what happened instead.
+- **Your versions**, from `animovement_sitrep()`.
+
+## Using an AI assistant?
+
+AI assistants often guess at function names, and in a young ecosystem like
+this one they often guess wrong. The **`animovement`** agent skill gives an
+assistant such as [Claude Code](https://claude.com/claude-code) a map of which
+package does what and how the data is structured, and tells it to check each
+function against the current documentation rather than relying on memory. In
+Claude Code:
+
+```
+/plugin marketplace add animovement/animovement-agents
+/plugin install animovement@animovement
+```
+
+Other assistants can use the same skills; see
+[animovement-agents](https://github.com/animovement/animovement-agents) for how.
+Each package's site also has an `llms.txt`, a plain list of its functions that
+any assistant can read, such as
+[animetric's](https://animovement.dev/animetric/llms.txt).
+
+## Found a bug?
+
+If something is clearly broken, or you'd like a feature that doesn't exist yet,
+please file an issue. [Contribute](../contribute/index.qmd#sec-issues) explains
+how, and where.

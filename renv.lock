@@ -3,6 +3,10 @@
     "Version": "4.6.1",
     "Repositories": [
       {
+        "Name": "animovement",
+        "URL": "https://animovement.r-universe.dev"
+      },
+      {
         "Name": "CRAN",
         "URL": "https://cloud.r-project.org"
       },
@@ -406,7 +410,7 @@
       "Source": "Repository",
       "Type": "Package",
       "Title": "An R package for diagnosing movement data quality",
-      "Authors@R": "person( \"Mikkel\",  \"Roald-Arb<U+00F8>l\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
+      "Authors@R": "person( \"Mikkel\",  \"Roald-Arbøl\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
       "Description": "An R package for diagnosing movement data quality.",
       "License": "MIT + file LICENSE",
       "URL": "https://animovement.dev/anicheck/, https://github.com/animovement/anicheck/",
@@ -436,21 +440,20 @@
       "VignetteBuilder": "knitr",
       "Config/roxygen2/version": "8.1.0",
       "Repository": "https://animovement.r-universe.dev",
-      "NeedsCompilation": "no",
-      "Author": "Mikkel Roald-Arb<U+00F8>l [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
-      "Maintainer": "Mikkel Roald-Arb<U+00F8>l <animovement.84w1m@passmail.com>",
-      "RemoteType": "repository",
       "RemoteUrl": "https://github.com/animovement/anicheck",
       "RemoteRef": "HEAD",
-      "RemoteSha": "752a5617661b265c8334dc1bd8aadf3dfdd574ee"
+      "RemoteSha": "752a5617661b265c8334dc1bd8aadf3dfdd574ee",
+      "NeedsCompilation": "no",
+      "Author": "Mikkel Roald-Arbøl [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
+      "Maintainer": "Mikkel Roald-Arbøl <animovement.84w1m@passmail.com>"
     },
     "anicore": {
       "Package": "anicore",
-      "Version": "0.8.0.9005",
+      "Version": "0.8.0.9006",
       "Source": "Repository",
       "Type": "Package",
       "Title": "An R package providing core data structures for movement data",
-      "Authors@R": "person( \"Mikkel\",  \"Roald-Arb<U+00F8>l\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
+      "Authors@R": "person( \"Mikkel\",  \"Roald-Arbøl\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
       "Description": "An R package providing core data structures for movement data.",
       "License": "MIT + file LICENSE",
       "URL": "https://animovement.dev/anicore/, https://github.com/animovement/anicore/",
@@ -480,21 +483,20 @@
       "Config/Needs/website": "animovement/animovementtemplate",
       "Config/roxygen2/version": "8.1.0",
       "Repository": "https://animovement.r-universe.dev",
-      "NeedsCompilation": "no",
-      "Author": "Mikkel Roald-Arb<U+00F8>l [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
-      "Maintainer": "Mikkel Roald-Arb<U+00F8>l <animovement.84w1m@passmail.com>",
-      "RemoteType": "repository",
       "RemoteUrl": "https://github.com/animovement/anicore",
       "RemoteRef": "HEAD",
-      "RemoteSha": "4afc8a95fa69bc857f2ceafc4f1f8d102da9758e"
+      "RemoteSha": "1d316cd8d116167243dfec0b42bb2b5e98ae8012",
+      "NeedsCompilation": "no",
+      "Author": "Mikkel Roald-Arbøl [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
+      "Maintainer": "Mikkel Roald-Arbøl <animovement.84w1m@passmail.com>"
     },
     "animetric": {
       "Package": "animetric",
-      "Version": "0.5.0.9005",
+      "Version": "0.5.0.9006",
       "Source": "Repository",
       "Type": "Package",
       "Title": "An R package for calculating movement-based metrics",
-      "Authors@R": "person( \"Mikkel\",  \"Roald-Arb<U+00F8>l\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
+      "Authors@R": "person( \"Mikkel\",  \"Roald-Arbøl\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
       "Description": "An R package for calculating movement-based metrics.",
       "License": "MIT + file LICENSE",
       "URL": "https://animovement.dev/animetric/, https://github.com/animovement/animetric/",
@@ -525,13 +527,12 @@
       "VignetteBuilder": "knitr",
       "Config/roxygen2/version": "8.1.0",
       "Repository": "https://animovement.r-universe.dev",
-      "NeedsCompilation": "no",
-      "Author": "Mikkel Roald-Arb<U+00F8>l [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
-      "Maintainer": "Mikkel Roald-Arb<U+00F8>l <animovement.84w1m@passmail.com>",
-      "RemoteType": "repository",
       "RemoteUrl": "https://github.com/animovement/animetric",
       "RemoteRef": "HEAD",
-      "RemoteSha": "d7fd1b51239d8e716590ffa9ee1bbcf7f7e1ead2"
+      "RemoteSha": "d6d24928ee93e11269d2416594a6398307451fc6",
+      "NeedsCompilation": "no",
+      "Author": "Mikkel Roald-Arbøl [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
+      "Maintainer": "Mikkel Roald-Arbøl <animovement.84w1m@passmail.com>"
     },
     "animovement": {
       "Package": "animovement",
@@ -539,7 +540,7 @@
       "Source": "Repository",
       "Type": "Package",
       "Title": "An R toolbox for analysing movement across space and time",
-      "Authors@R": "c( person( \"Mikkel\",  \"Roald-Arb<U+00F8>l\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") ), person( \"Sebastian\", \"Krantz\", role = \"ctb\", comment = \"Author of the fastverse, from which the package management code is adapted\" ), person( \"Hadley\", \"Wickham\", role = \"ctb\", comment = \"Author of the tidyverse, from which that code originally derives\" ) )",
+      "Authors@R": "c( person( \"Mikkel\",  \"Roald-Arbøl\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") ), person( \"Sebastian\", \"Krantz\", role = \"ctb\", comment = \"Author of the fastverse, from which the package management code is adapted\" ), person( \"Hadley\", \"Wickham\", role = \"ctb\", comment = \"Author of the tidyverse, from which that code originally derives\" ) )",
       "Description": "An R toolbox for analysing movement across space and time.",
       "License": "GPL-3",
       "URL": "https://animovement.dev, https://animovement.dev/animovement, https://github.com/animovement/animovement",
@@ -581,12 +582,11 @@
       "Config/Needs/website": "animovement/animovementtemplate",
       "Config/roxygen2/version": "8.1.0",
       "Repository": "https://animovement.r-universe.dev",
-      "Author": "Mikkel Roald-Arb<U+00F8>l [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>), Sebastian Krantz [ctb] (Author of the fastverse, from which the package management code is adapted), Hadley Wickham [ctb] (Author of the tidyverse, from which that code originally derives)",
-      "Maintainer": "Mikkel Roald-Arb<U+00F8>l <animovement.84w1m@passmail.com>",
-      "RemoteType": "repository",
       "RemoteUrl": "https://github.com/animovement/animovement",
       "RemoteRef": "HEAD",
-      "RemoteSha": "40520de023cb10122fd7c58432905af9a1f40f55"
+      "RemoteSha": "40520de023cb10122fd7c58432905af9a1f40f55",
+      "Author": "Mikkel Roald-Arbøl [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>), Sebastian Krantz [ctb] (Author of the fastverse, from which the package management code is adapted), Hadley Wickham [ctb] (Author of the tidyverse, from which that code originally derives)",
+      "Maintainer": "Mikkel Roald-Arbøl <animovement.84w1m@passmail.com>"
     },
     "aniprocess": {
       "Package": "aniprocess",
@@ -594,7 +594,7 @@
       "Source": "Repository",
       "Type": "Package",
       "Title": "An R package for signal processing and filtering of movement data",
-      "Authors@R": "person( \"Mikkel\",  \"Roald-Arb<U+00F8>l\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
+      "Authors@R": "person( \"Mikkel\",  \"Roald-Arbøl\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
       "Description": "An R package for signal processing and filtering of movement data.",
       "License": "MIT + file LICENSE",
       "URL": "https://animovement.dev/aniprocess/, https://github.com/animovement/aniprocess/",
@@ -624,16 +624,15 @@
       "VignetteBuilder": "knitr",
       "Config/roxygen2/version": "8.1.0",
       "Repository": "https://animovement.r-universe.dev",
-      "NeedsCompilation": "no",
-      "Author": "Mikkel Roald-Arb<U+00F8>l [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
-      "Maintainer": "Mikkel Roald-Arb<U+00F8>l <animovement.84w1m@passmail.com>",
-      "Depends": [
-        "R (>= 4.1.0)"
-      ],
-      "RemoteType": "repository",
       "RemoteUrl": "https://github.com/animovement/aniprocess",
       "RemoteRef": "HEAD",
-      "RemoteSha": "09a63d55df6c84aea7fe2bfcc3486a328a7c1937"
+      "RemoteSha": "edf4d5b567de1a1558d0f3ee85b278297f4a1983",
+      "NeedsCompilation": "no",
+      "Author": "Mikkel Roald-Arbøl [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
+      "Maintainer": "Mikkel Roald-Arbøl <animovement.84w1m@passmail.com>",
+      "Depends": [
+        "R (>= 4.1.0)"
+      ]
     },
     "aniread": {
       "Package": "aniread",
@@ -641,7 +640,7 @@
       "Source": "Repository",
       "Type": "Package",
       "Title": "An R package for reading and writing movement data",
-      "Authors@R": "person( \"Mikkel\",  \"Roald-Arb<U+00F8>l\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
+      "Authors@R": "person( \"Mikkel\",  \"Roald-Arbøl\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
       "Description": "An R package for reading and writing movement data.",
       "License": "MIT + file LICENSE",
       "URL": "https://animovement.dev/aniread/, https://github.com/animovement/aniread/",
@@ -684,13 +683,12 @@
       "VignetteBuilder": "knitr",
       "Config/roxygen2/version": "8.1.0",
       "Repository": "https://animovement.r-universe.dev",
-      "NeedsCompilation": "no",
-      "Author": "Mikkel Roald-Arb<U+00F8>l [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
-      "Maintainer": "Mikkel Roald-Arb<U+00F8>l <animovement.84w1m@passmail.com>",
-      "RemoteType": "repository",
       "RemoteUrl": "https://github.com/animovement/aniread",
       "RemoteRef": "HEAD",
-      "RemoteSha": "a466aaa18e1b781bb4fb41c69a30b76717834b9b"
+      "RemoteSha": "2a92f0b412be65decc1e269d797a18ed82c49afc",
+      "NeedsCompilation": "no",
+      "Author": "Mikkel Roald-Arbøl [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
+      "Maintainer": "Mikkel Roald-Arbøl <animovement.84w1m@passmail.com>"
     },
     "anispace": {
       "Package": "anispace",
@@ -698,7 +696,7 @@
       "Source": "Repository",
       "Type": "Package",
       "Title": "An R package providing spatial transformation methods for movement data",
-      "Authors@R": "person( \"Mikkel\",  \"Roald-Arb<U+00F8>l\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
+      "Authors@R": "person( \"Mikkel\",  \"Roald-Arbøl\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
       "Description": "An R package providing spatial transformation methods for movement data.",
       "License": "MIT + file LICENSE",
       "URL": "https://animovement.dev/anispace/, https://github.com/animovement/anispace/",
@@ -726,13 +724,12 @@
       "Config/Needs/website": "animovement/animovementtemplate",
       "Config/roxygen2/version": "8.1.0",
       "Repository": "https://animovement.r-universe.dev",
-      "NeedsCompilation": "no",
-      "Author": "Mikkel Roald-Arb<U+00F8>l [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
-      "Maintainer": "Mikkel Roald-Arb<U+00F8>l <animovement.84w1m@passmail.com>",
-      "RemoteType": "repository",
       "RemoteUrl": "https://github.com/animovement/anispace",
       "RemoteRef": "HEAD",
-      "RemoteSha": "590a3dbf77fa275dee5e7c8550091267f8418308"
+      "RemoteSha": "cc782fd055093ccf2002d3ee8907c75eafdcef45",
+      "NeedsCompilation": "no",
+      "Author": "Mikkel Roald-Arbøl [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
+      "Maintainer": "Mikkel Roald-Arbøl <animovement.84w1m@passmail.com>"
     },
     "anivis": {
       "Package": "anivis",
@@ -740,7 +737,7 @@
       "Source": "Repository",
       "Type": "Package",
       "Title": "An R package for visualizing movement data and diagnostics",
-      "Authors@R": "person( \"Mikkel\",  \"Roald-Arb<U+00F8>l\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
+      "Authors@R": "person( \"Mikkel\",  \"Roald-Arbøl\",  role = c(\"aut\", \"cre\"),  email = \"animovement.84w1m@passmail.com\", comment = c(ORCID = \"0000-0002-9998-0058\") )",
       "Description": "An R package for visualizing movement data and diagnostics.",
       "License": "MIT + file LICENSE",
       "URL": "https://animovement.dev/anivis/, https://github.com/animovement/anivis/",
@@ -749,17 +746,18 @@
       "Imports": [
         "lifecycle",
         "rlang",
-        "ggplot2",
+        "ggplot2 (>= 3.5.0)",
         "patchwork",
         "marquee",
         "hms",
         "cli",
         "grDevices",
         "stats",
-        "anicore (>= 0.8.0.9003)"
+        "anicore (>= 0.8.0.9004)"
       ],
       "Suggests": [
         "anicheck",
+        "animetric",
         "ragg",
         "knitr",
         "testthat (>= 3.0.0)"
@@ -771,16 +769,15 @@
       "VignetteBuilder": "knitr",
       "Config/roxygen2/version": "8.1.0",
       "Repository": "https://animovement.r-universe.dev",
-      "NeedsCompilation": "no",
-      "Author": "Mikkel Roald-Arb<U+00F8>l [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
-      "Maintainer": "Mikkel Roald-Arb<U+00F8>l <animovement.84w1m@passmail.com>",
-      "Depends": [
-        "R (>= 4.1.0)"
-      ],
-      "RemoteType": "repository",
       "RemoteUrl": "https://github.com/animovement/anivis",
       "RemoteRef": "HEAD",
-      "RemoteSha": "3dbd7202d5c26ae94795431b7ca7cf50b3f2df68"
+      "RemoteSha": "217954532d4a021c529a1b2a31c8545e539325ff",
+      "NeedsCompilation": "no",
+      "Author": "Mikkel Roald-Arbøl [aut, cre] (ORCID: <https://orcid.org/0000-0002-9998-0058>)",
+      "Maintainer": "Mikkel Roald-Arbøl <animovement.84w1m@passmail.com>",
+      "Depends": [
+        "R (>= 4.1.0)"
+      ]
     },
     "anytime": {
       "Package": "anytime",

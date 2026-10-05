@@ -74,9 +74,9 @@ masked <- in_maze |>
   mask_na_across("confidence", threshold = 0.6)
 ```
 
-The warning says that some rows have no confidence score at all, so there's
-nothing to compare against the threshold and they're left alone. In this
-recording those rows have no position either, so there's nothing to mask.
+Rows with no confidence score at all are left alone, since a missing score
+means *not assessed* rather than *poor*. Set `missing = "mask"` to mask them
+too. In this recording those rows have no position anyway.
 
 Check what the masks did. The confidence distribution now stops at 0.6, and
 the clump of guesses at zero is gone:

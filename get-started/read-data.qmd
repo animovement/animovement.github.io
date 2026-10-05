@@ -184,22 +184,21 @@ They're drawn as long straight lines because the plot joins consecutive
 positions. Whether that matters, and what else is hiding in there, is what the
 [next guide](check-data.qmd) is for.
 
-## Attach the skeleton {#sec-structure}
+## The skeleton {#sec-structure}
 
 Pose-estimation tools also record which keypoints are joined to which: the
-skeleton. `read_structure()` reads it from the same file, and `set_structure()`
-attaches it to the frame:
+skeleton. SLEAP keeps it in the same file as the tracks, so `read_dataset()`
+has already attached it:
 
 ```{r}
 #| label: structure
-movement <- movement |>
-  set_structure(read_structure(path))
-
 get_structure(movement)
 ```
 
 With the skeleton attached, functions that work on body segments know what the
-segments are. The anicore article on
+segments are. Some tools keep the skeleton in a separate file, such as
+DeepLabCut's `config.yaml`. For those, read it with `read_structure()` and
+attach it with `set_structure()`. The anicore article on
 [structures](https://animovement.dev/anicore/articles/structures.html) covers
 them in full.
 

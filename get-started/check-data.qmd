@@ -30,12 +30,10 @@ We start from where the [previous guide](read-data.qmd) left off:
 #| label: read
 library(animovement)
 
-path <- get_sample_data("sleap")
-movement <- read_dataset(path) |>
+movement <- read_dataset(get_sample_data("sleap")) |>
   set_metadata(sampling_rate = 30) |>
   convert_unit_time("s") |>
-  convert_unit_space("cm", calibration_factor = 9 / 140) |>
-  set_structure(read_structure(path))
+  convert_unit_space("cm", calibration_factor = 9 / 140)
 ```
 
 Most checks report on every keypoint at once. When we look closer, we'll follow
@@ -139,7 +137,7 @@ hard to see, which is worth remembering when you interpret what it did then.
 
 A mouse can't stretch to twice its length between two frames, so a body segment
 whose length jumps around can point to a keypoint placed in the wrong spot.
-With the skeleton attached, `check_segment_length()` compares each segment's
+Using the skeleton the reader attached, `check_segment_length()` compares each segment's
 length in every frame with its usual length:
 
 ```{r}

@@ -24,6 +24,10 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      # The project .Rprofile activates renv; this job installs only what the
+      # render needs, so keep renv from taking over the library.
+      RENV_CONFIG_AUTOLOADER_ENABLED: false
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -36,10 +40,14 @@ jobs:
         with:
           use-public-rspm: true
 
-      # Restores the pinned package versions from renv.lock. Rendering itself
-      # replays any committed _freeze/ cache, so this stays fast.
-      - name: Restore R packages (renv)
-        uses: r-lib/actions/setup-renv@v2
+      # Pages that run R code are replayed from the committed _freeze/ cache,
+      # so the analysis packages in renv.lock are not needed here. Only the
+      # contributing guide, AI policy and code of conduct pages run at build
+      # time (they fetch their document from animovement/.github), and they
+      # need nothing beyond knitr and rmarkdown. Re-render and commit _freeze/
+      # locally, with renv, whenever a guide changes.
+      - name: Install knitr and rmarkdown
+        run: Rscript -e 'install.packages(c("knitr", "rmarkdown"))'
 
       - name: Render site
         run: quarto render

@@ -16,6 +16,12 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    env:
+      # The project .Rprofile activates renv, which would intercept
+      # install.packages() and build everything from source into the renv
+      # library. Keep it out of the way so the latest versions install as
+      # binaries into the regular library, which the render then uses.
+      RENV_CONFIG_AUTOLOADER_ENABLED: false
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -39,10 +45,12 @@ jobs:
               # Suggested packages the guides exercise: HDF5 exports (rhdf5),
               # Savitzky-Golay smoothing (signal), circular summaries (circular).
               "rhdf5", "signal", "circular"),
+            # getOption("repos") is the Posit Public Package Manager set up
+            # by setup-r, which serves Linux binaries for CRAN packages.
             repos = c(
               "https://animovement.r-universe.dev",
               "https://bioc-release.r-universe.dev",
-              "https://cloud.r-project.org"
+              getOption("repos")
             )
           )
         shell: Rscript {0}

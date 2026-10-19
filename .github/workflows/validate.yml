@@ -16,6 +16,12 @@ on:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    env:
+      # The project .Rprofile activates renv, which would intercept
+      # install.packages() and build everything from source into the renv
+      # library. Keep it out of the way so the latest versions install as
+      # binaries into the regular library, which the render then uses.
+      RENV_CONFIG_AUTOLOADER_ENABLED: false
     steps:
       - name: Check out repository
         uses: actions/checkout@v4
@@ -30,21 +36,35 @@ jobs:
 
       # Deliberately install the LATEST versions from r-universe — not the
       # pinned renv.lock — so we detect breakage before it reaches users.
+      # Bioconductor packages come from r-universe as source, and Rhdf5lib
+      # (needed by rhdf5) builds HDF5 with libcurl support.
+      - name: Install system libraries
+        run: sudo apt-get update && sudo apt-get install -y libcurl4-openssl-dev
+
       - name: Install latest animovement packages
         run: |
-          install.packages(
-            c("anicore", "aniread", "anicheck", "aniprocess",
+          pkgs <- c("anicore", "aniread", "anicheck", "aniprocess",
               "animetric", "anivis", "anispace", "animovement",
               "ggplot2", "knitr", "rmarkdown",
               # Suggested packages the guides exercise: HDF5 exports (rhdf5),
               # Savitzky-Golay smoothing (signal), circular summaries (circular).
-              "rhdf5", "signal", "circular"),
+              "rhdf5", "signal", "circular")
+          install.packages(
+            pkgs,
+            # getOption("repos") is the Posit Public Package Manager set up
+            # by setup-r, which serves Linux binaries for CRAN packages.
             repos = c(
               "https://animovement.r-universe.dev",
               "https://bioc-release.r-universe.dev",
-              "https://cloud.r-project.org"
+              getOption("repos")
             )
           )
+          # install.packages() only warns when a package fails to install,
+          # which would otherwise surface later as a confusing render error.
+          missing <- setdiff(pkgs, rownames(installed.packages()))
+          if (length(missing) > 0) {
+            stop("Failed to install: ", paste(missing, collapse = ", "))
+          }
         shell: Rscript {0}
 
       # The `validate` profile disables freeze so chunks actually re-execute.
